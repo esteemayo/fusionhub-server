@@ -15,8 +15,16 @@ import * as factory from './handler.factory.controller.js';
 
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};
-  let { category, isFeatured, fields, limit, numericFilter, page, sort, title } =
-    req.query;
+  let {
+    category,
+    isFeatured,
+    fields,
+    limit,
+    numericFilter,
+    page,
+    sort,
+    title,
+  } = req.query;
 
   if (category) {
     queryObj.category = category;
@@ -252,6 +260,31 @@ export const updatePost = asyncHandler(async (req, res, next) => {
   const updatedPost = await Post.findByIdAndUpdate(
     postId,
     { $set: { ...req.body } },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return res.status(StatusCodes.OK).json(updatedPost);
+});
+
+export const featurePost = asyncHandler(async (req, res, next) => {
+  const { id: postId } = req.params;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
+    );
+  }
+
+  const isFeatured = post.isFeatured;
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    postId,
+    { $set: { isFeatured: !isFeatured } },
     {
       new: true,
       runValidators: true,

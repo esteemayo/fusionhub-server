@@ -50,6 +50,13 @@ router.get('/search', postController.searchPosts);
 router.get('/details/:slug', postController.getPostBySlug);
 
 router.patch(
+  '/feature-post/:id',
+  authMiddleware.protect,
+  authMiddleware.restrictTo('admin'),
+  postController.featurePost,
+);
+
+router.patch(
   '/bookmarks/:id',
   authMiddleware.protect,
   authMiddleware.restrictTo('user'),
