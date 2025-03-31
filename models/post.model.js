@@ -20,7 +20,7 @@ const postSchema = new Schema(
       required: [true, 'A post must belong to a category'],
       lowerCase: true,
     },
-    featured: {
+    isFeatured: {
       type: Boolean,
       default: false,
     },

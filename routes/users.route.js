@@ -19,6 +19,8 @@ router.get(
 
 router.patch('/update-me', userController.updateMe);
 
+router.patch('/delete-avatar', userController.deleteAvatar);
+
 router.delete('/delete-me', userController.deleteMe);
 
 router

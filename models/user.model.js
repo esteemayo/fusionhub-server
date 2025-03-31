@@ -69,7 +69,16 @@ const userSchema = new Schema(
     phone: {
       type: String,
     },
+    dateOfBirth: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
     bio: {
+      type: String,
+    },
+    about: {
       type: String,
     },
     image: {

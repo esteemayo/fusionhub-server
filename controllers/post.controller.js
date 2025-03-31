@@ -15,15 +15,15 @@ import * as factory from './handler.factory.controller.js';
 
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};
-  let { category, featured, fields, limit, numericFilter, page, sort, title } =
+  let { category, isFeatured, fields, limit, numericFilter, page, sort, title } =
     req.query;
 
   if (category) {
     queryObj.category = category;
   }
 
-  if (featured) {
-    queryObj.featured = featured === 'true' ? true : false;
+  if (isFeatured) {
+    queryObj.isFeatured = isFeatured === 'true' ? true : false;
   }
 
   if (title) {
@@ -100,7 +100,7 @@ export const getMyPosts = asyncHandler(async (req, res, next) => {
 });
 
 export const getTrendingPosts = asyncHandler(async (req, res, next) => {
-  const posts = await Post.find().sort('-views');
+  const posts = await Post.find().sort('-views').limit(10);
 
   return res.status(StatusCodes.OK).json(posts);
 });

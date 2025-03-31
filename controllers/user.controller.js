@@ -57,7 +57,10 @@ export const updateMe = asyncHandler(async (req, res, next) => {
     'username',
     'email',
     'phone',
+    'dateOfBirth',
+    'country',
     'bio',
+    'about',
     'image',
   ]);
 
@@ -91,6 +94,23 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
   await ReplyComment.deleteMany({ author: userId });
 
   return res.status(StatusCodes.NO_CONTENT).end();
+});
+
+export const deleteAvatar = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(
+      new NotFoundError(`There is no user found with the given ID → ${userId}`),
+    );
+  }
+
+  user.image = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  return createSendToken(user, StatusCodes.OK, req, res);
 });
 
 export const getMe = (req, res, next) => {
