@@ -39,6 +39,8 @@ router.get(
 
 router.get('/comments/users/:id', postController.getPostComentUsers);
 
+router.get('/count-by-category', postController.getCountByCategory);
+
 router.get('/category/:category', postController.getPostsByCategory);
 
 router.get('/tags', postController.getTags);

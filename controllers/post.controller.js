@@ -168,6 +168,46 @@ export const getPostComentUsers = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(users);
 });
 
+export const getCountByCategory = asyncHandler(async (req, res, next) => {
+  const techCountPromise = Post.countDocuments({ category: 'technology' });
+  const lifeStyleCountPromise = Post.countDocuments({ category: 'lifestyle' });
+  const musicCountPromise = Post.countDocuments({ category: 'music' });
+  const fashionCountPromise = Post.countDocuments({ category: 'fashion' });
+  const travelCountPromise = Post.countDocuments({ category: 'travel' });
+  const sportCountPromise = Post.countDocuments({ category: 'sport' });
+  const adventureCountPromise = Post.countDocuments({ category: 'adventure' });
+
+  const [
+    techCount,
+    lifeStyleCount,
+    musicCount,
+    fashionCount,
+    travelCount,
+    sportCount,
+    adventureCount,
+  ] = await Promise.all([
+    techCountPromise,
+    lifeStyleCountPromise,
+    musicCountPromise,
+    fashionCountPromise,
+    travelCountPromise,
+    sportCountPromise,
+    adventureCountPromise,
+  ]);
+
+  const responseData = [
+    { category: 'technology', count: techCount },
+    { category: 'lifestyle', count: lifeStyleCount },
+    { category: 'music', count: musicCount },
+    { category: 'fashion', count: fashionCount },
+    { category: 'travel', count: travelCount },
+    { category: 'sport', count: sportCount },
+    { category: 'adventure', count: adventureCount },
+  ];
+
+  return res.status(StatusCodes.OK).json(responseData);
+});
+
 export const getPostsByCategory = asyncHandler(async (req, res, next) => {
   const { category } = req.params;
 
