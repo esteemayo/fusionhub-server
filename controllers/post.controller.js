@@ -16,26 +16,42 @@ import * as factory from './handler.factory.controller.js';
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};
   let {
+    author,
     category,
-    isFeatured,
+    featured,
     fields,
     limit,
     numericFilter,
     page,
     sort,
-    title,
+    search,
   } = req.query;
+
+  if (author) {
+    const user = await User.findOne({ username: author }).select('_id');
+    console.log(user);
+
+    if (!user) {
+      return next(
+        new NotFoundError(
+          `There is no post found with the given USERNAME → ${author}`,
+        ),
+      );
+    }
+
+    queryObj.author = user._id;
+  }
 
   if (category) {
     queryObj.category = category;
   }
 
-  if (isFeatured) {
-    queryObj.isFeatured = isFeatured === 'true' ? true : false;
+  if (featured) {
+    queryObj.isFeatured = featured === 'true' ? true : false;
   }
 
-  if (title) {
-    queryObj.title = { $regex: title, $options: 'i' };
+  if (search) {
+    queryObj.title = { $regex: search, $options: 'i' };
   }
 
   if (numericFilter) {
@@ -66,9 +82,36 @@ export const getPosts = asyncHandler(async (req, res, next) => {
 
   let query = Post.find(queryObj);
 
+  let sortObj = { createdAt: -1 };
+
   if (sort) {
     const sortBy = sort.split(',').join(' ');
-    query = query.sort(sortBy);
+
+    switch (sort) {
+      case 'newest':
+        sortObj = { createdAt: -1 };
+        break;
+
+      case 'oldest':
+        sortObj = { createdAt: 1 };
+        break;
+
+      case 'popular':
+        sortObj = { visit: -1 };
+        break;
+
+      case 'trending':
+        sortObj = { visit: -1 };
+        queryObj.createdAt = {
+          $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    query = query.sort(sortBy).sort(sortObj);
   } else {
     query = query.sort('-createdAt');
   }
@@ -84,7 +127,9 @@ export const getPosts = asyncHandler(async (req, res, next) => {
   limit = Number(limit) || 20;
 
   const skip = (page - 1) * limit;
+
   const counts = await Post.countDocuments();
+  const hasMore = page * limit < counts;
 
   const numberOfPages = Math.ceil(counts / limit);
   query = query.skip(skip).limit(limit);
@@ -95,6 +140,7 @@ export const getPosts = asyncHandler(async (req, res, next) => {
     page,
     counts,
     numberOfPages,
+    hasMore,
     posts,
   });
 });
