@@ -25,6 +25,7 @@ export const getPosts = asyncHandler(async (req, res, next) => {
     page,
     sort,
     search,
+    tag,
   } = req.query;
 
   if (author) {
@@ -52,6 +53,10 @@ export const getPosts = asyncHandler(async (req, res, next) => {
 
   if (search) {
     queryObj.title = { $regex: search, $options: 'i' };
+  }
+
+  if (tag) {
+    queryObj.tags = { tags: { $in: [tag] } };
   }
 
   if (numericFilter) {
@@ -82,26 +87,24 @@ export const getPosts = asyncHandler(async (req, res, next) => {
 
   let query = Post.find(queryObj);
 
-  let sortObj = { createdAt: -1 };
-
   if (sort) {
-    const sortBy = sort.split(',').join(' ');
+    let sortBy = sort.split(',').join(' ');
 
     switch (sort) {
       case 'newest':
-        sortObj = { createdAt: -1 };
+        sortBy = '-createdAt';
         break;
 
       case 'oldest':
-        sortObj = { createdAt: 1 };
+        sortBy = 'createdAt';
         break;
 
       case 'popular':
-        sortObj = { visit: -1 };
+        sortBy = '-views';
         break;
 
       case 'trending':
-        sortObj = { visit: -1 };
+        sortBy = '-views';
         queryObj.createdAt = {
           $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
         };
@@ -111,7 +114,7 @@ export const getPosts = asyncHandler(async (req, res, next) => {
         break;
     }
 
-    query = query.sort(sortBy).sort(sortObj);
+    query = query.sort(sortBy);
   } else {
     query = query.sort('-createdAt');
   }
