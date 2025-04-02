@@ -56,7 +56,7 @@ export const getPosts = asyncHandler(async (req, res, next) => {
   }
 
   if (tag) {
-    queryObj.tags = { tags: { $in: [tag] } };
+    queryObj.tags = { $in: [tag] };
   }
 
   if (numericFilter) {
@@ -218,6 +218,7 @@ export const getPostComentUsers = asyncHandler(async (req, res, next) => {
 });
 
 export const getCountByCategory = asyncHandler(async (req, res, next) => {
+  const generalCountPromise = Post.countDocuments({ category: 'general' });
   const techCountPromise = Post.countDocuments({ category: 'technology' });
   const lifeStyleCountPromise = Post.countDocuments({ category: 'lifestyle' });
   const musicCountPromise = Post.countDocuments({ category: 'music' });
@@ -227,6 +228,7 @@ export const getCountByCategory = asyncHandler(async (req, res, next) => {
   const adventureCountPromise = Post.countDocuments({ category: 'adventure' });
 
   const [
+    generalCount,
     techCount,
     lifeStyleCount,
     musicCount,
@@ -235,6 +237,7 @@ export const getCountByCategory = asyncHandler(async (req, res, next) => {
     sportCount,
     adventureCount,
   ] = await Promise.all([
+    generalCountPromise,
     techCountPromise,
     lifeStyleCountPromise,
     musicCountPromise,
@@ -245,6 +248,7 @@ export const getCountByCategory = asyncHandler(async (req, res, next) => {
   ]);
 
   const responseData = [
+    { category: 'general', count: generalCount },
     { category: 'technology', count: techCount },
     { category: 'lifestyle', count: lifeStyleCount },
     { category: 'music', count: musicCount },

@@ -17,8 +17,8 @@ const postSchema = new Schema(
     },
     category: {
       type: String,
-      required: [true, 'A post must belong to a category'],
       lowerCase: true,
+      default: 'general',
     },
     isFeatured: {
       type: Boolean,
