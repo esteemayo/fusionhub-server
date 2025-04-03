@@ -130,15 +130,35 @@ postSchema.statics.getFeaturedPosts = async function () {
   const posts = await this.aggregate([
     {
       $match: {
-        featured: true,
+        isFeatured: true,
         views: { $gte: 100 },
       },
     },
     {
-      $sample: { size: 3 },
+      $sample: { size: 5 },
     },
     {
       $sort: { createdAt: -1 },
+    },
+  ]);
+
+  return posts;
+};
+
+postSchema.statics.getRandomPosts = async function () {
+  const posts = await Post.aggregate([
+    {
+      $match: {
+        views: { $gte: 100 },
+        isFeatured: false,
+        likeCount: { $gte: 10 },
+      },
+    },
+    {
+      $sample: { size: 2 },
+    },
+    {
+      $sort: { views: -1 },
     },
   ]);
 

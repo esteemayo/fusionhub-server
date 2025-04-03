@@ -155,6 +155,12 @@ export const getMyPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
+export const getRandomPosts = asyncHandler(async (req, res, next) => {
+  const posts = await Post.getRandomPosts();
+
+  return res.status(StatusCodes.OK).json(posts);
+});
+
 export const getTopPost = asyncHandler(async (req, res, next) => {
   const posts = await Post.getTopPost();
 
