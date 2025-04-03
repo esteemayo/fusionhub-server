@@ -30,7 +30,6 @@ export const getPosts = asyncHandler(async (req, res, next) => {
 
   if (author) {
     const user = await User.findOne({ username: author }).select('_id');
-    console.log(user);
 
     if (!user) {
       return next(
@@ -152,6 +151,12 @@ export const getMyPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
   const posts = await Post.find({ author: userId });
+
+  return res.status(StatusCodes.OK).json(posts);
+});
+
+export const getTopPost = asyncHandler(async (req, res, next) => {
+  const posts = await Post.getTopPost();
 
   return res.status(StatusCodes.OK).json(posts);
 });

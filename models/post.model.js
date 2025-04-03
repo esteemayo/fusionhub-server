@@ -145,6 +145,25 @@ postSchema.statics.getFeaturedPosts = async function () {
   return posts;
 };
 
+postSchema.statics.getTopPost = async function () {
+  const posts = await Post.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        views: { $gte: 100 },
+      },
+    },
+    {
+      $sort: { views: -1 },
+    },
+    {
+      $limit: 5,
+    },
+  ]);
+
+  return posts;
+};
+
 const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
 
 export default Post;

@@ -13,6 +13,8 @@ router.use('/:postId/comments', commentRoute);
 
 router.get('/my-posts', authMiddleware.protect, postController.getMyPosts);
 
+router.get('/top-posts', postController.getTopPost);
+
 router.get('/trend', postController.getTrendingPosts);
 
 router.get('/featured', postController.getFeaturedPosts);
