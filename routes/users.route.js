@@ -17,6 +17,12 @@ router.get(
   userController.getUserStats,
 );
 
+router.get(
+  '/bookmark-posts',
+  authMiddleware.protect,
+  userController.getUserBookmarkedPosts,
+);
+
 router.patch('/update-me', userController.updateMe);
 
 router.patch(

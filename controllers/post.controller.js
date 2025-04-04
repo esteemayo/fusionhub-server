@@ -189,20 +189,6 @@ export const getRelatedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
-export const getBookmarkedPosts = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
-
-  const user = await User.findById(userId).populate('bookmarks');
-
-  if (!user) {
-    return next(
-      new NotFoundError(`There is no user found with the given ID → ${userId}`),
-    );
-  }
-
-  return res.status(StatusCodes.OK).json(user.bookmarks);
-});
-
 export const getUserLikedPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 

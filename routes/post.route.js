@@ -6,6 +6,7 @@ import commentRoute from './comment.route.js';
 
 import * as authMiddleware from '../middlewares/auth.middleware.js';
 import * as postController from '../controllers/post.controller.js';
+import { increaseViews } from '../middlewares/increase.views.middleware.js';
 
 const router = express.Router();
 
@@ -22,12 +23,6 @@ router.get('/trend', postController.getTrendingPosts);
 router.get('/featured', postController.getFeaturedPosts);
 
 router.get('/related-posts', postController.getRelatedPosts);
-
-router.get(
-  '/bookmarks',
-  authMiddleware.protect,
-  postController.getBookmarkedPosts,
-);
 
 router.get(
   '/liked-posts',
@@ -53,7 +48,7 @@ router.get('/tags/:tag', postController.getPostsByTag);
 
 router.get('/search', postController.searchPosts);
 
-router.get('/details/:slug', postController.getPostBySlug);
+router.get('/details/:slug', increaseViews, postController.getPostBySlug);
 
 router.patch(
   '/feature-post/:id',
@@ -79,7 +74,7 @@ router
 
 router
   .route('/:id')
-  .get(postController.getPostById)
+  .get(increaseViews, postController.getPostById)
   .patch(authMiddleware.protect, postController.updatePost)
   .delete(authMiddleware.protect, postController.deletePost);
 
