@@ -18,18 +18,18 @@ router.get(
 );
 
 router.get(
-  '/bookmark-posts',
+  '/saved-posts',
   authMiddleware.protect,
-  userController.getUserBookmarkedPosts,
+  userController.getUserSavedPosts,
 );
 
 router.patch('/update-me', userController.updateMe);
 
 router.patch(
-  '/bookmark-post/:postId',
+  '/save-post/:postId',
   authMiddleware.protect,
   authMiddleware.restrictTo('user'),
-  userController.bookmarkPost,
+  userController.savePost,
 );
 
 router.delete('/delete-me', userController.deleteMe);

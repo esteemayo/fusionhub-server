@@ -4,8 +4,9 @@ import express from 'express';
 
 import commentRoute from './comment.route.js';
 
-import * as authMiddleware from '../middlewares/auth.middleware.js';
 import * as postController from '../controllers/post.controller.js';
+
+import * as authMiddleware from '../middlewares/auth.middleware.js';
 import { increaseViews } from '../middlewares/increase.views.middleware.js';
 
 const router = express.Router();
@@ -18,7 +19,7 @@ router.get('/random-posts', postController.getRandomPosts);
 
 router.get('/top-posts', postController.getTopPost);
 
-router.get('/trend', postController.getTrendingPosts);
+router.get('/trends', postController.getTrendingPosts);
 
 router.get('/featured', postController.getFeaturedPosts);
 

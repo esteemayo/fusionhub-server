@@ -84,7 +84,7 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
-    bookmarks: [
+    savedPosts: [
       {
         type: Types.ObjectId,
         ref: 'Post',

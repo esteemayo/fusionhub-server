@@ -32,10 +32,10 @@ export const getUserStats = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(stats);
 });
 
-export const getUserBookmarkedPosts = asyncHandler(async (req, res, next) => {
+export const getUserSavedPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
-  const user = await User.findById(userId).populate('bookmarks');
+  const user = await User.findById(userId).populate('savedPosts');
 
   if (!user) {
     return next(
@@ -43,7 +43,7 @@ export const getUserBookmarkedPosts = asyncHandler(async (req, res, next) => {
     );
   }
 
-  return res.status(StatusCodes.OK).json(user.bookmarks);
+  return res.status(StatusCodes.OK).json(user.savedPosts);
 });
 
 export const updateMe = asyncHandler(async (req, res, next) => {
@@ -90,7 +90,7 @@ export const updateMe = asyncHandler(async (req, res, next) => {
   return createSendToken(updatedUser, StatusCodes.OK, req, res);
 });
 
-export const bookmarkPost = asyncHandler(async (req, res, next) => {
+export const savePost = asyncHandler(async (req, res, next) => {
   const { postId } = req.params;
   const { id: userId } = req.user;
 
@@ -102,15 +102,15 @@ export const bookmarkPost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const isBookmark = user.bookmarks.some((post) => String(post) === postId);
+  const isSaved = user.savedPosts.some((post) => String(post) === postId);
 
   let updatedUser;
 
-  if (!isBookmark) {
+  if (!isSaved) {
     updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        $push: { bookmarks: postId },
+        $push: { savedPosts: postId },
       },
       {
         new: true,
@@ -121,7 +121,7 @@ export const bookmarkPost = asyncHandler(async (req, res, next) => {
     updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        $pull: { bookmarks: postId },
+        $pull: { savedPosts: postId },
       },
       {
         new: true,
