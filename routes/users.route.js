@@ -19,6 +19,13 @@ router.get(
 
 router.patch('/update-me', userController.updateMe);
 
+router.patch(
+  '/bookmark-post/:postId',
+  authMiddleware.protect,
+  authMiddleware.restrictTo('user'),
+  userController.bookmarkPost,
+);
+
 router.delete('/delete-me', userController.deleteMe);
 
 router.delete('/delete-avatar', userController.deleteAvatar);

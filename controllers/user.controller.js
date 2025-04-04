@@ -76,6 +76,51 @@ export const updateMe = asyncHandler(async (req, res, next) => {
   return createSendToken(updatedUser, StatusCodes.OK, req, res);
 });
 
+export const bookmarkPost = asyncHandler(async (req, res, next) => {
+  const { postId } = req.params;
+  const { id: userId } = req.user;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(
+      new NotFoundError(`There is no user found with the given ID → ${userId}`),
+    );
+  }
+
+  const isBookmark = user.bookmarks.some((post) => String(post) === postId);
+
+  let updatedUser;
+
+  if (!isBookmark) {
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { bookmarks: postId },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+  } else {
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { bookmarks: postId },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+  }
+
+  setTimeout(() => {
+    return res.status(StatusCodes.OK).json(updatedUser);
+  }, 3000);
+});
+
 export const deleteMe = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 

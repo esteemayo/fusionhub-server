@@ -62,13 +62,6 @@ router.patch(
   postController.featurePost,
 );
 
-router.patch(
-  '/bookmarks/:id',
-  authMiddleware.protect,
-  authMiddleware.restrictTo('user'),
-  postController.bookmarkPost,
-);
-
 router.patch('/views/:id', postController.updateViews);
 
 router.patch('/likes/:id', authMiddleware.protect, postController.likePost);

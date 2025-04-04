@@ -304,7 +304,9 @@ export const searchPosts = asyncHandler(async (req, res, next) => {
   limit = Number(limit) || 20;
 
   const skip = (page - 1) * limit;
+
   const counts = await Post.countDocuments({ $text: { $search: q } });
+  const hasMore = page * limit < counts;
 
   const numberOfPages = Math.ceil(counts / limit);
 
@@ -334,6 +336,7 @@ export const searchPosts = asyncHandler(async (req, res, next) => {
     page,
     counts,
     numberOfPages,
+    hasMore,
     posts,
   });
 });
@@ -396,31 +399,6 @@ export const featurePost = asyncHandler(async (req, res, next) => {
   );
 
   return res.status(StatusCodes.OK).json(updatedPost);
-});
-
-export const bookmarkPost = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
-  const { id: postId } = req.params;
-
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return next(
-      new NotFoundError(`There is no user found with the given ID → ${userId}`),
-    );
-  }
-
-  if (user.bookmarks.includes(postId)) {
-    user.bookmarks.pull(postId);
-    await user.save({ validateBeforeSave: false });
-
-    return res.status(StatusCodes.OK).json('Post removed from bookmarks');
-  }
-
-  user.bookmarks.push(postId);
-  await user.save({ validateBeforeSave: false });
-
-  return res.status(StatusCodes.OK).json('Post bookmarked successfully');
 });
 
 export const updateViews = asyncHandler(async (req, res, next) => {
