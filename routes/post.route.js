@@ -49,7 +49,7 @@ router.get('/tags/:tag', postController.getPostsByTag);
 
 router.get('/search', postController.searchPosts);
 
-router.get('/details/:slug', increaseViews, postController.getPostBySlug);
+router.get('/:slug/details', increaseViews, postController.getPostBySlug);
 
 router.patch(
   '/feature-post/:id',
@@ -58,7 +58,7 @@ router.patch(
   postController.featurePost,
 );
 
-router.patch('/views/:id', postController.updateViews);
+router.patch('/:id/views', postController.updateViews);
 
 router.patch('/:id/like', authMiddleware.protect, postController.likePost);
 
