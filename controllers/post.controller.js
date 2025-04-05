@@ -373,7 +373,7 @@ export const featurePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const isFeatured = post.isFeatured;
+  const isFeatured = !!post.isFeatured;
 
   const updatedPost = await Post.findByIdAndUpdate(
     postId,
@@ -422,14 +422,18 @@ export const likePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (post.dislikes.includes(userId)) {
+  const isDisliked = post.dislikes.some((id) => String(id) === userId);
+
+  if (isDisliked) {
     post = await Post.findByIdAndUpdate(
       postId,
       {
         $pull: { dislikes: userId },
-        $inc: { dislikeCount: -1 },
         $addToSet: { likes: userId },
-        $inc: { likeCount: 1 },
+        $inc: {
+          dislikeCount: -1,
+          likeCount: 1,
+        },
       },
       {
         new: true,
@@ -465,14 +469,18 @@ export const dislikePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (post.likes.includes(userId)) {
+  const isLiked = post.likes.some((id) => String(id) === userId);
+
+  if (isLiked) {
     post = await Post.findByIdAndUpdate(
       postId,
       {
         $pull: { likes: userId },
-        $inc: { likeCount: -1 },
         $addToSet: { dislikes: userId },
-        $inc: { dislikeCount: 1 },
+        $inc: {
+          likeCount: -1,
+          dislikeCount: 1,
+        },
       },
       {
         new: true,

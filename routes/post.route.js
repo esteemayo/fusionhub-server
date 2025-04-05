@@ -21,7 +21,7 @@ router.get('/top-posts', postController.getTopPost);
 
 router.get('/trends', postController.getTrendingPosts);
 
-router.get('/featured', postController.getFeaturedPosts);
+router.get('/featured-posts', postController.getFeaturedPosts);
 
 router.get('/related-posts', postController.getRelatedPosts);
 
@@ -60,10 +60,10 @@ router.patch(
 
 router.patch('/views/:id', postController.updateViews);
 
-router.patch('/likes/:id', authMiddleware.protect, postController.likePost);
+router.patch('/:id/like', authMiddleware.protect, postController.likePost);
 
 router.patch(
-  '/dislikes/:id',
+  '/:id/dislike',
   authMiddleware.protect,
   postController.dislikePost,
 );

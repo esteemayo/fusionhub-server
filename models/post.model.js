@@ -138,7 +138,10 @@ postSchema.statics.getFeaturedPosts = async function () {
       $sample: { size: 5 },
     },
     {
-      $sort: { createdAt: -1 },
+      $sort: {
+        views: -1,
+        createdAt: -1,
+      },
     },
   ]);
 
