@@ -36,6 +36,8 @@ router.delete('/delete-me', userController.deleteMe);
 
 router.delete('/delete-avatar', userController.deleteAvatar);
 
+router.delete('/delete-banner', userController.deleteBanner);
+
 router
   .route('/')
   .get(authMiddleware.restrictTo('admin'), userController.getUsers)

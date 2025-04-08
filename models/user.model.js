@@ -84,6 +84,9 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
+    banner: {
+      type: String,
+    },
     savedPosts: [
       {
         type: Types.ObjectId,

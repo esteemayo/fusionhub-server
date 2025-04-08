@@ -172,6 +172,23 @@ export const deleteAvatar = asyncHandler(async (req, res, next) => {
   return createSendToken(user, StatusCodes.OK, req, res);
 });
 
+export const deleteBanner = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+
+  let user = await User.findById(userId);
+
+  if (!user) {
+    return next(
+      new NotFoundError(`There is no user found with the given ID → ${userId}`),
+    );
+  }
+
+  user.banner = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  return createSendToken(user, StatusCodes.OK, req, res);
+});
+
 export const getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
