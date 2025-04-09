@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "_id": "671931620aeed3a98d5cb605",
+    "content": "This is a very beautiful article.",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "6717d506f085fd00082dbe9e",
+    "createdAt": "2024-10-23T17:24:50.432Z",
+    "updatedAt": "2024-10-23T17:24:50.432Z"
+  },
+  {
+    "_id": "67198ae1931f5ed6dfb2a13d",
+    "content": "whao whao whao!!!",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "6717d5e2f085fd00082dbea5",
+    "createdAt": "2024-10-23T23:46:41.321Z",
+    "updatedAt": "2024-10-23T23:46:41.321Z"
+  },
+  {
+    "_id": "67198b1e931f5ed6dfb2a140",
+    "content": "What a beautiful write up...",
+    "post": "671835dabd0746c3504607c6",
+    "author": "6717d5e2f085fd00082dbea5",
+    "createdAt": "2024-10-23T23:47:42.715Z",
+    "updatedAt": "2024-10-23T23:47:42.715Z"
+  },
+  {
+    "_id": "67198b5d931f5ed6dfb2a144",
+    "content": "I can't simply get enough of this article...The best i ever read...",
+    "post": "671835dabd0746c3504607c6",
+    "author": "6717d506f085fd00082dbe9e",
+    "createdAt": "2024-10-23T23:48:45.234Z",
+    "updatedAt": "2024-10-23T23:48:45.234Z"
+  },
+  {
+    "_id": "671a5b4e82b65dea80748861",
+    "content": "Beautiful is an understatement!",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "createdAt": "2024-10-24T14:35:58.838Z",
+    "updatedAt": "2024-10-24T14:35:58.838Z"
+  }
+]

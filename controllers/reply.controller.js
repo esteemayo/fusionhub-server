@@ -3,9 +3,9 @@
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
-import Comment from '../models/comment.model.js';
+import Reply from '../models/reply.model.js';
 import Post from '../models/post.model.js';
-import ReplyComment from '../models/reply.comment.model.js';
+import Comment from '../models/comment.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
@@ -16,7 +16,7 @@ export const updateReply = asyncHandler(async (req, res, next) => {
   const { id: replyId } = req.params;
   const { id: userId, role } = req.user;
 
-  const reply = await ReplyComment.findById(replyId);
+  const reply = await Reply.findById(replyId);
 
   if (!reply) {
     return next(
@@ -52,7 +52,7 @@ export const updateReply = asyncHandler(async (req, res, next) => {
     String(post.author._id) === userId ||
     role === 'admin'
   ) {
-    const updatedPost = await ReplyComment.findByIdAndUpdate(
+    const updatedPost = await Reply.findByIdAndUpdate(
       replyId,
       { $set: { ...req.body } },
       {
@@ -71,7 +71,7 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
   const { id: replyId } = req.params;
   const { id: userId, role } = req.user;
 
-  const reply = await ReplyComment.findById(replyId);
+  const reply = await Reply.findById(replyId);
 
   if (!reply) {
     return next(
@@ -107,7 +107,7 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
     String(post.author._id) === userId ||
     role === 'admin'
   ) {
-    await ReplyComment.findByIdAndDelete(replyId);
+    await Reply.findByIdAndDelete(replyId);
 
     return res.status(StatusCodes.NO_CONTENT).end();
   }
@@ -115,6 +115,6 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
   return next(new ForbiddenError('You are not allowed to perform this action'));
 });
 
-export const getReplies = factory.getAll(ReplyComment);
-export const getReply = factory.getOneById(ReplyComment, 'reply');
-export const createReply = factory.createOne(ReplyComment);
+export const getReplies = factory.getAll(Reply);
+export const getReply = factory.getOneById(Reply, 'reply');
+export const createReply = factory.createOne(Reply);

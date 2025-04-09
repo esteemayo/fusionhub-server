@@ -8,7 +8,7 @@ import User from '../models/user.model.js';
 import Post from '../models/post.model.js';
 
 import Comment from '../models/comment.model.js';
-import ReplyComment from '../models/reply.comment.model.js';
+import ReplyComment from '../models/reply.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequesError } from './../errors/bad.request.error.js';

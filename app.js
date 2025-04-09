@@ -14,11 +14,11 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import 'colors';
 
-import commentRoute from './routes/comment.route.js';
+import replyRoute from './routes/reply.route.js';
 import authRoute from './routes/auth.route.js';
-import categoryRoute from './routes/category.route.js';
+import commentRoute from './routes/comment.route.js';
 import postRoute from './routes/post.route.js';
-import replyCommentRoute from './routes/reply.comment.route.js';
+import categoryRoute from './routes/category.route.js';
 import userRoute from './routes/users.route.js';
 
 import { NotFoundError } from './errors/not.found.error.js';
@@ -73,7 +73,7 @@ app.use('/api/v1/categories', categoryRoute);
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/users', userRoute);
-app.use('/api/v1/reply-comments', replyCommentRoute);
+app.use('/api/v1/replies', replyRoute);
 app.use('/api/v1/posts', postRoute);
 
 app.all('*', (req, res, next) => {

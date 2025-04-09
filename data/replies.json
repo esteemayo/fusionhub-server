@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "_id": "671a6aef647fc0d2f550276c",
+    "content": "Simply the best",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "createdAt": "2024-10-24T15:42:39.486Z",
+    "updatedAt": "2024-10-24T15:42:39.486Z"
+  },
+  {
+    "_id": "671a6eac1ed6562986df9a78",
+    "content": "I'm so wowed!",
+    "comment": "67198ae1931f5ed6dfb2a13d",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "createdAt": "2024-10-24T15:58:36.431Z",
+    "updatedAt": "2024-10-24T15:58:36.431Z"
+  },
+  {
+    "_id": "671ae7c338b12cfdbea85aff",
+    "content": "I'm so glad we're on the same page...",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "6717d5e2f085fd00082dbea5",
+    "createdAt": "2024-10-25T00:35:15.244Z",
+    "updatedAt": "2024-10-25T00:35:15.244Z"
+  },
+  {
+    "_id": "671ae93b80f47605e3e87058",
+    "content": "Me too 👌",
+    "comment": "67198ae1931f5ed6dfb2a13d",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "6717d5e2f085fd00082dbea5",
+    "createdAt": "2024-10-25T00:41:31.496Z",
+    "updatedAt": "2024-10-25T00:41:31.496Z"
+  }
+]

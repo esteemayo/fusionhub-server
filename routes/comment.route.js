@@ -2,7 +2,7 @@
 
 import express from 'express';
 
-import replyCommentRoute from './reply.comment.route.js';
+import replyCommentRoute from './reply.route.js';
 
 import * as authMiddleware from '../middlewares/auth.middleware.js';
 import * as commentController from '../controllers/comment.controller.js';

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Types, Schema } = mongoose;
 
-const replyCommentSchema = new Schema(
+const replySchema = new Schema(
   {
     content: {
       type: String,
@@ -32,7 +32,7 @@ const replyCommentSchema = new Schema(
   },
 );
 
-replyCommentSchema.pre(/^find/, function (next) {
+replySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
     select: 'name image',
@@ -41,8 +41,6 @@ replyCommentSchema.pre(/^find/, function (next) {
   next();
 });
 
-const ReplyComment =
-  mongoose.models.ReplyComment ||
-  mongoose.model('ReplyComment', replyCommentSchema);
+const Reply = mongoose.models.Reply || mongoose.model('Reply', replySchema);
 
-export default ReplyComment;
+export default Reply;
