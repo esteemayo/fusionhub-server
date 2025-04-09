@@ -22,7 +22,7 @@ import replyCommentRoute from './routes/reply.comment.route.js';
 import userRoute from './routes/users.route.js';
 
 import { NotFoundError } from './errors/not.found.error.js';
-import errorHandler from './middlewares/error.handler.middleware.js';
+import { errorHandlerMiddleware } from './middlewares/error.handler.middleware.js';
 
 dotenv.config({ path: './config.env' });
 
@@ -80,6 +80,6 @@ app.all('*', (req, res, next) => {
   next(new NotFoundError(`Can't find ${req.originalUrl} on this server`));
 });
 
-app.use(errorHandler);
+app.use(errorHandlerMiddleware);
 
 export default app;

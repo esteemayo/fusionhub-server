@@ -45,7 +45,7 @@ const sendErrorProd = (err, res) =>
     message: err.message,
   });
 
-const errorHandlerMiddleware = (err, req, res, next) => {
+export const errorHandlerMiddleware = (err, req, res, next) => {
   const customError = {
     stack: err.stack,
     status: err.status,
@@ -66,5 +66,3 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     sendErrorProd(customError, res);
   }
 };
-
-export default errorHandlerMiddleware;

@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "_id": "6717de65a8f9b3f7ede34c4f",
+    "name": "technology",
+    "createdAt": "2024-10-22T17:18:29.992Z",
+    "updatedAt": "2024-10-22T17:18:29.992Z"
+  },
+  {
+    "_id": "6717de79a8f9b3f7ede34c52",
+    "name": "lifestyle",
+    "createdAt": "2024-10-22T17:18:49.220Z",
+    "updatedAt": "2024-10-22T17:18:49.220Z"
+  },
+  {
+    "_id": "67f6ae95ad65c7f522a41d28",
+    "name": "general",
+    "createdAt": "2025-04-09T17:29:57.252Z",
+    "updatedAt": "2025-04-09T17:29:57.252Z"
+  },
+  {
+    "_id": "67f6aea5ad65c7f522a41d2b",
+    "name": "music",
+    "createdAt": "2025-04-09T17:30:13.917Z",
+    "updatedAt": "2025-04-09T17:30:13.917Z"
+  },
+  {
+    "_id": "67f6aeb4ad65c7f522a41d2e",
+    "name": "fashion",
+    "createdAt": "2025-04-09T17:30:28.069Z",
+    "updatedAt": "2025-04-09T17:30:28.069Z"
+  },
+  {
+    "_id": "67f6aebfad65c7f522a41d31",
+    "name": "travel",
+    "createdAt": "2025-04-09T17:30:39.506Z",
+    "updatedAt": "2025-04-09T17:30:39.506Z"
+  },
+  {
+    "_id": "67f6aecbad65c7f522a41d34",
+    "name": "sport",
+    "createdAt": "2025-04-09T17:30:51.123Z",
+    "updatedAt": "2025-04-09T17:30:51.123Z"
+  },
+  {
+    "_id": "67f6aed3ad65c7f522a41d37",
+    "name": "adventure",
+    "createdAt": "2025-04-09T17:30:59.745Z",
+    "updatedAt": "2025-04-09T17:30:59.745Z"
+  }
+]
