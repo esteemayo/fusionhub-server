@@ -1,17 +1,26 @@
 {
   "name": "blog-node-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Node.js-based backend API for a blogging platform. This application provides endpoints for managing blog posts, user authentication, and other related functionalities. It is built with Express.js and MongoDB, and includes features like rate limiting, data sanitization, and security enhancements using Helmet and CORS. The API is designed to be modular, scalable, and production-ready.",
   "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "start:dev": "set NODE_ENV=development && npm run dev",
+    "start:prod": "set NODE_ENV=production && npm run dev",
     "debug": "ndb server.js",
     "sample": "node ./data/import.dev.data --import",
     "blowitallaway": "node ./data/import.dev.data --delete"
   },
-  "keywords": [],
+  "keywords": [
+    "blog",
+    "node",
+    "api",
+    "express",
+    "mongoose",
+    "backend"
+  ],
   "author": "Emmanuel Adebayo",
   "license": "MIT",
   "dependencies": {
