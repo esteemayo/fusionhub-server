@@ -17,17 +17,12 @@ router.get(
   userController.getUserStats,
 );
 
-router.get(
-  '/saved-posts',
-  authMiddleware.protect,
-  userController.getUserSavedPosts,
-);
+router.get('/saved-posts', userController.getUserSavedPosts);
 
 router.patch('/update-me', userController.updateMe);
 
 router.patch(
   '/save-post/:postId',
-  authMiddleware.protect,
   authMiddleware.restrictTo('user'),
   userController.savePost,
 );
