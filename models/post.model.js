@@ -149,7 +149,7 @@ postSchema.statics.getFeaturedPosts = async function () {
 };
 
 postSchema.statics.getRandomPosts = async function () {
-  const posts = await Post.aggregate([
+  const posts = await this.aggregate([
     {
       $match: {
         views: { $gte: 100 },
@@ -169,7 +169,7 @@ postSchema.statics.getRandomPosts = async function () {
 };
 
 postSchema.statics.getTopPost = async function () {
-  const posts = await Post.aggregate([
+  const posts = await this.aggregate([
     {
       $match: {
         createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
