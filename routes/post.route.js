@@ -52,7 +52,7 @@ router.get('/search', postController.searchPosts);
 router.get('/:slug/details', increaseViews, postController.getPostBySlug);
 
 router.patch(
-  '/feature-post/:id',
+  '/:id/feature-post',
   authMiddleware.protect,
   authMiddleware.restrictTo('admin'),
   postController.featurePost,
