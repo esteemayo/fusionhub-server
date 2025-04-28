@@ -22,7 +22,7 @@ router.get('/saved-posts', userController.getUserSavedPosts);
 router.patch('/update-me', userController.updateMe);
 
 router.patch(
-  '/save-post/:postId',
+  '/:postId/save-post',
   authMiddleware.restrictTo('user'),
   userController.savePost,
 );
