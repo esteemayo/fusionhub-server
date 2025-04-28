@@ -37,7 +37,7 @@ router.get(
   postController.getUserDisikedPosts,
 );
 
-router.get('/comments/users/:id', postController.getPostComentUsers);
+router.get('/comments/:id/users', postController.getPostComentUsers);
 
 router.get('/count-by-category', postController.getCountByCategory);
 
