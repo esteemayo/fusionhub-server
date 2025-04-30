@@ -74,9 +74,11 @@ const userSchema = new Schema(
     },
     country: {
       type: String,
+      required: [true, 'Please enter your country of residence'],
     },
     bio: {
       type: String,
+      required: [true, 'Please write a short biography'],
     },
     about: {
       type: String,
