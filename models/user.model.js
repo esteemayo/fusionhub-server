@@ -44,7 +44,8 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Please provide your password'],
-      minLength: [8, 'Passwords cannot be less than 8 characters long'],
+      minLength: [8, 'Password must be at least 8 characters long'],
+      maxLength: [32, 'Password cannot exceed 32 characters'],
       validate: {
         validator: function (val) {
           const passwordRegex =
