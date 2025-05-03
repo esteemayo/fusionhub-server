@@ -21,7 +21,7 @@ const userSchema = new Schema(
       trim: true,
       validate: {
         validator: function (val) {
-          return /^[a-zA-Z0-9_]+$/.test(val);
+          return /^[a-zA-Z0-9_]{3,15}$/.test(val);
         },
         message: 'Username cannot contain special characters',
       },
@@ -53,7 +53,7 @@ const userSchema = new Schema(
           return passwordRegex.test(val);
         },
         message:
-          'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character, and at least 8 characters long',
+          'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and at least 8 characters long',
       },
       select: false,
     },
