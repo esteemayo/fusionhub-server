@@ -20,6 +20,9 @@ const postSchema = new Schema(
       lowerCase: true,
       default: 'general',
     },
+    img: {
+      type: String,
+    },
     isFeatured: {
       type: Boolean,
       default: false,
@@ -49,7 +52,7 @@ const postSchema = new Schema(
       validate: function (val) {
         return val && val.length > 0;
       },
-      message: 'A product must have at least one tag',
+      message: 'A post must have at least one tag',
     },
     views: {
       type: Number,

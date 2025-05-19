@@ -17,6 +17,8 @@ router.get('/my-posts', authMiddleware.protect, postController.getMyPosts);
 
 router.get('/random-posts', postController.getRandomPosts);
 
+router.get('/recent-posts', postController.getRecentPosts);
+
 router.get('/top-posts', postController.getTopPost);
 
 router.get('/trends', postController.getTrendingPosts);

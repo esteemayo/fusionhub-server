@@ -16,6 +16,7 @@ export const createSendToken = (user, statusCode, req, res) => {
 
   const details = {
     ...rest,
+    token,
   };
 
   return res.status(statusCode).json({

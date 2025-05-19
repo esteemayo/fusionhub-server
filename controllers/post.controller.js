@@ -161,6 +161,12 @@ export const getRandomPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
+export const getRecentPosts = asyncHandler(async (req, res, next) => {
+  const posts = await Post.find().sort('-createdAt').limit(8);
+
+  return res.status(StatusCodes.OK).json(posts);
+});
+
 export const getTopPost = asyncHandler(async (req, res, next) => {
   const posts = await Post.getTopPost();
 
