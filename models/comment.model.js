@@ -36,7 +36,7 @@ commentSchema.virtual('replies', {
 commentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
-    select: 'name image',
+    select: 'name username image',
   });
 
   next();

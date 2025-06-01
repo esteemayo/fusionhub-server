@@ -11,6 +11,8 @@ router.use(authMiddleware.protect);
 
 router.get('/me', userController.getMe, userController.getUser);
 
+router.get('/:username/details', userController.getUserByUsername);
+
 router.get(
   '/stats',
   authMiddleware.restrictTo('admin'),

@@ -26,6 +26,22 @@ export const getUsers = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(users);
 });
 
+export const getUserByUsername = asyncHandler(async (req, res, next) => {
+  const { username } = req.params;
+
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    return next(
+      new NotFoundError(
+        `There is no user found with the given username → ${username}`,
+      ),
+    );
+  }
+
+  return res.status(StatusCodes.OK).json(user);
+});
+
 export const getUserStats = asyncHandler(async (req, res, next) => {
   const stats = await User.getUserStats();
 
