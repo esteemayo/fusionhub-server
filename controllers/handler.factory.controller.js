@@ -6,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 import { APIFeatures } from '../utils/api.features.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 
-export const getAll = (Model) =>
+export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
     let filter = {};
     if (req.params.postId) filter = { post: req.params.postId };
@@ -18,7 +18,11 @@ export const getAll = (Model) =>
       .limitFields()
       .paginate();
 
-    const docs = await features.query;
+    let query = features.query;
+
+    if (popOptions) query.populate(popOptions);
+
+    const docs = await query;
 
     return res.status(StatusCodes.OK).json(docs);
   });

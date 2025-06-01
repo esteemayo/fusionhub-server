@@ -91,7 +91,7 @@ postSchema.virtual('comments', {
 postSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
-    select: 'name image',
+    select: 'name username image',
   });
 
   next();
@@ -138,6 +138,14 @@ postSchema.statics.getFeaturedPosts = async function () {
       },
     },
     {
+      $lookup: {
+        from: 'comments',
+        localField: '_id',
+        foreignField: 'post',
+        as: 'comments',
+      },
+    },
+    {
       $sample: { size: 5 },
     },
     {
@@ -175,7 +183,8 @@ postSchema.statics.getTopPost = async function () {
   const posts = await this.aggregate([
     {
       $match: {
-        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        // createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        createdAt: { $lte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
         views: { $gte: 100 },
       },
     },

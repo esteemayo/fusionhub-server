@@ -9,7 +9,7 @@ import * as commentController from '../controllers/comment.controller.js';
 
 const router = express.Router({ mergeParams: true });
 
-router.use('/:commentId/reply-comments', replyCommentRoute);
+router.use('/:commentId/replies', replyCommentRoute);
 
 router
   .route('/')

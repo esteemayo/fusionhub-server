@@ -27,6 +27,12 @@ const commentSchema = new Schema(
   },
 );
 
+commentSchema.virtual('replies', {
+  ref: 'Reply',
+  localField: '_id',
+  foreignField: 'comment',
+});
+
 commentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',

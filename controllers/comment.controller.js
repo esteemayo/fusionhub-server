@@ -92,6 +92,6 @@ export const deleteComment = asyncHandler(async (req, res, next) => {
   return next(new ForbiddenError('You are not allowed to perform this action'));
 });
 
-export const getComments = factory.getAll(Comment);
-export const getComment = factory.getOneById(Comment, 'comment');
+export const getComments = factory.getAll(Comment, 'replies');
+export const getComment = factory.getOneById(Comment, 'replies');
 export const createComment = factory.createOne(Comment);
