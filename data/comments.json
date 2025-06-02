@@ -38,5 +38,37 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "createdAt": "2024-10-24T14:35:58.838Z",
     "updatedAt": "2024-10-24T14:35:58.838Z"
+  },
+  {
+    "_id": "682cc558e90a4495e55e78ea",
+    "content": "The title \"An Introduction into Frontend Development\" is clear and straightforward, \nmaking it suitable for beginners who are looking to explore the basics of frontend development. \nHowever, the word \"into\" could be replaced with \"to\" for better grammatical accuracy, \nresulting in \"An Introduction to Frontend Development.\" \nThis minor adjustment would make the title more polished and professional.",
+    "post": "671835dabd0746c3504607c6",
+    "author": "682016e9149690d2262926dc",
+    "createdAt": "2025-05-20T18:09:28.928Z",
+    "updatedAt": "2025-05-20T18:09:28.928Z"
+  },
+  {
+    "_id": "682dcca0e90a4495e55e7eae",
+    "content": "I'm a very passionate person for frontend development, reading this article has added to my love for frontend web development and design...thank you so much for this very wonderful piece!",
+    "post": "671835dabd0746c3504607c6",
+    "author": "682016e9149690d2262926dc",
+    "createdAt": "2025-05-21T12:52:48.501Z",
+    "updatedAt": "2025-05-26T13:07:28.459Z"
+  },
+  {
+    "_id": "68335d8a233942a7a84deb59",
+    "content": "I'm very passionate for backend web development, reading this article has added to my love for backend development. Thank you so much for this very great article!",
+    "post": "67183a015b3589789398fc86",
+    "author": "682016e9149690d2262926dc",
+    "createdAt": "2025-05-25T18:12:26.148Z",
+    "updatedAt": "2025-05-25T20:19:04.957Z"
+  },
+  {
+    "_id": "68337c11233942a7a84df118",
+    "content": "Testing create comment and update functionalities...",
+    "post": "67183a015b3589789398fc86",
+    "author": "682016e9149690d2262926dc",
+    "createdAt": "2025-05-25T20:22:41.764Z",
+    "updatedAt": "2025-05-25T20:23:44.723Z"
   }
 ]

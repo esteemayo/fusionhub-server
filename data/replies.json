@@ -34,5 +34,23 @@
     "author": "6717d5e2f085fd00082dbea5",
     "createdAt": "2024-10-25T00:41:31.496Z",
     "updatedAt": "2024-10-25T00:41:31.496Z"
+  },
+  {
+    "_id": "6835dde57699e5ca9a5bc672",
+    "content": "Testing all edge cases is a valid way of ensuring your endpoints are working has intended!",
+    "comment": "68337c11233942a7a84df118",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "682016e9149690d2262926dc",
+    "createdAt": "2025-05-27T15:44:37.092Z",
+    "updatedAt": "2025-05-27T15:44:37.092Z"
+  },
+  {
+    "_id": "68378ad665bc356f9aadec66",
+    "content": "Beautiful is an understatement...This right here is a work of art, perfectionism at it peak.. kudos to the writer and the editor 👌",
+    "comment": "671931620aeed3a98d5cb605",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "createdAt": "2025-05-28T22:14:46.378Z",
+    "updatedAt": "2025-05-29T15:13:37.595Z"
   }
 ]
