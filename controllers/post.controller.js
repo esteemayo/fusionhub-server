@@ -195,7 +195,88 @@ export const getRelatedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
-export const getUserLikedPosts = asyncHandler(async (req, res, next) => {
+export const getPostsByUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  let { page, limit } = req.query;
+
+  page = +page || 1;
+  limit = +limit || 6;
+
+  const skip = (page - 1) * limit;
+
+  const counts = await Post.countDocuments({ author: userId });
+  const hasMore = page * limit < counts;
+
+  const numberOfPages = Math.ceil(counts / limit);
+
+  const query = Post.find({ author: userId });
+
+  const posts = await query.skip(skip).limit(limit).populate('comments');
+
+  return res.status(StatusCodes.OK).json({
+    page,
+    counts,
+    numberOfPages,
+    hasMore,
+    posts,
+  });
+});
+
+export const getPostsLikedByUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  let { page, limit } = req.query;
+
+  page = +page || 1;
+  limit = +limit || 6;
+
+  const skip = (page - 1) * limit;
+
+  const counts = await Post.countDocuments({ likes: { $in: [userId] } });
+  const hasMore = page * limit < counts;
+
+  const numberOfPages = Math.ceil(counts / limit);
+
+  const query = Post.find({ likes: { $in: [userId] } });
+
+  const posts = await query.skip(skip).limit(limit).populate('comments');
+
+  return res.status(StatusCodes.OK).json({
+    page,
+    counts,
+    numberOfPages,
+    hasMore,
+    posts,
+  });
+});
+
+export const getPostsDislikedByUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  let { page, limit } = req.query;
+
+  page = +page || 1;
+  limit = +limit || 6;
+
+  const skip = (page - 1) * limit;
+
+  const counts = await Post.countDocuments({ dislikes: { $in: [userId] } });
+  const hasMore = page * limit < counts;
+
+  const numberOfPages = Math.ceil(counts / limit);
+
+  const query = Post.find({ dislikes: { $in: [userId] } });
+
+  const posts = await query.skip(skip).limit(limit).populate('comments');
+
+  return res.status(StatusCodes.OK).json({
+    page,
+    counts,
+    numberOfPages,
+    hasMore,
+    posts,
+  });
+});
+
+export const getMyLikedPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
   const posts = await Post.find({ likes: userId }).sort('-_id');
@@ -203,7 +284,7 @@ export const getUserLikedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
-export const getUserDisikedPosts = asyncHandler(async (req, res, next) => {
+export const getMyDislikedPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
   const posts = await Post.find({ dislikes: userId }).sort('-_id');
@@ -211,7 +292,7 @@ export const getUserDisikedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
-export const getPostComentUsers = asyncHandler(async (req, res, next) => {
+export const getPostCommentAuthors = asyncHandler(async (req, res, next) => {
   const { id: postId } = req.params;
 
   const comments = await Comment.find({ post: postId });
@@ -220,7 +301,7 @@ export const getPostComentUsers = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(users);
 });
 
-export const getCountByCategory = asyncHandler(async (req, res, next) => {
+export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
   const generalCountPromise = Post.countDocuments({ category: 'general' });
   const techCountPromise = Post.countDocuments({ category: 'technology' });
   const lifeStyleCountPromise = Post.countDocuments({ category: 'lifestyle' });
@@ -264,7 +345,7 @@ export const getCountByCategory = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(responseData);
 });
 
-export const getPostsByCategory = asyncHandler(async (req, res, next) => {
+export const getPostsForCategory = asyncHandler(async (req, res, next) => {
   const { category } = req.params;
 
   const posts = await Post.find({ category }).sort('-_id');

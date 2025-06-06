@@ -11,6 +11,33 @@ import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
 
+export const getCommentsByUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  let { page, limit } = req.query;
+
+  page = page * 1 || 1;
+  limit = limit * 1 || 6;
+
+  const skip = (page - 1) * limit;
+
+  const counts = await Comment.countDocuments({ author: userId });
+  const hasMore = page * limit < counts;
+
+  const numberOfPages = Math.ceil(counts / limit);
+
+  const query = Comment.find({ author: userId });
+
+  const comments = await query.skip(skip).limit(limit);
+
+  return res.status(StatusCodes.OK).json({
+    page,
+    counts,
+    numberOfPages,
+    hasMore,
+    comments,
+  });
+});
+
 export const updateComment = asyncHandler(async (req, res, next) => {
   const { id: commentId } = req.params;
   const { id: userId, role } = req.user;

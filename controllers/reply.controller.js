@@ -12,6 +12,33 @@ import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
 
+export const getRepliesByUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  let { page, limit } = req.query;
+
+  page = Number(page) || 1;
+  limit = Number(limit) || 6;
+
+  const skip = (page - 1) * limit;
+
+  const counts = await Reply.countDocuments({ author: userId });
+  const hasMore = page * limit < counts;
+
+  const numberOfPages = Math.ceil(counts / limit);
+
+  const query = Reply.find({ author: userId });
+
+  const replies = await query.skip(skip).limit(limit);
+
+  return res.status(StatusCodes.OK).json({
+    page,
+    counts,
+    numberOfPages,
+    hasMore,
+    replies,
+  });
+});
+
 export const updateReply = asyncHandler(async (req, res, next) => {
   const { id: replyId } = req.params;
   const { id: userId, role } = req.user;

@@ -28,22 +28,40 @@ router.get('/featured-posts', postController.getFeaturedPosts);
 router.get('/related-posts', postController.getRelatedPosts);
 
 router.get(
+  '/users/:userId/posts',
+  authMiddleware.protect,
+  postController.getPostsByUser,
+);
+
+router.get(
+  '/users/:userId/liked-posts',
+  authMiddleware.protect,
+  postController.getPostsLikedByUser,
+);
+
+router.get(
+  '/users/:userId/disliked-posts',
+  authMiddleware.protect,
+  postController.getPostsDislikedByUser,
+);
+
+router.get(
   '/liked-posts',
   authMiddleware.protect,
-  postController.getUserLikedPosts,
+  postController.getMyLikedPosts,
 );
 
 router.get(
   '/disliked-posts',
   authMiddleware.protect,
-  postController.getUserDisikedPosts,
+  postController.getMyDislikedPosts,
 );
 
-router.get('/comments/:id/users', postController.getPostComentUsers);
+router.get('/comments/:id/users', postController.getPostCommentAuthors);
 
-router.get('/count-by-category', postController.getCountByCategory);
+router.get('/count-by-category', postController.getPostCountsByCategory);
 
-router.get('/category/:category', postController.getPostsByCategory);
+router.get('/category/:category', postController.getPostsForCategory);
 
 router.get('/tags', postController.getTags);
 

@@ -11,6 +11,8 @@ const router = express.Router({ mergeParams: true });
 
 router.use('/:commentId/replies', replyCommentRoute);
 
+router.get('/user/:userId/comments', commentController.getCommentsByUser);
+
 router
   .route('/')
   .get(commentController.getComments)
