@@ -501,54 +501,7 @@ export const likePost = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
 
-  let post = await Post.findById(postId);
-
-  if (!post) {
-    return next(
-      new NotFoundError(`There is no post found with the given ID → ${postId}`),
-    );
-  }
-
-  const isDisliked = post.dislikes.some((id) => String(id) === userId);
-
-  if (isDisliked) {
-    post = await Post.findByIdAndUpdate(
-      postId,
-      {
-        $pull: { dislikes: userId },
-        $addToSet: { likes: userId },
-        $inc: {
-          dislikeCount: -1,
-          likeCount: 1,
-        },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-  } else {
-    post = await Post.findByIdAndUpdate(
-      postId,
-      {
-        $addToSet: { likes: userId },
-        $inc: { likeCount: 1 },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-  }
-
-  return res.status(StatusCodes.OK).json(post);
-});
-
-export const dislikePost = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
-  const { id: postId } = req.params;
-
-  let post = await Post.findById(postId);
+  const post = await Post.findById(postId);
 
   if (!post) {
     return next(
@@ -557,38 +510,80 @@ export const dislikePost = asyncHandler(async (req, res, next) => {
   }
 
   const isLiked = post.likes.some((id) => String(id) === userId);
+  const isDisliked = post.dislikes.some((id) => String(id) === userId);
 
-  if (isLiked) {
-    post = await Post.findByIdAndUpdate(
-      postId,
-      {
-        $pull: { likes: userId },
-        $addToSet: { dislikes: userId },
-        $inc: {
-          likeCount: -1,
-          dislikeCount: 1,
-        },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
+  let update = {};
+
+  if (isDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $addToSet: { likes: userId },
+      $inc: { dislikeCount: -1, likeCount: 1 },
+    };
+  } else if (isLiked) {
+    update = {
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    };
   } else {
-    post = await Post.findByIdAndUpdate(
-      postId,
-      {
-        $addToSet: { dislikes: userId },
-        $inc: { dislikeCount: 1 },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
+    update = {
+      $addToSet: { likes: userId },
+      $inc: { likeCount: 1 },
+    };
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(postId, update, {
+    new: true,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedPost);
+});
+
+export const dislikePost = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: postId } = req.params;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
     );
   }
 
-  return res.status(StatusCodes.OK).json(post);
+  const isLiked = post.likes.some((id) => String(id) === userId);
+  const isDisliked = post.dislikes.some((id) => String(id) === userId);
+
+  let update = {};
+
+  if (isLiked) {
+    update = {
+      $pull: { likes: userId },
+      $addToSet: { dislikes: userId },
+      $inc: {
+        likeCount: -1,
+        dislikeCount: 1,
+      },
+    };
+  } else if (isDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $inc: { dislikeCount: -1 },
+    };
+  } else {
+    update = {
+      $addToSet: { dislikes: userId },
+      $inc: { dislikeCount: 1 },
+    };
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(postId, update, {
+    new: true,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedPost);
 });
 
 export const deletePost = asyncHandler(async (req, res, next) => {

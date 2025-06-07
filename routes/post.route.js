@@ -28,19 +28,19 @@ router.get('/featured-posts', postController.getFeaturedPosts);
 router.get('/related-posts', postController.getRelatedPosts);
 
 router.get(
-  '/users/:userId/posts',
+  '/user/:userId/posts',
   authMiddleware.protect,
   postController.getPostsByUser,
 );
 
 router.get(
-  '/users/:userId/liked-posts',
+  '/user/:userId/liked-posts',
   authMiddleware.protect,
   postController.getPostsLikedByUser,
 );
 
 router.get(
-  '/users/:userId/disliked-posts',
+  '/user/:userId/disliked-posts',
   authMiddleware.protect,
   postController.getPostsDislikedByUser,
 );
