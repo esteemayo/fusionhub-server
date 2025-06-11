@@ -211,7 +211,11 @@ export const getPostsByUser = asyncHandler(async (req, res, next) => {
 
   const query = Post.find({ author: userId });
 
-  const posts = await query.skip(skip).limit(limit).populate('comments');
+  const posts = await query
+    .skip(skip)
+    .limit(limit)
+    .sort('-createdAt')
+    .populate('comments');
 
   return res.status(StatusCodes.OK).json({
     page,
@@ -238,7 +242,11 @@ export const getPostsLikedByUser = asyncHandler(async (req, res, next) => {
 
   const query = Post.find({ likes: { $in: [userId] } });
 
-  const posts = await query.skip(skip).limit(limit).populate('comments');
+  const posts = await query
+    .skip(skip)
+    .limit(limit)
+    .sort('-_id')
+    .populate('comments');
 
   return res.status(StatusCodes.OK).json({
     page,
@@ -265,7 +273,11 @@ export const getPostsDislikedByUser = asyncHandler(async (req, res, next) => {
 
   const query = Post.find({ dislikes: { $in: [userId] } });
 
-  const posts = await query.skip(skip).limit(limit).populate('comments');
+  const posts = await query
+    .skip(skip)
+    .limit(limit)
+    .sort('-createdAt')
+    .populate('comments');
 
   return res.status(StatusCodes.OK).json({
     page,

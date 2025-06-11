@@ -28,7 +28,7 @@ export const getRepliesByUser = asyncHandler(async (req, res, next) => {
 
   const query = Reply.find({ author: userId });
 
-  const replies = await query.skip(skip).limit(limit);
+  const replies = await query.skip(skip).limit(limit).sort('-createdAt');
 
   return res.status(StatusCodes.OK).json({
     page,

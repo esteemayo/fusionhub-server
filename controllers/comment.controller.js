@@ -3,6 +3,7 @@
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
+import Reply from '../models/reply.model.js';
 import Post from '../models/post.model.js';
 import Comment from '../models/comment.model.js';
 
@@ -27,7 +28,7 @@ export const getCommentsByUser = asyncHandler(async (req, res, next) => {
 
   const query = Comment.find({ author: userId });
 
-  const comments = await query.skip(skip).limit(limit);
+  const comments = await query.skip(skip).limit(limit).sort('-_id');
 
   return res.status(StatusCodes.OK).json({
     page,
@@ -112,6 +113,7 @@ export const deleteComment = asyncHandler(async (req, res, next) => {
     role === 'admin'
   ) {
     await Comment.findByIdAndDelete(commentId);
+    await Reply.deleteMany({ comment: commentId });
 
     return res.status(StatusCodes.NO_CONTENT).end();
   }

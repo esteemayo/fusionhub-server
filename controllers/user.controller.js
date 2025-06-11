@@ -7,8 +7,8 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/user.model.js';
 import Post from '../models/post.model.js';
 
+import Reply from '../models/reply.model.js';
 import Comment from '../models/comment.model.js';
-import ReplyComment from '../models/reply.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequesError } from './../errors/bad.request.error.js';
@@ -164,9 +164,9 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
 
   await User.findByIdAndUpdate(userId, { $set: { isActive: false } });
 
-  await Comment.deleteMany({ author: userId });
+  await Reply.deleteMany({ author: userId });
   await Post.deleteMany({ author: userId });
-  await ReplyComment.deleteMany({ author: userId });
+  await Comment.deleteMany({ author: userId });
 
   return res.status(StatusCodes.NO_CONTENT).end();
 });
