@@ -51,7 +51,9 @@ export const getUserStats = asyncHandler(async (req, res, next) => {
 export const getUserSavedPosts = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
-  const user = await User.findById(userId).populate('savedPosts');
+  const user = await User.findById(userId)
+    .populate('savedPosts')
+    .sort('-createdAt');
 
   if (!user) {
     return next(
@@ -120,31 +122,22 @@ export const savePost = asyncHandler(async (req, res, next) => {
 
   const isSaved = user.savedPosts.some((post) => String(post) === postId);
 
-  let updatedUser;
+  let update = {};
 
   if (!isSaved) {
-    updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        $push: { savedPosts: postId },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
+    update = {
+      $push: { savedPosts: postId },
+    };
   } else {
-    updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        $pull: { savedPosts: postId },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
+    update = {
+      $pull: { savedPosts: postId },
+    };
   }
+
+  const updatedUser = await User.findByIdAndUpdate(userId, update, {
+    new: true,
+    runValidators: true,
+  });
 
   setTimeout(() => {
     return res.status(StatusCodes.OK).json(updatedUser);
