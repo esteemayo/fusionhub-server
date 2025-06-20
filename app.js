@@ -35,7 +35,21 @@ const origin = devEnv ? DEV_URL : PROD_URL;
 
 app.set('trust proxy', 1);
 
-app.use(cors({ origin, credentials: true }));
+app.use(
+  cors({
+    origin: (originRequest, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+      if (originRequest === origin) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+);
+
 app.options('*', cors());
 
 app.use(helmet());
@@ -49,9 +63,9 @@ if (app.get('env') === 'development') {
 }
 
 const limiter = rateLimit({
-  max: 2500,
+  max: 200,
   windowMs: 15 * 60 * 1000,
-  message: 'Too many request from this IP, Please try again in 15 minutes',
+  message: 'Too many requests from this IP, please try again in 15 minutes',
 });
 
 app.use('/api', limiter);

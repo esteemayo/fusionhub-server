@@ -16,8 +16,8 @@ export const createSendGoogleToken = async (user, statusCode, req, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
-    sameSite: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production' ? true : false,
   });
 
   const { role, ...rest } = user._doc;

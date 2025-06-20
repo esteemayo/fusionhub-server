@@ -155,11 +155,27 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
     );
   }
 
-  await User.findByIdAndUpdate(userId, { $set: { isActive: false } });
+  await User.findByIdAndUpdate(userId, {
+    $set: { isActive: false, savedPosts: [] },
+  });
 
   await Reply.deleteMany({ author: userId });
   await Post.deleteMany({ author: userId });
   await Comment.deleteMany({ author: userId });
+
+  await Post.updateMany(
+    {},
+    {
+      $pull: {
+        likes: userId,
+        dislikes: userId,
+      },
+      $inc: {
+        likeCount: -1,
+        dislikeCount: -1,
+      },
+    },
+  );
 
   return res.status(StatusCodes.NO_CONTENT).end();
 });

@@ -438,27 +438,25 @@ export const updatePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (String(post.author) !== userId || role !== 'admin') {
-    return next(
-      new ForbiddenError(
-        'You do not have permission to perform this operation',
-      ),
+  if (String(post.author._id) === userId || role === 'admin') {
+    if (req.body.title)
+      req.body.slug = slugify(req.body.title, { lower: true, trim: true });
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $set: { ...req.body } },
+      {
+        new: true,
+        runValidators: true,
+      },
     );
+
+    return res.status(StatusCodes.OK).json(updatedPost);
   }
 
-  if (req.body.title)
-    req.body.slug = slugify(req.body.title, { lower: true, trim: true });
-
-  const updatedPost = await Post.findByIdAndUpdate(
-    postId,
-    { $set: { ...req.body } },
-    {
-      new: true,
-      runValidators: true,
-    },
+  return next(
+    new ForbiddenError('You do not have permission to perform this operation'),
   );
-
-  return res.status(StatusCodes.OK).json(updatedPost);
 });
 
 export const featurePost = asyncHandler(async (req, res, next) => {
@@ -610,17 +608,15 @@ export const deletePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (String(post.author) !== userId || role !== 'admin') {
-    return next(
-      new ForbiddenError(
-        'You do not have permission to perform this operation',
-      ),
-    );
+  if (String(post.author._id) === userId || role === 'admin') {
+    await Post.findByIdAndDelete(postId);
+
+    return res.status(StatusCodes.NO_CONTENT).end();
   }
 
-  await Post.findByIdAndDelete(postId);
-
-  return res.status(StatusCodes.NO_CONTENT).end();
+  return next(
+    new ForbiddenError('You do not have permission to perform this operation'),
+  );
 });
 
 export const getPostById = factory.getOneById(Post, 'post', 'comments');

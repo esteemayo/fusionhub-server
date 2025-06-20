@@ -49,10 +49,13 @@ const postSchema = new Schema(
     },
     tags: {
       type: [String],
-      validate: function (val) {
-        return val && val.length > 0;
+      validate: {
+        validator: function (val) {
+          return val && val.length > 0;
+        },
+        message: 'A post must have at least one tag',
       },
-      message: 'A post must have at least one tag',
+      set: (tags) => tags.map((tag) => tag.toLowerCase()),
     },
     views: {
       type: Number,
@@ -151,6 +154,7 @@ postSchema.statics.getFeaturedPosts = async function () {
     {
       $sort: {
         views: -1,
+        likeCount: -1,
         createdAt: -1,
       },
     },
@@ -172,7 +176,11 @@ postSchema.statics.getRandomPosts = async function () {
       $sample: { size: 2 },
     },
     {
-      $sort: { views: -1 },
+      $sort: {
+        views: -1,
+        likeCount: -1,
+        createdAt: -1,
+      },
     },
   ]);
 
@@ -183,13 +191,23 @@ postSchema.statics.getTopPost = async function () {
   const posts = await this.aggregate([
     {
       $match: {
-        // createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-        createdAt: { $lte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+        createdAt: { $gte: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000) },
         views: { $gte: 100 },
       },
     },
     {
-      $sort: { views: -1 },
+      $project: {
+        title: 1,
+        tags: 1,
+        createdAt: 1,
+      },
+    },
+    {
+      $sort: {
+        views: -1,
+        likeCount: -1,
+        createdAt: -1,
+      },
     },
     {
       $limit: 5,
