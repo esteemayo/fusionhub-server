@@ -164,16 +164,18 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
   await Comment.deleteMany({ author: userId });
 
   await Post.updateMany(
-    {},
+    { likes: userId },
     {
-      $pull: {
-        likes: userId,
-        dislikes: userId,
-      },
-      $inc: {
-        likeCount: -1,
-        dislikeCount: -1,
-      },
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    },
+  );
+
+  await Post.updateMany(
+    { dislikes: userId },
+    {
+      $pull: { dislikes: userId },
+      $inc: { dislikeCount: -1 },
     },
   );
 

@@ -173,6 +173,14 @@ postSchema.statics.getRandomPosts = async function () {
       },
     },
     {
+      $project: {
+        title: 1,
+        category: 1,
+        img: 1,
+        slug: 1,
+      },
+    },
+    {
       $sample: { size: 2 },
     },
     {
