@@ -149,6 +149,16 @@ postSchema.statics.getFeaturedPosts = async function () {
       },
     },
     {
+      $project: {
+        title: 1,
+        desc: 1,
+        img: 1,
+        slug: 1,
+        comments: 1,
+        createdAt: 1,
+      },
+    },
+    {
       $sample: { size: 5 },
     },
     {
@@ -207,6 +217,7 @@ postSchema.statics.getTopPost = async function () {
       $project: {
         title: 1,
         tags: 1,
+        slug: 1,
         createdAt: 1,
       },
     },
