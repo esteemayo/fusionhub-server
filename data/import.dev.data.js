@@ -13,7 +13,7 @@ import Comment from '../models/comment.model.js';
 import User from '../models/user.model.js';
 import Category from '../models/category.model.js';
 
-import connectDB from '../config/db.config.js';
+import { connectDB } from '../config/db.config.js';
 
 dotenv.config({ path: './config.env' });
 

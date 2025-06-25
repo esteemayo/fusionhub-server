@@ -322,6 +322,9 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
   const travelCountPromise = Post.countDocuments({ category: 'travel' });
   const sportCountPromise = Post.countDocuments({ category: 'sport' });
   const adventureCountPromise = Post.countDocuments({ category: 'adventure' });
+  const marketingCountPromise = Post.countDocuments({ category: 'marketing' });
+  const selfCountPromise = Post.countDocuments({ category: 'self improvement' });
+  const writingCountPromise = Post.countDocuments({ category: 'writing' });
 
   const [
     generalCount,
@@ -332,6 +335,9 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
     travelCount,
     sportCount,
     adventureCount,
+    marketingCount,
+    selfCount,
+    writingCount
   ] = await Promise.all([
     generalCountPromise,
     techCountPromise,
@@ -341,6 +347,9 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
     travelCountPromise,
     sportCountPromise,
     adventureCountPromise,
+    marketingCountPromise,
+    selfCountPromise,
+    writingCountPromise
   ]);
 
   const responseData = [
@@ -352,6 +361,9 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
     { category: 'travel', count: travelCount },
     { category: 'sport', count: sportCount },
     { category: 'adventure', count: adventureCount },
+    { category: 'marketing', count: marketingCount },
+    { category: 'self improvement', count: selfCount },
+    { category: 'writing', count: writingCount },
   ];
 
   return res.status(StatusCodes.OK).json(responseData);

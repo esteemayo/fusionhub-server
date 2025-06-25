@@ -18,7 +18,6 @@ router
   .get(commentController.getComments)
   .post(
     authMiddleware.protect,
-    authMiddleware.restrictTo('user'),
     commentController.createComment,
   );
 

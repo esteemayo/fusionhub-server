@@ -15,6 +15,8 @@ import { createSendToken } from './../utils/create.send.token.util.js';
 import { sendEmail } from './../utils/email.util.js';
 import { createSendGoogleToken } from '../utils/create.send.google.token.util.js';
 
+const devEnv = process.env.NODE_ENV !== 'production';
+
 export const register = asyncHandler(async (req, res, next) => {
   const user = await User.create({ ...req.body });
 
@@ -90,41 +92,87 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   const resetToken = user.changedPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password/${resetToken}`;
+  const baseUrl = devEnv
+    ? `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password`
+    : `${process.env.PROD_URL}/reset-password`;
+
+  const resetTokenUrl = `${baseUrl}/${resetToken}`;
+
+  const logoUrl = devEnv
+    ? `${process.env.DEV_URL}/svg/logo.svg`
+    : `${process.env.PROD_URL}/svg/logo.svg`;
+
+  const subject = devEnv
+    ? 'Fusion Hub (Development) – Password Reset Instructions'
+    : 'Fusion Hub – Password Reset Instructions';
 
   const message = `
-    Hello ${user.name},
-    There was a request to change your password.
-    If you did not make this request then please ignore this email.
-    Otherwise, please click this link to change your password: ${resetURL}
+    Hi ${user.name},
+
+    We received a request to reset the password for your Fusion Hub account. If you made this request, please use the link below to set a new password. This link is valid for 10 minutes:
+
+    Reset your password: ${resetTokenUrl}
+
+    If you did not request a password reset, please ignore this email. Your account will remain secure and no changes will be made.
+
+    If you need further assistance, feel free to contact our support team at support@fusionhub.app.
+
+    – The Fusion Hub Team
   `;
 
   const html = `
-    <div style='background: #f9f9f9; color: #555; padding: 50px; text-align: justify;'>
-      <h3>Hello ${user.name},</h3>
-      <p>There was a request to change your password.</p>
-      <p>If you did not make this request then please ignore this email.</p>
-      <p>Otherwise, please click this link to change your password: 
-        <a href='${resetURL}'>Reset my password →</a>
+    <div style="background: #f4f8fb; color: #222; padding: 40px 30px; border-radius: 8px; font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <img src="${logoUrl}" alt="Fusion Hub Logo" style="width: 200px;"/>
+      </div>
+      <h2 style="color: #2a4365;">Password Reset Request${devEnv ? ' (Development)' : ''}</h2>
+      <p style="font-size: 16px;">Hello <strong>${user.name}</strong>,</p>
+      <p style="font-size: 16px;">
+        We received a request to reset your Fusion Hub account password. If you made this request, please click the button below to set a new password. This link is valid for <strong>10 minutes</strong>.
       </p>
+      <div style="text-align: center; margin: 32px 0;">
+        <a href="${resetTokenUrl}" style="background: #3182ce; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 5px; font-size: 16px; font-weight: bold; display: inline-block;">
+          Reset Your Password
+        </a>
+      </div>
+      <p style="font-size: 15px; color: #555;">
+        If you did not request a password reset, you can safely ignore this email. Your password will remain unchanged.
+      </p>
+      <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 32px 0;">
+      <p style="font-size: 14px; color: #888;">
+        Need help? Contact our support team at <a href="mailto:support@fusionhub.app" style="color: #3182ce;">support@fusionhub.app</a>.
+      </p>
+      <p style="font-size: 14px; color: #888; margin-top: 24px;">
+        – The Fusion Hub Team
+      </p>
+      ${
+        devEnv
+          ? `<p style="font-size: 13px; color: rgb(250, 66, 66); margin-top: 24px;">
+            <strong>Note:</strong> This is a development environment email. In production, the reset link will be different.
+          </p>`
+          : ''
+      }
     </div>
   `;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Your password reset token (valid for 10 mins)',
+      subject,
       message,
       html,
     });
 
-    return res
-      .status(StatusCodes.OK)
-      .json('Token successfully sent to your email address');
+    return res.status(StatusCodes.OK).json({
+      message:
+        'A password reset link has been sent to your email address. Please check your inbox and follow the instructions to reset your password. The link will expire in 10 minutes.',
+      email: user.email,
+      success: true,
+    });
   } catch (err) {
     next(
       new CustomAPIError(
-        'There was an error sending the email, Try again later',
+        'We were unable to send the password reset email due to a server error. Please check your email address and try again in a few minutes. If the problem persists, contact support at support@fusionhub.app.',
       ),
     );
   }
@@ -147,6 +195,8 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
 
   user.password = password;
   user.passwordConfirm = passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
   await user.save();
 
   return createSendToken(user, StatusCodes.OK, req, res);
@@ -158,7 +208,7 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(userId).select('+password');
 
-  if (!user || !(await user.comparePassword(passwordCurrent))) {
+  if (!(await user.comparePassword(passwordCurrent))) {
     return next(new UnauthenticatedError('Your current password is incorrect'));
   }
 

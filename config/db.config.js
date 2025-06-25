@@ -13,7 +13,7 @@ const mongoURI = DATABASE.replace('<PASSWORD>', DATABASE_PASSWORD);
 
 const connectionStr = devEnv ? dbLocal : mongoURI;
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     const conn = await mongoose.connect(connectionStr);
     console.log(`Connected to Database → ${conn.connection.port}`.gray.bold);
@@ -38,5 +38,3 @@ db.on('error', (err) => {
 db.once('open', () => {
   console.log('Connected to MongoDB'.random.bold);
 });
-
-export default connectDB;
