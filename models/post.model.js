@@ -125,6 +125,21 @@ postSchema.statics.getTagsList = async function () {
       },
     },
     {
+      $project: {
+        _id: 0,
+        tag: '$_id',
+        count: 1,
+      },
+    },
+    {
+      $match: {
+        count: { $gte: 2 },
+      },
+    },
+    {
+      $sample: { size: 10 },
+    },
+    {
       $sort: { count: -1 },
     },
   ]);

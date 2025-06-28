@@ -16,11 +16,7 @@ router.get(
 router
   .route('/')
   .get(replyController.getReplies)
-  .post(
-    authMiddleware.protect,
-    authMiddleware.restrictTo('user'),
-    replyController.createReply,
-  );
+  .post(authMiddleware.protect, replyController.createReply);
 
 router
   .route('/:id')

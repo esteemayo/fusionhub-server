@@ -35,7 +35,7 @@ const replySchema = new Schema(
 replySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
-    select: 'name username image',
+    select: 'name username image role',
   });
 
   next();

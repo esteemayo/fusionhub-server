@@ -46,5 +46,23 @@
     "name": "adventure",
     "createdAt": "2025-04-09T17:30:59.745Z",
     "updatedAt": "2025-04-09T17:30:59.745Z"
+  },
+  {
+    "_id": "685ca299d68b4e41691442af",
+    "name": "marketing",
+    "createdAt": "2025-06-26T01:30:01.641Z",
+    "updatedAt": "2025-06-26T01:30:01.641Z"
+  },
+  {
+    "_id": "685ca2c5d68b4e41691442b3",
+    "name": "writing",
+    "createdAt": "2025-06-26T01:30:45.060Z",
+    "updatedAt": "2025-06-26T01:30:45.060Z"
+  },
+  {
+    "_id": "685ca2d9d68b4e41691442c8",
+    "name": "self improvement",
+    "createdAt": "2025-06-26T01:31:05.705Z",
+    "updatedAt": "2025-06-26T01:31:05.705Z"
   }
 ]
