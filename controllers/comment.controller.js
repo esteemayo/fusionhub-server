@@ -63,11 +63,10 @@ export const updateComment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (
-    String(comment.author._id) === userId ||
-    String(post.author._id) === userId ||
-    role === 'admin'
-  ) {
+  const isCommentAuthor = String(comment.author._id) === userId;
+  const isPostAuthor = String(post.author._id) === userId;
+
+  const updateAndRespond = async () => {
     const updatedComment = await Comment.findByIdAndUpdate(
       commentId,
       { $set: { ...req.body } },
@@ -78,6 +77,39 @@ export const updateComment = asyncHandler(async (req, res, next) => {
     );
 
     return res.status(StatusCodes.OK).json(updatedComment);
+  };
+
+  if (role === 'admin') {
+    const commentAuthor = comment.author;
+
+    if (!commentAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${comment.author._id}`,
+        ),
+      );
+    }
+
+    if (isCommentAuthor) {
+      return updateAndRespond();
+    }
+
+    if (commentAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot update comments from other admins'),
+      );
+    }
+
+    return updateAndRespond();
+  }
+
+  if (
+    isCommentAuthor ||
+    isPostAuthor ||
+    (post.author.role === 'admin' && isCommentAuthor) ||
+    (post.author.role === 'admin' && isPostAuthor)
+  ) {
+    return updateAndRespond();
   }
 
   return next(new ForbiddenError('You are not allowed to perform this action'));
@@ -107,10 +139,44 @@ export const deleteComment = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const isCommentAuthor = String(comment.author._id) === userId;
+  const isPostAuthor = String(post.author._id) === userId;
+
+  if (role === 'admin') {
+    const commentAuthor = comment.author;
+
+    if (!commentAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${comment.author._id}`,
+        ),
+      );
+    }
+
+    if (isCommentAuthor) {
+      await Comment.findByIdAndDelete(commentId);
+      await Reply.deleteMany({ comment: commentId });
+
+      return res.status(StatusCodes.NO_CONTENT).end();
+    }
+
+    if (commentAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot delete comments from other admins'),
+      );
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+    await Reply.deleteMany({ comment: commentId });
+
+    return res.status(StatusCodes.NO_CONTENT).end();
+  }
+
   if (
-    String(comment.author._id) === userId ||
-    String(post.author._id) === userId ||
-    role === 'admin'
+    isCommentAuthor ||
+    isPostAuthor ||
+    (post.author.role === 'admin' && isCommentAuthor) ||
+    (post.author.role === 'admin' && isPostAuthor)
   ) {
     await Comment.findByIdAndDelete(commentId);
     await Reply.deleteMany({ comment: commentId });

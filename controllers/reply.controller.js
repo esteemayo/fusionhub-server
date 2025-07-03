@@ -73,13 +73,12 @@ export const updateReply = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (
-    String(reply.author._id) === userId ||
-    String(comment.author._id) === userId ||
-    String(post.author._id) === userId ||
-    role === 'admin'
-  ) {
-    const updatedPost = await Reply.findByIdAndUpdate(
+  const isReplyAuthor = String(reply.author._id) === userId;
+  const isCommentAuthor = String(comment.author._id) === userId;
+  const isPostAuthor = String(post.author._id) === userId;
+
+  const updateAndRespond = async () => {
+    const updatedReply = await Reply.findByIdAndUpdate(
       replyId,
       { $set: { ...req.body } },
       {
@@ -88,7 +87,41 @@ export const updateReply = asyncHandler(async (req, res, next) => {
       },
     );
 
-    return res.status(StatusCodes.OK).json(updatedPost);
+    return res.status(StatusCodes.OK).json(updatedReply);
+  };
+
+  if (role === 'admin') {
+    const replyAuthor = reply.author;
+
+    if (!replyAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${reply.author?._id}`,
+        ),
+      );
+    }
+
+    if (isReplyAuthor) {
+      return updateAndRespond();
+    }
+
+    if (replyAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot update replies from other admins'),
+      );
+    }
+
+    return updateAndRespond();
+  }
+
+  if (
+    isReplyAuthor ||
+    isCommentAuthor ||
+    isPostAuthor ||
+    (post.author.role === 'admin' && isCommentAuthor) ||
+    (post.author.role === 'admin' && isPostAuthor)
+  ) {
+    return updateAndRespond();
   }
 
   return next(new ForbiddenError('You are not allowed to perform this action'));
@@ -128,14 +161,44 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const isReplyAuthor = String(reply.author._id) === userId;
+  const isCommentAuthor = String(comment.author._id) === userId;
+  const isPostAuthor = String(post.author._id) === userId;
+
+  if (role === 'admin') {
+    const replyAuthor = reply.author;
+
+    if (!replyAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${reply.author?._id}`,
+        ),
+      );
+    }
+
+    if (isReplyAuthor) {
+      await Reply.findByIdAndDelete(replyId);
+      return res.status(StatusCodes.NO_CONTENT).end();
+    }
+
+    if (replyAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot delete replies from other admins'),
+      );
+    }
+
+    await Reply.findByIdAndDelete(replyId);
+    return res.status(StatusCodes.NO_CONTENT).end();
+  }
+
   if (
-    String(reply.author._id) === userId ||
-    String(comment.author._id) === userId ||
-    String(post.author._id) === userId ||
-    role === 'admin'
+    isReplyAuthor ||
+    isCommentAuthor ||
+    isPostAuthor ||
+    (post.author.role === 'admin' && isCommentAuthor) ||
+    (post.author.role === 'admin' && isPostAuthor)
   ) {
     await Reply.findByIdAndDelete(replyId);
-
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 

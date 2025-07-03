@@ -323,7 +323,9 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
   const sportCountPromise = Post.countDocuments({ category: 'sport' });
   const adventureCountPromise = Post.countDocuments({ category: 'adventure' });
   const marketingCountPromise = Post.countDocuments({ category: 'marketing' });
-  const selfCountPromise = Post.countDocuments({ category: 'self improvement' });
+  const selfCountPromise = Post.countDocuments({
+    category: 'self improvement',
+  });
   const writingCountPromise = Post.countDocuments({ category: 'writing' });
 
   const [
@@ -337,7 +339,7 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
     adventureCount,
     marketingCount,
     selfCount,
-    writingCount
+    writingCount,
   ] = await Promise.all([
     generalCountPromise,
     techCountPromise,
@@ -349,7 +351,7 @@ export const getPostCountsByCategory = asyncHandler(async (req, res, next) => {
     adventureCountPromise,
     marketingCountPromise,
     selfCountPromise,
-    writingCountPromise
+    writingCountPromise,
   ]);
 
   const responseData = [
@@ -450,9 +452,19 @@ export const updatePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (String(post.author._id) === userId || role === 'admin') {
-    if (req.body.title)
+  const postAuthor = post.author;
+
+  const updatePostWithBody = async () => {
+    if (req.body.title) {
       req.body.slug = slugify(req.body.title, { lower: true, trim: true });
+    }
+
+    const slugRegEx = new RegExp(`^(${req.body.slug})((-[0-9]*$)?)$`, 'i');
+    const postWithSlug = await Post.find({ slug: slugRegEx });
+
+    if (postWithSlug.length) {
+      req.body.slug = `${req.body.slug}-${postWithSlug.length + 1}`;
+    }
 
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
@@ -464,6 +476,32 @@ export const updatePost = asyncHandler(async (req, res, next) => {
     );
 
     return res.status(StatusCodes.OK).json(updatedPost);
+  };
+
+  if (role === 'admin') {
+    if (!postAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${post.author._id}`,
+        ),
+      );
+    }
+
+    if (String(post.author._id) === userId) {
+      return updatePostWithBody();
+    }
+
+    if (postAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot update posts from other admins'),
+      );
+    }
+
+    return updatePostWithBody();
+  }
+
+  if (String(post.author._id) === userId) {
+    return updatePostWithBody();
   }
 
   return next(
@@ -620,9 +658,34 @@ export const deletePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (String(post.author._id) === userId || role === 'admin') {
-    await Post.findByIdAndDelete(postId);
+  const postAuthor = post.author;
 
+  if (role === 'admin') {
+    if (!postAuthor) {
+      return next(
+        new NotFoundError(
+          `There is no user found with the given ID → ${post.author._id}`,
+        ),
+      );
+    }
+
+    if (String(post.author._id) === userId) {
+      await Post.findByIdAndDelete(postId);
+      return res.status(StatusCodes.NO_CONTENT).end();
+    }
+
+    if (postAuthor.role === 'admin') {
+      return next(
+        new ForbiddenError('Admins cannot delete posts from other admins'),
+      );
+    }
+
+    await Post.findByIdAndDelete(postId);
+    return res.status(StatusCodes.NO_CONTENT).end();
+  }
+
+  if (String(post.author._id) === userId) {
+    await Post.findByIdAndDelete(postId);
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
