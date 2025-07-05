@@ -128,10 +128,22 @@ export const savePost = asyncHandler(async (req, res, next) => {
     update = {
       $push: { savedPosts: postId },
     };
+
+    await Post.findByIdAndUpdate(
+      postId,
+      { $push: { savedBy: userId }, $inc: { savedCount: 1 } },
+      { new: true, runValidators: true },
+    );
   } else {
     update = {
       $pull: { savedPosts: postId },
     };
+
+    await Post.findByIdAndUpdate(
+      postId,
+      { $pull: { savedBy: userId }, $inc: { savedCount: -1 } },
+      { new: true, runValidators: true },
+    );
   }
 
   const updatedUser = await User.findByIdAndUpdate(userId, update, {
@@ -176,6 +188,14 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
     {
       $pull: { dislikes: userId },
       $inc: { dislikeCount: -1 },
+    },
+  );
+
+  await Post.updateMany(
+    { savedBy: userId },
+    {
+      $pull: { savedBy: userId },
+      $inc: { savedCount: -1 },
     },
   );
 

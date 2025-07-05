@@ -34,6 +34,16 @@ const replySchema = new Schema(
 
 replySchema.pre(/^find/, function (next) {
   this.populate({
+    path: 'comment',
+    select: 'author',
+  })
+
+  this.populate({
+    path: 'post',
+    select: 'author',
+  });
+
+  this.populate({
     path: 'author',
     select: 'name username image role',
   });

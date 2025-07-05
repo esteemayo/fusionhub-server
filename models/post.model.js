@@ -66,6 +66,16 @@ const postSchema = new Schema(
       ref: 'User',
       required: [true, 'A post must have an author'],
     },
+    savedBy: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    savedCount: {
+      type: Number,
+      default: 0,
+    },
     slug: {
       type: String,
     },

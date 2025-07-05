@@ -103,12 +103,12 @@ export const updateComment = asyncHandler(async (req, res, next) => {
     return updateAndRespond();
   }
 
-  if (
+  const canUpdate =
     isCommentAuthor ||
     isPostAuthor ||
-    (post.author.role === 'admin' && isCommentAuthor) ||
-    (post.author.role === 'admin' && isPostAuthor)
-  ) {
+    (post.author.role === 'admin' && (isCommentAuthor || isPostAuthor));
+
+  if (canUpdate) {
     return updateAndRespond();
   }
 
@@ -172,12 +172,12 @@ export const deleteComment = asyncHandler(async (req, res, next) => {
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
-  if (
+  const canDelete =
     isCommentAuthor ||
     isPostAuthor ||
-    (post.author.role === 'admin' && isCommentAuthor) ||
-    (post.author.role === 'admin' && isPostAuthor)
-  ) {
+    (post.author.role === 'admin' && (isCommentAuthor || isPostAuthor));
+
+  if (canDelete) {
     await Comment.findByIdAndDelete(commentId);
     await Reply.deleteMany({ comment: commentId });
 

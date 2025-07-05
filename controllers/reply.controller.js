@@ -96,7 +96,7 @@ export const updateReply = asyncHandler(async (req, res, next) => {
     if (!replyAuthor) {
       return next(
         new NotFoundError(
-          `There is no user found with the given ID → ${reply.author?._id}`,
+          `There is no user found with the given ID → ${reply.author._id}`,
         ),
       );
     }
@@ -114,13 +114,14 @@ export const updateReply = asyncHandler(async (req, res, next) => {
     return updateAndRespond();
   }
 
-  if (
+  const canUpdate =
     isReplyAuthor ||
     isCommentAuthor ||
     isPostAuthor ||
-    (post.author.role === 'admin' && isCommentAuthor) ||
-    (post.author.role === 'admin' && isPostAuthor)
-  ) {
+    (post.author.role === 'admin' && (isCommentAuthor || isPostAuthor)) ||
+    (comment.author.role === 'admin' && (isCommentAuthor || isPostAuthor));
+
+  if (canUpdate) {
     return updateAndRespond();
   }
 
@@ -171,7 +172,7 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
     if (!replyAuthor) {
       return next(
         new NotFoundError(
-          `There is no user found with the given ID → ${reply.author?._id}`,
+          `There is no user found with the given ID → ${reply.author._id}`,
         ),
       );
     }
@@ -191,13 +192,14 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
-  if (
+  const canDelete =
     isReplyAuthor ||
     isCommentAuthor ||
     isPostAuthor ||
-    (post.author.role === 'admin' && isCommentAuthor) ||
-    (post.author.role === 'admin' && isPostAuthor)
-  ) {
+    (post.author.role === 'admin' && (isCommentAuthor || isPostAuthor)) ||
+    (comment.author.role === 'admin' && (isCommentAuthor || isPostAuthor));
+
+  if (canDelete) {
     await Reply.findByIdAndDelete(replyId);
     return res.status(StatusCodes.NO_CONTENT).end();
   }
