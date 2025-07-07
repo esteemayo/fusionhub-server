@@ -8,10 +8,12 @@ import * as replyController from '../controllers/reply.controller.js';
 const router = express.Router({ mergeParams: true });
 
 router.get(
-  '/user/:userId/replies',
+  '/:userId/user',
   authMiddleware.protect,
   replyController.getRepliesByUser,
 );
+
+router.patch('/:id/like', authMiddleware.protect, replyController.likeReply);
 
 router
   .route('/')

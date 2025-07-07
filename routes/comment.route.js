@@ -11,15 +11,22 @@ const router = express.Router({ mergeParams: true });
 
 router.use('/:commentId/replies', replyCommentRoute);
 
-router.get('/user/:userId/comments', commentController.getCommentsByUser);
+router.get(
+  '/:userId/user',
+  authMiddleware.protect,
+  commentController.getCommentsByUser,
+);
+
+router.patch(
+  '/:id/like',
+  authMiddleware.protect,
+  commentController.likeComment,
+);
 
 router
   .route('/')
   .get(commentController.getComments)
-  .post(
-    authMiddleware.protect,
-    commentController.createComment,
-  );
+  .post(authMiddleware.protect, commentController.createComment);
 
 router
   .route('/:id')

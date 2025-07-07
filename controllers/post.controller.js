@@ -594,6 +594,7 @@ export const likePost = asyncHandler(async (req, res, next) => {
 
   const updatedPost = await Post.findByIdAndUpdate(postId, update, {
     new: true,
+    timestamps: false,
     runValidators: true,
   });
 
@@ -640,6 +641,7 @@ export const dislikePost = asyncHandler(async (req, res, next) => {
 
   const updatedPost = await Post.findByIdAndUpdate(postId, update, {
     new: true,
+    timestamps: false,
     runValidators: true,
   });
 

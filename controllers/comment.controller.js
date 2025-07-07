@@ -115,6 +115,46 @@ export const updateComment = asyncHandler(async (req, res, next) => {
   return next(new ForbiddenError('You are not allowed to perform this action'));
 });
 
+export const likeComment = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: commentId } = req.params;
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    return next(
+      new NotFoundError(
+        `There is no comment found with the given ID → ${commentId}`,
+      ),
+    );
+  }
+
+  const isLiked =
+    comment.likes.some((like) => String(like) === userId) || false;
+
+  let update = {};
+
+  if (isLiked) {
+    update = {
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    };
+  } else {
+    update = {
+      $push: { likes: userId },
+      $inc: { likeCount: 1 },
+    };
+  }
+
+  const updatedComment = await Comment.findByIdAndUpdate(commentId, update, {
+    new: true,
+    timestamps: false,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedComment);
+});
+
 export const deleteComment = asyncHandler(async (req, res, next) => {
   const { id: commentId } = req.params;
   const { id: userId, role } = req.user;

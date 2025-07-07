@@ -128,6 +128,45 @@ export const updateReply = asyncHandler(async (req, res, next) => {
   return next(new ForbiddenError('You are not allowed to perform this action'));
 });
 
+export const likeReply = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: replyId } = req.params;
+
+  const reply = await Reply.findById(replyId);
+
+  if (!reply) {
+    return next(
+      new NotFoundError(
+        `There is no reply found with the given ID → ${replyId}`,
+      ),
+    );
+  }
+
+  const hasLiked = reply.likes.some((like) => String(like) === userId) || false;
+
+  let update = {};
+
+  if (!hasLiked) {
+    update = {
+      $push: { likes: userId },
+      $inc: { likeCount: 1 },
+    };
+  } else {
+    update = {
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    };
+  }
+
+  const updatedReply = await Reply.findByIdAndUpdate(replyId, update, {
+    new: true,
+    timestamps: false,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedReply);
+});
+
 export const deleteReply = asyncHandler(async (req, res, next) => {
   const { id: replyId } = req.params;
   const { id: userId, role } = req.user;

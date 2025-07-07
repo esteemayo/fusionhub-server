@@ -19,6 +19,16 @@ const commentSchema = new Schema(
       ref: 'User',
       required: [true, 'A comment must belong to an author'],
     },
+    likes: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

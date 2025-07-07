@@ -24,6 +24,16 @@ const replySchema = new Schema(
       ref: 'User',
       required: [true, 'A reply must belong to an author'],
     },
+    likes: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
@@ -36,7 +46,7 @@ replySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comment',
     select: 'author',
-  })
+  });
 
   this.populate({
     path: 'post',
