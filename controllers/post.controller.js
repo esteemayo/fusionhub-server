@@ -550,6 +550,7 @@ export const updateViews = asyncHandler(async (req, res, next) => {
     { $inc: { views: 1 } },
     {
       new: true,
+      timestamps: false,
       runValidators: true,
     },
   );

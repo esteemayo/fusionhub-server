@@ -131,8 +131,15 @@ export const savePost = asyncHandler(async (req, res, next) => {
 
     await Post.findByIdAndUpdate(
       postId,
-      { $push: { savedBy: userId }, $inc: { savedCount: 1 } },
-      { new: true, runValidators: true },
+      {
+        $push: { savedBy: userId },
+        $inc: { savedCount: 1 },
+      },
+      {
+        new: true,
+        timestamps: false,
+        runValidators: true,
+      },
     );
   } else {
     update = {
@@ -141,13 +148,21 @@ export const savePost = asyncHandler(async (req, res, next) => {
 
     await Post.findByIdAndUpdate(
       postId,
-      { $pull: { savedBy: userId }, $inc: { savedCount: -1 } },
-      { new: true, runValidators: true },
+      {
+        $pull: { savedBy: userId },
+        $inc: { savedCount: -1 },
+      },
+      {
+        new: true,
+        timestamps: false,
+        runValidators: true,
+      },
     );
   }
 
   const updatedUser = await User.findByIdAndUpdate(userId, update, {
     new: true,
+    timestamps: false,
     runValidators: true,
   });
 
@@ -181,6 +196,9 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
       $pull: { likes: userId },
       $inc: { likeCount: -1 },
     },
+    {
+      timestamps: false,
+    },
   );
 
   await Post.updateMany(
@@ -189,6 +207,9 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
       $pull: { dislikes: userId },
       $inc: { dislikeCount: -1 },
     },
+    {
+      timestamps: false,
+    },
   );
 
   await Post.updateMany(
@@ -196,6 +217,31 @@ export const deleteMe = asyncHandler(async (req, res, next) => {
     {
       $pull: { savedBy: userId },
       $inc: { savedCount: -1 },
+    },
+    {
+      timestamps: false,
+    },
+  );
+
+  await Comment.updateMany(
+    { likes: userId },
+    {
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    },
+    {
+      timestamps: false,
+    },
+  );
+
+  await Reply.updateMany(
+    { likes: userId },
+    {
+      $pull: { likes: userId },
+      $inc: { likeCount: -1 },
+    },
+    {
+      timestamps: false,
     },
   );
 
