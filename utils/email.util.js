@@ -28,8 +28,8 @@ export const sendEmail = async (options) => {
   }
 
   const mailOptions = {
-    from: `Fusion Hub Team <${process.env.MAIL_FROM}>`,
-    to: options.email,
+    from: options.from || `Fusion Hub Team <${process.env.MAIL_FROM}>`,
+    to: options.email || 'contact.support@fusionhub.app',
     subject: options.subject,
     text: options.message,
     html: options.html,

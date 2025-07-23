@@ -105,7 +105,7 @@ export const updateMe = asyncHandler(async (req, res, next) => {
     },
   );
 
-  return createSendToken(updatedUser, StatusCodes.OK, req, res);
+  return createSendToken(updatedUser, StatusCodes.OK, res);
 });
 
 export const savePost = asyncHandler(async (req, res, next) => {
@@ -262,7 +262,7 @@ export const deleteAvatar = asyncHandler(async (req, res, next) => {
   user.image = undefined;
   await user.save({ validateBeforeSave: false });
 
-  return createSendToken(user, StatusCodes.OK, req, res);
+  return createSendToken(user, StatusCodes.OK, res);
 });
 
 export const deleteBanner = asyncHandler(async (req, res, next) => {
@@ -279,7 +279,7 @@ export const deleteBanner = asyncHandler(async (req, res, next) => {
   user.banner = undefined;
   await user.save({ validateBeforeSave: false });
 
-  return createSendToken(user, StatusCodes.OK, req, res);
+  return createSendToken(user, StatusCodes.OK, res);
 });
 
 export const getMe = (req, res, next) => {

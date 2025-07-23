@@ -31,7 +31,7 @@ const userSchema = new Schema(
       required: [true, 'Please provide your email address'],
       unique: true,
       trim: true,
-      lowerCase: true,
+      lowercase: true,
       validate: {
         validator: function (val) {
           const emailRegex =

@@ -3,7 +3,7 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
-export const createSendToken = async (user, statusCode, req, res) => {
+export const createSendToken = async (user, statusCode, res) => {
   const token = user.generateAuthToken();
 
   const decodedToken = await promisify(jwt.verify)(
@@ -16,8 +16,8 @@ export const createSendToken = async (user, statusCode, req, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    sameSite: 'none',
+    secure: true,
   });
 
   const { password, role, ...rest } = user._doc;

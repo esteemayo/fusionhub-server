@@ -173,6 +173,12 @@ export const getTopPost = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
+export const getMostReadPosts = asyncHandler(async (req, res, next) => {
+  const posts = await Post.getMostReadPosts();
+
+  return res.status(StatusCodes.OK).json(posts);
+});
+
 export const getTrendingPosts = asyncHandler(async (req, res, next) => {
   const posts = await Post.find().sort('-views').limit(10);
 

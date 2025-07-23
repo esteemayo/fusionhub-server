@@ -261,6 +261,31 @@ postSchema.statics.getTopPost = async function () {
   return posts;
 };
 
+postSchema.statics.getMostReadPosts = async function () {
+  const posts = await this.aggregate([
+    {
+      $match: {
+        views: { $gte: 1000 },
+      },
+    },
+    {
+      $project: {
+        title: 1,
+        views: 1,
+        slug: 1,
+      },
+    },
+    {
+      $sort: { views: -1 },
+    },
+    {
+      $limit: 10,
+    },
+  ]);
+
+  return posts;
+};
+
 const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
 
 export default Post;

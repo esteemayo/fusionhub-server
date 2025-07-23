@@ -21,7 +21,7 @@ export const register = asyncHandler(async (req, res, next) => {
   const user = await User.create({ ...req.body });
 
   if (user) {
-    return createSendToken(user, StatusCodes.CREATED, req, res);
+    return createSendToken(user, StatusCodes.CREATED, res);
   }
 });
 
@@ -46,7 +46,7 @@ export const login = asyncHandler(async (req, res, next) => {
     );
   }
 
-  return createSendToken(user, StatusCodes.OK, req, res);
+  return createSendToken(user, StatusCodes.OK, res);
 });
 
 export const googleLogin = asyncHandler(async (req, res, next) => {
@@ -63,14 +63,14 @@ export const googleLogin = asyncHandler(async (req, res, next) => {
     return createSendGoogleToken(newUser, StatusCodes.CREATED, req, res);
   }
 
-  return createSendGoogleToken(user, StatusCodes.OK, req, res);
+  return createSendGoogleToken(user, StatusCodes.OK, res);
 });
 
 export const logout = (req, res, next) => {
   res
     .clearCookie('authToken', {
       sameSite: 'none',
-      secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+      secure: true,
     })
     .status(StatusCodes.OK)
     .json('User has been logged out');
@@ -145,13 +145,12 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
       <p style="font-size: 14px; color: #888; margin-top: 24px;">
         – The Fusion Hub Team
       </p>
-      ${
-        devEnv
-          ? `<p style="font-size: 13px; color: rgb(250, 66, 66); margin-top: 24px;">
+      ${devEnv
+      ? `<p style="font-size: 13px; color: rgb(250, 66, 66); margin-top: 24px;">
             <strong>Note:</strong> This is a development environment email. In production, the reset link will be different.
           </p>`
-          : ''
-      }
+      : ''
+    }
     </div>
   `;
 
@@ -199,7 +198,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  return createSendToken(user, StatusCodes.OK, req, res);
+  return createSendToken(user, StatusCodes.OK, res);
 });
 
 export const updatePassword = asyncHandler(async (req, res, next) => {
@@ -216,5 +215,5 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
   user.passwordConfirm = passwordConfirm;
   await user.save();
 
-  return createSendToken(user, StatusCodes.OK, req, res);
+  return createSendToken(user, StatusCodes.OK, res);
 });

@@ -21,6 +21,8 @@ router.get('/recent-posts', postController.getRecentPosts);
 
 router.get('/top-posts', postController.getTopPost);
 
+router.get('/most-read', postController.getMostReadPosts);
+
 router.get('/trends', postController.getTrendingPosts);
 
 router.get('/featured-posts', postController.getFeaturedPosts);
