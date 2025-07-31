@@ -14,13 +14,14 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import 'colors';
 
-import replyRoute from './routes/reply.route.js';
-import authRoute from './routes/auth.route.js';
 import commentRoute from './routes/comment.route.js';
-import postRoute from './routes/post.route.js';
+import authRoute from './routes/auth.route.js';
 import contactRoute from './routes/contact.route.js';
-import userRoute from './routes/users.route.js';
+import postRoute from './routes/post.route.js';
 import categoryRoute from './routes/category.route.js';
+import userRoute from './routes/users.route.js';
+import newsletterRouter from './routes/newsletter.route.js';
+import replyRoute from './routes/reply.route.js';
 
 import { NotFoundError } from './errors/not.found.error.js';
 import { errorHandlerMiddleware } from './middlewares/error.handler.middleware.js';
@@ -70,13 +71,14 @@ app.use(xss());
 
 app.use(compression());
 
-app.use('/api/v1/replies', replyRoute);
-app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/comments', commentRoute);
-app.use('/api/v1/posts', postRoute);
+app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/contacts', contactRoute);
-app.use('/api/v1/users', userRoute);
+app.use('/api/v1/posts', postRoute);
 app.use('/api/v1/categories', categoryRoute);
+app.use('/api/v1/users', userRoute);
+app.use('/api/v1/newsletter', newsletterRouter);
+app.use('/api/v1/replies', replyRoute);
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError(`Can't find ${req.originalUrl} on this server`));

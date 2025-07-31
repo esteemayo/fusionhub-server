@@ -11,7 +11,7 @@ import Reply from '../models/reply.model.js';
 import Comment from '../models/comment.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
-import { BadRequesError } from './../errors/bad.request.error.js';
+import { BadRequestError } from './../errors/bad.request.error.js';
 
 import * as factory from './handler.factory.controller.js';
 import { createSendToken } from '../utils/create.send.token.util.js';
@@ -70,7 +70,7 @@ export const updateMe = asyncHandler(async (req, res, next) => {
 
   if (password || passwordConfirm) {
     return next(
-      new BadRequesError(
+      new BadRequestError(
         `This route is not for password updates. Please use ${req.protocol}://${req.get('host')}/api/v1/auth/update-my-password`,
       ),
     );

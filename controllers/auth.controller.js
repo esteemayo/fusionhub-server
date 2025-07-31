@@ -6,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 
 import User from '../models/user.model.js';
 
-import { BadRequesError } from './../errors/bad.request.error.js';
+import { BadRequestError } from './../errors/bad.request.error.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { UnauthenticatedError } from '../errors/unauthenticated.error.js';
 import { CustomAPIError } from '../errors/cutom.api.error.js';
@@ -30,7 +30,7 @@ export const login = asyncHandler(async (req, res, next) => {
 
   if (!identifier || !password) {
     return next(
-      new BadRequesError('Please provide username/email and password'),
+      new BadRequestError('Please provide username/email and password'),
     );
   }
 
@@ -40,7 +40,7 @@ export const login = asyncHandler(async (req, res, next) => {
 
   if (!user || !(await user.comparePassword(password))) {
     return next(
-      new BadRequesError(
+      new BadRequestError(
         `That username/email and password combination didn't work. Try again.`,
       ),
     );
@@ -80,7 +80,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
 
   if (!email) {
-    return next(new BadRequesError('Please enter your email address'));
+    return next(new BadRequestError('Please enter your email address'));
   }
 
   const user = await User.findOne({ email });
@@ -189,7 +189,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new BadRequesError('Token is invalid or has expired'));
+    return next(new BadRequestError('Token is invalid or has expired'));
   }
 
   user.password = password;

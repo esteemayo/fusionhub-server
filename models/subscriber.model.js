@@ -1,19 +1,14 @@
+import crypto from 'crypto';
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const contactSchema = new Schema(
+const subscriberSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: [true, 'Please provide your name'],
-      trim: true,
-      minLength: [6, 'Your name cannot be less than 6 characters long'],
-      maxLength: [50, 'Your name cannot be more than 50 characters long'],
-    },
     email: {
       type: String,
       required: [true, 'Please provide your email address'],
+      unique: true,
       trim: true,
       lowercase: true,
       validate: {
@@ -26,18 +21,11 @@ const contactSchema = new Schema(
         message: 'Please enter a valid email address',
       },
     },
-    phone: {
+    confirmed: {
       type: String,
     },
-    subject: {
+    confirmationToken: {
       type: String,
-      required: [true, 'Please the subject cannot be empty'],
-      trim: true,
-    },
-    message: {
-      type: String,
-      required: [true, 'Please the message field cannot be empty'],
-      trim: true,
     },
   },
   {
@@ -45,7 +33,18 @@ const contactSchema = new Schema(
   },
 );
 
-const Contact =
-  mongoose.models.Contact || mongoose.model('Contact', contactSchema);
+subscriberSchema.methods.generateConfirmationToken = function () {
+  const confirmToken = crypto.randomBytes(20).toString('hex');
 
-export default Contact;
+  this.confirmationToken = crypto
+    .createHash('sha256')
+    .update(confirmToken)
+    .digest('hex');
+
+  return confirmToken;
+};
+
+const Subscriber =
+  mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
+
+export default Subscriber;

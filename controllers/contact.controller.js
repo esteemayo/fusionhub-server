@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
+import { htmlToText } from 'html-to-text';
 import asyncHandler from 'express-async-handler';
 
 import Contact from '../models/contact.model.js';
-import { CustomAPIError } from '../errors/cutom.api.error.js';
+import * as factory from './handler.factory.controller.js';
 
 import { sendEmail } from '../utils/email.util.js';
-import * as factory from './handler.factory.controller.js';
+import { CustomAPIError } from '../errors/cutom.api.error.js';
 
 export const createContact = asyncHandler(async (req, res, next) => {
   const contact = await Contact.create({ ...req.body });
@@ -17,6 +18,11 @@ export const createContact = asyncHandler(async (req, res, next) => {
     Subject:${contact.subject}\n
     Message:${contact.message}
   `;
+
+  const plainMessage = htmlToText(contact.message, {
+    wordwrap: false,
+    preserveNewlines: true,
+  });
 
   const html = `
     <table style="width:100%; max-width:600px; border-collapse:collapse; font-family:Arial,sans-serif;">
@@ -46,7 +52,9 @@ export const createContact = asyncHandler(async (req, res, next) => {
             <span font-weight:700;>Message:</span>
           </p>
           <div style="background:#fafafa; padding:16px; border-radius:4px; border:1px solid #eee; margin-top: 10px;">
-            <span style="font-family:inherit; font-size:15px; color: #515151;">${contact.message}</span>
+            <div style="font-family:inherit; font-size:15px; color: #515151;">
+              ${plainMessage}
+            </div>
           </div>
         </td>
       </tr>
@@ -72,7 +80,7 @@ export const createContact = asyncHandler(async (req, res, next) => {
       success: true,
     });
   } catch (err) {
-    next(new CustomAPIError('Server error. Pleasetry again later.'));
+    next(new CustomAPIError('Server error. Please try again later.'));
   }
 });
 
