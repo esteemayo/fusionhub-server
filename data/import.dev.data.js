@@ -1,9 +1,8 @@
 /* eslint-disable */
 
-import dotenv from 'dotenv';
+import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import path from 'path';
 
 import 'colors';
 
@@ -14,8 +13,6 @@ import User from '../models/user.model.js';
 import Category from '../models/category.model.js';
 
 import { connectDB } from '../config/db.config.js';
-
-dotenv.config({ path: './config.env' });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

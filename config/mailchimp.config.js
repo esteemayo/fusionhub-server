@@ -1,7 +1,10 @@
+/* eslint-disable */
+
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
-dotenv.config({ path: '../config/env' });
+dotenv.config({ path: './config.env' });
 
 mailchimp.setConfig({
   apiKey: process.env.MAIL_CHIMP_API_KEY,
@@ -24,5 +27,24 @@ export const addToMailchimp = async (email) => {
       return { alreadSubscribed: true };
     }
     throw new Error('Email already subscribed');
+  }
+};
+
+export const removeFromMailchimp = async (email) => {
+  try {
+    const hashedEmail = crypto
+      .createHash('md5')
+      .update(email.toLowerCase())
+      .digest('hex');
+
+    const res = await mailchimp.lists.updateListMember(
+      process.env.MAIL_CHIMP_AUDIENCE_ID,
+      hashedEmail,
+      { status: 'unsubscribed' },
+    );
+
+    return res;
+  } catch (err) {
+    throw new Error('Error unsubscribing from Mailchimp');
   }
 };

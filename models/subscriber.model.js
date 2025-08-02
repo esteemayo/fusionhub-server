@@ -21,10 +21,15 @@ const subscriberSchema = new Schema(
         message: 'Please enter a valid email address',
       },
     },
-    confirmed: {
+    status: {
       type: String,
+      enum: ['pending', 'confirmed', 'unsubscribed'],
+      default: 'pending',
     },
     confirmationToken: {
+      type: String,
+    },
+    unsubscribeToken: {
       type: String,
     },
   },
@@ -34,14 +39,25 @@ const subscriberSchema = new Schema(
 );
 
 subscriberSchema.methods.generateConfirmationToken = function () {
-  const confirmToken = crypto.randomBytes(20).toString('hex');
-
-  this.confirmationToken = crypto
-    .createHash('sha256')
-    .update(confirmToken)
+  const confirmToken = crypto
+    .createHmac('sha256', process.env.CONFIRMATION_SECRET)
+    .update(this.email + Date.now())
     .digest('hex');
 
+  this.confirmationToken = confirmToken;
+
   return confirmToken;
+};
+
+subscriberSchema.methods.generateUnsubscribeToken = function () {
+  const unsubscribeToken = crypto
+    .createHmac('sha256', process.env.UNSUBSCRIBE_SECRET)
+    .update(this.email + Date.now())
+    .digest('hex');
+
+  this.unsubscribeToken = unsubscribeToken;
+
+  return unsubscribeToken;
 };
 
 const Subscriber =

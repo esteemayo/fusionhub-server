@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { StatusCodes } from 'http-status-codes';
 import { htmlToText } from 'html-to-text';
 import asyncHandler from 'express-async-handler';
