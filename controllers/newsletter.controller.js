@@ -23,25 +23,25 @@ export const subscribe = asyncHandler(async (req, res, next) => {
 
   const existingSubscriber = await Subscriber.findOne({ email });
 
-  console.log('existingSubscriber: ', existingSubscriber);
-
   if (existingSubscriber && existingSubscriber.status === 'confirmed') {
     return res.status(StatusCodes.CONFLICT).json('Email already subscribed');
   }
 
-  const confirmToken = existingSubscriber.generateConfirmationToken();
+  let confirmToken;
 
   if (existingSubscriber) {
     existingSubscriber.status = 'pending';
+    confirmToken = existingSubscriber.generateConfirmationToken();
     await existingSubscriber.save();
   } else {
-    const subscriber = new Subscriber({ email });
+    const subscriber = new Subscriber({ email, status: 'pending' });
+    confirmToken = subscriber.generateConfirmationToken();
     await subscriber.save();
   }
 
   const baseUrl = devEnv
-    ? `${process.env.PROD_DEV}/confirm`
-    : `${process.env.PROD_URL}/confirm`;
+    ? `${req.protocol}://${req.get('host')}/api/v1/newsletter/subscribe/confirm`
+    : `${process.env.PROD_URL}/subscribe/confirm`;
 
   const confirmationUrl = `${baseUrl}?token=${confirmToken}&email=${encodeURIComponent(email)}`;
 
@@ -82,8 +82,9 @@ export const confirmSubscription = asyncHandler(async (req, res, next) => {
 
   const subscriber = await Subscriber.findOne({
     email,
-    confirmationToken: token,
     status: 'pending',
+    confirmationToken: token,
+    confirmationTokenExpires: { $gt: Date.now() },
   });
 
   if (!subscriber) {
@@ -92,9 +93,12 @@ export const confirmSubscription = asyncHandler(async (req, res, next) => {
 
   subscribe.status = 'confirmed';
   subscriber.confirmationToken = undefined;
+  subscriber.confirmationTokenExpires = undefined;
   await subscriber.save();
 
   const mcResponse = await mc.addToMailchimp(email);
+
+  console.log('MailChimp Response: ', mcResponse);
 
   if (mcResponse.alreadySubscribed) {
     return next(new BadRequestError('Email already subscribed to Mailchimp'));
@@ -122,8 +126,8 @@ export const unsubscribe = asyncHandler(async (req, res, next) => {
   await subscriber.save();
 
   const baseUrl = devEnv
-    ? `${process.env.PROD_DEV}/unsubscribe`
-    : `${process.env.PROD_URL}/unsubscribe`;
+    ? `${req.protocol}://${req.get('host')}/api/v1/newsletter/unsubscribe/confirm`
+    : `${process.env.PROD_URL}/unsubscribe/confirm`;
 
   const confirmationLink = `${baseUrl}?token=${token}&email=${encodeURIComponent(email)}`;
 
@@ -167,8 +171,9 @@ export const confirmUnsubscribe = asyncHandler(async (req, res, next) => {
 
   const subscriber = await Subscriber.findOne({
     email,
-    unsubscribeToken: token,
     status: 'confirmed',
+    unsubscribeToken: token,
+    unsubscribeTokenExpires: { $gt: Date.now() },
   });
 
   if (!subscriber) {
@@ -183,6 +188,7 @@ export const confirmUnsubscribe = asyncHandler(async (req, res, next) => {
 
   subscriber.status = 'unsubscribed';
   subscriber.unsubscribetoken = undefined;
+  subscriber.unsubscribeTokenExpires = undefined;
   await subscriber.save();
 
   return res.status(StatusCodes.OK).json({

@@ -29,8 +29,14 @@ const subscriberSchema = new Schema(
     confirmationToken: {
       type: String,
     },
+    confirmationTokenExpires: {
+      type: Date,
+    },
     unsubscribeToken: {
       type: String,
+    },
+    unsubscribeTokenExpires: {
+      type: Date,
     },
   },
   {
@@ -45,6 +51,7 @@ subscriberSchema.methods.generateConfirmationToken = function () {
     .digest('hex');
 
   this.confirmationToken = confirmToken;
+  this.confirmationTokenExpires = Date.now() + 30 * 60 * 1000;
 
   return confirmToken;
 };
@@ -56,6 +63,7 @@ subscriberSchema.methods.generateUnsubscribeToken = function () {
     .digest('hex');
 
   this.unsubscribeToken = unsubscribeToken;
+  this.unsubscribeTokenExpires = Date.now() + 30 * 60 * 1000;
 
   return unsubscribeToken;
 };
