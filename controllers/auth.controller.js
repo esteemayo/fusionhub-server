@@ -94,13 +94,13 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 
   const baseUrl = devEnv
     ? `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password`
-    : `${process.env.PROD_URL}/reset-password`;
+    : `${process.env.CLIENT_PROD_URL}/reset-password`;
 
   const resetTokenUrl = `${baseUrl}/${resetToken}`;
 
   const logoUrl = devEnv
-    ? `${process.env.DEV_URL}/svg/logo.svg`
-    : `${process.env.PROD_URL}/svg/logo.svg`;
+    ? `${process.env.CLIENT_DEV_URL}/svg/logo.svg`
+    : `${process.env.CLIENT_PROD_URL}/svg/logo.svg`;
 
   const subject = devEnv
     ? 'Fusion Hub (Development) – Password Reset Instructions'
@@ -145,12 +145,13 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
       <p style="font-size: 14px; color: #888; margin-top: 24px;">
         – The Fusion Hub Team
       </p>
-      ${devEnv
-      ? `<p style="font-size: 13px; color: rgb(250, 66, 66); margin-top: 24px;">
+      ${
+        devEnv
+          ? `<p style="font-size: 13px; color: rgb(250, 66, 66); margin-top: 24px;">
             <strong>Note:</strong> This is a development environment email. In production, the reset link will be different.
           </p>`
-      : ''
-    }
+          : ''
+      }
     </div>
   `;
 

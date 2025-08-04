@@ -31,9 +31,9 @@ dotenv.config({ path: './config.env' });
 const app = express();
 
 const devEnv = process.env.NODE_ENV !== 'production';
-const { DEV_URL, PROD_URL } = process.env;
+const { CLIENT_DEV_URL, CLIENT_PROD_URL } = process.env;
 
-const origin = devEnv ? DEV_URL : PROD_URL;
+const origin = devEnv ? CLIENT_DEV_URL : CLIENT_PROD_URL;
 
 app.set('trust proxy', 1);
 

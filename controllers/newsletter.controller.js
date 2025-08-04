@@ -41,7 +41,7 @@ export const subscribe = asyncHandler(async (req, res, next) => {
 
   const baseUrl = devEnv
     ? `${req.protocol}://${req.get('host')}/api/v1/newsletter/subscribe/confirm`
-    : `${process.env.PROD_URL}/subscribe/confirm`;
+    : `${process.env.CLIENT_PROD_URL}/subscribe/confirm`;
 
   const confirmationUrl = `${baseUrl}?token=${confirmToken}&email=${encodeURIComponent(email)}`;
 
@@ -127,7 +127,7 @@ export const unsubscribe = asyncHandler(async (req, res, next) => {
 
   const baseUrl = devEnv
     ? `${req.protocol}://${req.get('host')}/api/v1/newsletter/unsubscribe/confirm`
-    : `${process.env.PROD_URL}/unsubscribe/confirm`;
+    : `${process.env.CLIENT_PROD_URL}/unsubscribe/confirm`;
 
   const confirmationLink = `${baseUrl}?token=${token}&email=${encodeURIComponent(email)}`;
 
