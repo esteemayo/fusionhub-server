@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-import dotenv from 'dotenv';
 import crypto from 'crypto';
+import dotenv from 'dotenv';
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
 dotenv.config({ path: './config.env' });
@@ -24,8 +24,9 @@ export const addToMailchimp = async (email) => {
     return res;
   } catch (err) {
     if (err.response && err.response.body.title === 'Member Exists') {
-      return { alreadSubscribed: true };
+      return { alreadySubscribed: true };
     }
+
     throw new Error('Email already subscribed');
   }
 };
@@ -45,6 +46,10 @@ export const removeFromMailchimp = async (email) => {
 
     return res;
   } catch (err) {
+    if (err.response && err.response.body.title === 'Member Not Found') {
+      return { alreadyUnsubscribed: true };
+    }
+
     throw new Error('Error unsubscribing from Mailchimp');
   }
 };

@@ -45,19 +45,24 @@ export const subscribe = asyncHandler(async (req, res, next) => {
 
   const confirmationUrl = `${baseUrl}?token=${confirmToken}&email=${encodeURIComponent(email)}`;
 
-  const text = `Please confirm your subscription by clicking the link: ${confirmationUrl}`;
+  const message = `Please confirm your subscription by clicking the link: ${confirmationUrl}`;
 
   const html = `
     <div>
       <p>Please confirm your subscription by clicking the link below</p>
       <a href=${confirmationUrl}>Confirm Subscription</a>
+      <p>If you did not request this, you can ignore this email.</p>
+      <p>
+        If you wish to unsubscribe from our newsletter, please click the
+        link in the email you received or contact us directly.
+      </p>
     </div>
   `;
 
   try {
     await sendEmail({
-      subject: 'Confirm your subscription',
-      text,
+      subject: 'Confirm your Subscription',
+      message,
       html,
     });
 
@@ -91,17 +96,17 @@ export const confirmSubscription = asyncHandler(async (req, res, next) => {
     return next(new BadRequestError('Invalid or expired token'));
   }
 
-  subscribe.status = 'confirmed';
-  subscriber.confirmationToken = undefined;
-  subscriber.confirmationTokenExpires = undefined;
-  await subscriber.save();
-
   const mcResponse = await mc.addToMailchimp(email);
-
-  console.log('MailChimp Response: ', mcResponse);
 
   if (mcResponse.alreadySubscribed) {
     return next(new BadRequestError('Email already subscribed to Mailchimp'));
+  }
+
+  if (mcResponse.status === 'subscribed') {
+    subscriber.status = 'confirmed';
+    subscriber.confirmationToken = undefined;
+    subscriber.confirmationTokenExpires = undefined;
+    await subscriber.save();
   }
 
   return res.status(StatusCodes.CREATED).json({
@@ -131,22 +136,23 @@ export const unsubscribe = asyncHandler(async (req, res, next) => {
 
   const confirmationLink = `${baseUrl}?token=${token}&email=${encodeURIComponent(email)}`;
 
-  const text = `Click the link below to confirm your unsubscription: ${confirmationLink}`;
+  const message = `Click the link below to confirm your unsubscription: ${confirmationLink}`;
 
   const html = `
-    <div>
-      <p>You requested to unsubscribe from our newsletter.</p>
-      <p>Click the link below to confirm your unsubscription:</p>
-      <a href=${confirmationLink}>Confirm Unsubscription</a>
-      <p>If you didn't request this, you can safely ignore this email.</p>
+    <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 24px; border-radius: 8px; max-width: 480px; margin: auto;">
+      <h2 style="color: #e9004f;">Unsubscribe Request</h2>
+      <p style="font-size: 16px; color: #333;">You requested to unsubscribe from our newsletter.</p>
+      <p style="font-size: 16px; color: #333;">Click the link below to confirm your unsubscription:</p>
+      <a href="${confirmationLink}" style="display: inline-block; padding: 12px 24px; background: #e9004f; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold;">Confirm Unsubscription</a>
+      <p style="font-size: 14px; color: #888; margin-top: 24px;">If you didn't request this, you can safely ignore this email.</p>
     </div>
   `;
 
   try {
     await sendEmail({
       to: email,
-      subject: 'Confirm your unsubscription',
-      text,
+      subject: 'Confirm your Unsubscription',
+      message,
       html,
     });
 
@@ -186,10 +192,12 @@ export const confirmUnsubscribe = asyncHandler(async (req, res, next) => {
     return next(new CustomAPIError('Error unsubscribing from Mailchimp'));
   }
 
-  subscriber.status = 'unsubscribed';
-  subscriber.unsubscribetoken = undefined;
-  subscriber.unsubscribeTokenExpires = undefined;
-  await subscriber.save();
+  if (mcResponse.status === 'unsubscribed') {
+    subscriber.status = 'unsubscribed';
+    subscriber.unsubscribeToken = undefined;
+    subscriber.unsubscribeTokenExpires = undefined;
+    await subscriber.save();
+  }
 
   return res.status(StatusCodes.OK).json({
     message: 'You have successfully unsubscribed from our newsletter',

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/subscribe/confirm', newsletterController.confirmSubscription);
 
-router.get('/unsubscribe/confirm', newsletterController.confirmSubscription);
+router.get('/unsubscribe/confirm', newsletterController.confirmUnsubscribe);
 
 router.post('/subscribe/init', newsletterController.subscribe);
 

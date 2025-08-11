@@ -38,7 +38,6 @@ const origin = devEnv ? CLIENT_DEV_URL : CLIENT_PROD_URL;
 app.set('trust proxy', 1);
 
 app.use(cors({ origin, credentials: true }));
-app.options('*', cors());
 
 app.use(helmet());
 
