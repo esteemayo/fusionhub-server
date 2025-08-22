@@ -6,11 +6,13 @@ import { fileURLToPath } from 'url';
 
 import 'colors';
 
-import Reply from '../models/reply.model.js';
-import Post from '../models/post.model.js';
 import Comment from '../models/comment.model.js';
+import Post from '../models/post.model.js';
+import Contact from '../models/contact.model.js';
 import User from '../models/user.model.js';
 import Category from '../models/category.model.js';
+import Reply from '../models/reply.model.js';
+import Subscriber from '../models/subscriber.model.js';
 
 import { connectDB } from '../config/db.config.js';
 
@@ -30,16 +32,24 @@ const comments = JSON.parse(
 const replies = JSON.parse(
   fs.readFileSync(`${__dirname}/replies.json`, 'utf-8'),
 );
+const contacts = JSON.parse(
+  fs.readFileSync(`${__dirname}/contacts.json`, 'utf-8'),
+);
+const subscribers = JSON.parse(
+  fs.readFileSync(`${__dirname}/subscribers.json`, 'utf-8'),
+);
 
 const importData = async () => {
   try {
     console.log('👌✌👌 Loading data...'.cyan.bold);
 
-    await Reply.create(replies);
-    await Post.create(posts);
     await Comment.create(comments);
-    await User.create(users, { validateBeforeSave: false });
+    await Post.create(posts);
+    await Contact.create(contacts);
+    await Reply.create(replies);
+    await Subscriber.create(subscribers);
     await Category.create(categories);
+    await User.create(users, { validateBeforeSave: false });
 
     console.log(
       '👍👍👍👍👍👍👍👍 Data successfully loaded! 👍👍👍👍👍👍👍👍'.green.bold,
@@ -55,11 +65,13 @@ const deleteData = async () => {
   try {
     console.log('😢😢 Goodbye Data...'.red.bold);
 
-    await Reply.deleteMany();
+    await Contact.deleteMany();
     await Post.deleteMany();
     await Comment.deleteMany();
     await User.deleteMany();
     await Category.deleteMany();
+    await Reply.deleteMany();
+    await Subscriber.deleteMany();
 
     console.log(
       'Data successfully deleted! To load sample data, run\n\n\t npm run sample\n\n'

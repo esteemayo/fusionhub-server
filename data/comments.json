@@ -4,22 +4,28 @@
     "content": "This is a very beautiful article.",
     "post": "67183d6ce7a63f6c57042cea",
     "author": "6717d506f085fd00082dbe9e",
+    "likeCount": 1,
+    "likes": ["67f47b1520c965fa85f37a04"],
     "createdAt": "2024-10-23T17:24:50.432Z",
     "updatedAt": "2024-10-23T17:24:50.432Z"
   },
   {
     "_id": "67198ae1931f5ed6dfb2a13d",
-    "content": "whao whao whao!!!",
+    "content": "Testing all edge cases is a valid way of ensuring your endpoints are working as intended!",
     "post": "67183d6ce7a63f6c57042cea",
     "author": "6717d5e2f085fd00082dbea5",
+    "likeCount": 1,
+    "likes": ["67f47b1520c965fa85f37a04"],
     "createdAt": "2024-10-23T23:46:41.321Z",
-    "updatedAt": "2024-10-23T23:46:41.321Z"
+    "updatedAt": "2025-06-10T01:00:01.161Z"
   },
   {
     "_id": "67198b1e931f5ed6dfb2a140",
     "content": "What a beautiful write up...",
     "post": "671835dabd0746c3504607c6",
     "author": "6717d5e2f085fd00082dbea5",
+    "likeCount": 2,
+    "likes": ["67f47b1520c965fa85f37a04", "6717d41bf085fd00082dbe98"],
     "createdAt": "2024-10-23T23:47:42.715Z",
     "updatedAt": "2024-10-23T23:47:42.715Z"
   },
@@ -28,6 +34,13 @@
     "content": "I can't simply get enough of this article...The best i ever read...",
     "post": "671835dabd0746c3504607c6",
     "author": "6717d506f085fd00082dbe9e",
+    "likeCount": 4,
+    "likes": [
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "6717d41bf085fd00082dbe98"
+    ],
     "createdAt": "2024-10-23T23:48:45.234Z",
     "updatedAt": "2024-10-23T23:48:45.234Z"
   },
@@ -36,6 +49,8 @@
     "content": "Beautiful is an understatement!",
     "post": "671835dabd0746c3504607c6",
     "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 2,
+    "likes": ["6717d41bf085fd00082dbe98", "671a5ac8c645d68f5d52e3d0"],
     "createdAt": "2024-10-24T14:35:58.838Z",
     "updatedAt": "2024-10-24T14:35:58.838Z"
   },
@@ -44,6 +59,12 @@
     "content": "The title \"An Introduction into Frontend Development\" is clear and straightforward, \nmaking it suitable for beginners who are looking to explore the basics of frontend development. \nHowever, the word \"into\" could be replaced with \"to\" for better grammatical accuracy, \nresulting in \"An Introduction to Frontend Development.\" \nThis minor adjustment would make the title more polished and professional.",
     "post": "671835dabd0746c3504607c6",
     "author": "682016e9149690d2262926dc",
+    "likeCount": 3,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04"
+    ],
     "createdAt": "2025-05-20T18:09:28.928Z",
     "updatedAt": "2025-05-20T18:09:28.928Z"
   },
@@ -52,23 +73,181 @@
     "content": "I'm a very passionate person for frontend development, reading this article has added to my love for frontend web development and design...thank you so much for this very wonderful piece!",
     "post": "671835dabd0746c3504607c6",
     "author": "682016e9149690d2262926dc",
+    "likeCount": 3,
+    "likes": [
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "6717d41bf085fd00082dbe98"
+    ],
     "createdAt": "2025-05-21T12:52:48.501Z",
-    "updatedAt": "2025-05-26T13:07:28.459Z"
+    "updatedAt": "2025-05-21T12:52:48.501Z"
   },
   {
     "_id": "68335d8a233942a7a84deb59",
-    "content": "I'm very passionate for backend web development, reading this article has added to my love for backend development. Thank you so much for this very great article!",
+    "content": "I'm very passionate for backend web development, reading this article has added to my love for backend development. Thank you so much for this very great article!!!",
     "post": "67183a015b3589789398fc86",
     "author": "682016e9149690d2262926dc",
+    "likeCount": 5,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "6717d5e2f085fd00082dbea5",
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "createdAt": "2025-05-25T18:12:26.148Z",
-    "updatedAt": "2025-05-25T20:19:04.957Z"
+    "updatedAt": "2025-05-25T18:12:26.148Z"
   },
   {
-    "_id": "68337c11233942a7a84df118",
-    "content": "Testing create comment and update functionalities...",
-    "post": "67183a015b3589789398fc86",
-    "author": "682016e9149690d2262926dc",
-    "createdAt": "2025-05-25T20:22:41.764Z",
-    "updatedAt": "2025-05-25T20:23:44.723Z"
+    "_id": "684652a6dd8c1e87164377af",
+    "content": "A very beautiful write up...well done 👋",
+    "post": "67ed8dedf3926f5008aeb89b",
+    "author": "67ee9fe1aa3db2f8c8f50ff9",
+    "likeCount": 0,
+    "likes": [],
+    "createdAt": "2025-06-09T03:19:02.200Z",
+    "updatedAt": "2025-06-09T03:19:02.200Z"
+  },
+  {
+    "_id": "685699e2d0658fb08c99f3f4",
+    "content": "I've always wanted to dive into learning frontend web development for a very long time now...i feels this is a cue for me to start learning!",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671fc2c49096dc32b4c11820",
+    "likeCount": 7,
+    "likes": [
+      "67f47b1520c965fa85f37a04",
+      "682016e9149690d2262926dc",
+      "671a5ac8c645d68f5d52e3d0",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "6717d41bf085fd00082dbe98",
+      "67ee9e5daa3db2f8c8f50fcf",
+      "67eea03aaa3db2f8c8f51007"
+    ],
+    "createdAt": "2025-06-21T11:39:14.877Z",
+    "updatedAt": "2025-06-21T11:39:14.877Z"
+  },
+  {
+    "_id": "68569a44d0658fb08c99f431",
+    "content": "Frontend engineering is so cool and fun. Anyways, thumbs up for the good write up",
+    "post": "671835dabd0746c3504607c6",
+    "author": "67ee9fe1aa3db2f8c8f50ff9",
+    "likeCount": 3,
+    "likes": [
+      "67f47b1520c965fa85f37a04",
+      "682016e9149690d2262926dc",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-06-21T11:40:52.232Z",
+    "updatedAt": "2025-06-21T11:40:52.232Z"
+  },
+  {
+    "_id": "68569ab3d0658fb08c99f482",
+    "content": "What a great article!",
+    "post": "671835dabd0746c3504607c6",
+    "author": "67ee9f4aaa3db2f8c8f50fe4",
+    "likeCount": 3,
+    "likes": [
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "682016e9149690d2262926dc",
+      "6717d41bf085fd00082dbe98"
+    ],
+    "createdAt": "2025-06-21T11:42:43.799Z",
+    "updatedAt": "2025-06-21T11:42:43.799Z"
+  },
+  {
+    "_id": "68569b59d0658fb08c99f51c",
+    "content": "What more can i say. Thank you for inspiring the newbies with this exquisite article!",
+    "post": "671835dabd0746c3504607c6",
+    "author": "67eea03aaa3db2f8c8f51007",
+    "likeCount": 2,
+    "likes": ["6717d41bf085fd00082dbe98", "682016e9149690d2262926dc"],
+    "createdAt": "2025-06-21T11:45:29.813Z",
+    "updatedAt": "2025-06-21T11:45:29.813Z"
+  },
+  {
+    "_id": "68569bbd3f010863151329c4",
+    "content": "Thank you buddy 🖤🖤🖤",
+    "post": "671835dabd0746c3504607c6",
+    "author": "67ee9ed8aa3db2f8c8f50fd6",
+    "likeCount": 7,
+    "likes": [
+      "682016e9149690d2262926dc",
+      "671a5ac8c645d68f5d52e3d0",
+      "6717d5e2f085fd00082dbea5",
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "67ee9e5daa3db2f8c8f50fcf"
+    ],
+    "createdAt": "2025-06-21T11:47:09.508Z",
+    "updatedAt": "2025-06-21T11:47:09.508Z"
+  },
+  {
+    "_id": "685f5f0b47427d739a6a856c",
+    "content": "The description of this book \"An Introduction to Cloud Computing\" is clear and to-the-point, and it would attract many other readers who want to understand what the cloud is all about. It hints that it will talk about fundamental concepts, such as cloud services, deployment models, and its advantages, in a beginner accessible manner.",
+    "post": "671839245b3589789398fc80",
+    "author": "6717d41bf085fd00082dbe98",
+    "likeCount": 5,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "6717d5e2f085fd00082dbea5",
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-06-28T03:18:35.959Z",
+    "updatedAt": "2025-07-01T18:09:34.159Z"
+  },
+  {
+    "_id": "686423297c501e2c6ed166c8",
+    "content": "The title itself, “The 10 Most Ridiculous Excuses For Not Exercising,” is catchy and fun, which readers who are seeking lighter fare are likely to be attracted to. It seems like it could be a light and humorous look at some of the most common excuses people use, but aspires to inspire readers to ignore such excuses and put fitness first.",
+    "post": "67ed949a529857ee4292a048",
+    "author": "6717d41bf085fd00082dbe98",
+    "likeCount": 3,
+    "likes": [
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-07-01T18:04:25.968Z",
+    "updatedAt": "2025-07-01T18:04:25.968Z"
+  },
+  {
+    "_id": "686489e754aebc87f70b5351",
+    "content": "Your story isn’t just about business success—it’s about purpose, perseverance, and impact. Thanks for sharing such an authentic and empowering narrative. Here's to continued growth and to inspiring the next wave of dreamers and doers! 🙌",
+    "post": "67ed8dedf3926f5008aeb89b",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 3,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-07-02T01:22:47.703Z",
+    "updatedAt": "2025-07-02T01:22:47.703Z"
+  },
+  {
+    "_id": "68648aff54aebc87f70b548b",
+    "content": "🌟 So inspiring and this post is truly reflective! From visionary dreaming to resilient, persistent entrepreneur who is met with obstacles yet still holds strong because they know their vision is so true. I particularly respect your ability to square the strategic circle between planning and adaption, pivoting when necessary while keeping your eye on the prize and assembling a strong team with shared values.",
+    "post": "67ed8dedf3926f5008aeb89b",
+    "author": "6717d41bf085fd00082dbe98",
+    "likeCount": 3,
+    "likes": [
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-07-02T01:27:27.668Z",
+    "updatedAt": "2025-07-02T01:27:27.668Z"
+  },
+  {
+    "_id": "68a12befa8bec3fc88b77ccf",
+    "content": "Exercise doesn't have to be boring! Find an activity you enjoy, whether it's dancing, hiking, or playing a sport, and make it a fun part of your routine. You can also mix it up by trying new things or working out with a friend to keep it engaging and exciting.",
+    "post": "67ed949a529857ee4292a048",
+    "author": "67ee9f7baa3db2f8c8f50feb",
+    "likes": ["67ee9f7baa3db2f8c8f50feb"],
+    "likeCount": 1,
+    "createdAt": "2025-08-17T01:10:07.425+00:00",
+    "updatedAt": "2025-08-17T01:10:07.425+00:00"
   }
 ]

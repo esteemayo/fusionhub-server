@@ -6,9 +6,21 @@
     "category": "technology",
     "img": "/post-1.jpg",
     "isFeatured": true,
-    "likes": ["682016e9149690d2262926dc", "6717d41bf085fd00082dbe98"],
+    "likes": [
+      "682016e9149690d2262926dc",
+      "671a5ac8c645d68f5d52e3d0",
+      "6717d5e2f085fd00082dbea5",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "6717d41bf085fd00082dbe98",
+      "67ee9e5daa3db2f8c8f50fcf",
+      "67ee9f4aaa3db2f8c8f50fe4",
+      "67eea03aaa3db2f8c8f51007",
+      "67ee9f7baa3db2f8c8f50feb",
+      "671fbd17ad9ca1028d835267"
+    ],
     "dislikes": [],
-    "likeCount": 2,
+    "likeCount": 11,
     "dislikeCount": 0,
     "tags": [
       "frontend development",
@@ -21,11 +33,19 @@
       "web design",
       "user experience"
     ],
-    "views": 1000091,
+    "views": 2500561,
     "author": "6717d41bf085fd00082dbe98",
+    "savedBy": [
+      "682016e9149690d2262926dc",
+      "671a5ac8c645d68f5d52e3d0",
+      "67ee9f4aaa3db2f8c8f50fe4",
+      "67eea03aaa3db2f8c8f51007",
+      "67ee9f7baa3db2f8c8f50feb"
+    ],
+    "savedCount": 5,
     "slug": "an-introduction-to-frontend-development",
     "createdAt": "2024-10-22T23:31:38.714Z",
-    "updatedAt": "2025-06-01T21:47:42.209Z"
+    "updatedAt": "2025-07-07T18:29:15.665Z"
   },
   {
     "_id": "671839245b3589789398fc80",
@@ -34,9 +54,14 @@
     "category": "technology",
     "img": "/post-2.jpeg",
     "isFeatured": true,
-    "likes": ["6717d506f085fd00082dbe9e", "682016e9149690d2262926dc"],
+    "likes": [
+      "6717d506f085fd00082dbe9e",
+      "682016e9149690d2262926dc",
+      "6717d41bf085fd00082dbe98",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "dislikes": [],
-    "likeCount": 2,
+    "likeCount": 4,
     "dislikeCount": 0,
     "tags": [
       "cloud computing",
@@ -45,11 +70,13 @@
       "innovation",
       "security"
     ],
-    "views": 354,
+    "views": 800018,
     "author": "6717d5e2f085fd00082dbea5",
+    "savedBy": [],
+    "savedCount": 0,
     "slug": "an-introduction-to-cloud-computing",
     "createdAt": "2024-10-22T23:45:40.192Z",
-    "updatedAt": "2025-05-30T20:05:48.503Z"
+    "updatedAt": "2025-07-07T18:29:35.130Z"
   },
   {
     "_id": "67183a015b3589789398fc86",
@@ -58,9 +85,14 @@
     "category": "technology",
     "img": "/post-3.jpeg",
     "isFeatured": true,
-    "likes": ["682016e9149690d2262926dc", "6717d41bf085fd00082dbe98"],
+    "likes": [
+      "682016e9149690d2262926dc",
+      "6717d41bf085fd00082dbe98",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "671fc2c49096dc32b4c11820"
+    ],
     "dislikes": [],
-    "likeCount": 2,
+    "likeCount": 4,
     "dislikeCount": 0,
     "tags": [
       "backend",
@@ -70,11 +102,13 @@
       "security",
       "performance"
     ],
-    "views": 445,
+    "views": 1000896,
     "author": "6717d506f085fd00082dbe9e",
+    "savedBy": [],
+    "savedCount": 0,
     "slug": "fundamentals-of-backend-engineering",
     "createdAt": "2024-10-22T23:49:21.487Z",
-    "updatedAt": "2025-06-01T03:14:17.854Z"
+    "updatedAt": "2025-07-07T18:29:41.512Z"
   },
   {
     "_id": "67183d6ce7a63f6c57042cea",
@@ -83,16 +117,22 @@
     "category": "fashion",
     "img": "/post-4.webp",
     "isFeatured": true,
-    "likes": ["6717d41bf085fd00082dbe98"],
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "dislikes": ["671a5ac8c645d68f5d52e3d0", "682016e9149690d2262926dc"],
-    "likeCount": 1,
+    "likeCount": 3,
     "dislikeCount": 2,
     "tags": ["boutique", "fashion", "style", "clothing", "shopping"],
-    "views": 402,
+    "views": 50279,
     "author": "6717d41bf085fd00082dbe98",
+    "savedBy": [],
+    "savedCount": 0,
     "slug": "the-best-boutique-to-get-your-wears",
     "createdAt": "2024-10-23T00:03:56.928Z",
-    "updatedAt": "2025-06-01T11:39:42.889Z"
+    "updatedAt": "2025-07-07T18:27:25.989Z"
   },
   {
     "_id": "67ed8dedf3926f5008aeb89b",
@@ -105,17 +145,20 @@
       "671a5ac8c645d68f5d52e3d0",
       "6717d5e2f085fd00082dbea5",
       "6717d41bf085fd00082dbe98",
-      "682016e9149690d2262926dc"
+      "682016e9149690d2262926dc",
+      "67ee9ed8aa3db2f8c8f50fd6"
     ],
     "dislikes": ["6717d506f085fd00082dbe9e", "671fbd17ad9ca1028d835267"],
-    "likeCount": 4,
+    "likeCount": 5,
     "dislikeCount": 2,
     "tags": ["entrepreneurship", "business", "success", "motivation"],
-    "views": 10069,
+    "views": 100505,
     "author": "6717d41bf085fd00082dbe98",
+    "savedBy": ["671a5ac8c645d68f5d52e3d0"],
+    "savedCount": 1,
     "slug": "my-journey-to-becoming-a-successful-entrepreneur",
     "createdAt": "2025-04-02T19:20:13.522Z",
-    "updatedAt": "2025-06-01T14:38:13.843Z"
+    "updatedAt": "2025-07-06T00:09:37.934Z"
   },
   {
     "_id": "67ed949a529857ee4292a048",
@@ -134,17 +177,20 @@
       "67ee9fe1aa3db2f8c8f50ff9",
       "67eea000aa3db2f8c8f51000",
       "67eea03aaa3db2f8c8f51007",
-      "67eea064aa3db2f8c8f5100e"
+      "67eea064aa3db2f8c8f5100e",
+      "6717d41bf085fd00082dbe98"
     ],
     "dislikes": ["682016e9149690d2262926dc"],
-    "likeCount": 10,
+    "likeCount": 11,
     "dislikeCount": 1,
     "tags": ["exercise", "health", "fitness", "motivation"],
-    "views": 510,
+    "views": 5292,
     "author": "6717d41bf085fd00082dbe98",
+    "savedBy": [],
+    "savedCount": 0,
     "slug": "the-10-most-ridiculous-excuses-for-not-exercising",
     "createdAt": "2025-04-02T19:48:42.803Z",
-    "updatedAt": "2025-05-30T19:47:05.078Z"
+    "updatedAt": "2025-07-03T18:17:55.474Z"
   },
   {
     "_id": "684b8bd3ff4df4515cfbf4ad",
@@ -181,11 +227,13 @@
       "analytics",
       "web development"
     ],
-    "views": 136,
+    "views": 14306,
     "author": "67ee9f4aaa3db2f8c8f50fe4",
+    "savedBy": ["67ee9f4aaa3db2f8c8f50fe4"],
+    "savedCount": 1,
     "slug": "the-ultimate-guide-to-seo-optimization",
     "createdAt": "2025-06-13T01:46:07.061Z",
-    "updatedAt": "2025-06-20T01:51:08.870Z"
+    "updatedAt": "2025-06-27T02:55:31.072Z"
   },
   {
     "_id": "684b8c95ff4df4515cfbf4ae",
@@ -196,7 +244,6 @@
     "isFeatured": false,
     "likes": [
       "682016e9149690d2262926dc",
-      "6717d41bf085fd00082dbe98",
       "67ee9e5daa3db2f8c8f50fcf",
       "67ee9fe1aa3db2f8c8f50ff9",
       "671fc2c49096dc32b4c11820",
@@ -204,7 +251,8 @@
       "67ee9ed8aa3db2f8c8f50fd6",
       "6717d506f085fd00082dbe9e",
       "671a5ac8c645d68f5d52e3d0",
-      "6717d5e2f085fd00082dbea5"
+      "6717d5e2f085fd00082dbea5",
+      "6717d41bf085fd00082dbe98"
     ],
     "dislikes": [],
     "likeCount": 10,
@@ -221,11 +269,13 @@
       "engagement",
       "analytics"
     ],
-    "views": 135,
+    "views": 130868,
     "author": "67ee9fb6aa3db2f8c8f50ff2",
+    "savedBy": [],
+    "savedCount": 0,
     "slug": "how-to-create-a-social-media-marketing-strategy",
     "createdAt": "2025-06-13T02:27:03.109Z",
-    "updatedAt": "2025-06-20T01:51:08.870Z"
+    "updatedAt": "2025-06-30T03:18:47.860Z"
   },
   {
     "_id": "684b8d9dff4df4515cfbf4af",
@@ -246,10 +296,12 @@
       "67ee9f7baa3db2f8c8f50feb",
       "67ee9fb6aa3db2f8c8f50ff2",
       "67ee9fe1aa3db2f8c8f50ff9",
-      "671fc2c49096dc32b4c11820"
+      "671fc2c49096dc32b4c11820",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
     ],
     "dislikes": [],
-    "likeCount": 12,
+    "likeCount": 14,
     "dislikeCount": 0,
     "tags": [
       "writing",
@@ -263,11 +315,13 @@
       "book marketing",
       "editing"
     ],
-    "views": 251,
+    "views": 26026,
     "author": "67eea03aaa3db2f8c8f51007",
-    "slug": "how-to-Write-a-bestselling-novel",
+    "savedBy": [],
+    "savedCount": 0,
+    "slug": "how-to-write-a-bestselling-novel",
     "createdAt": "2025-06-13T02:30:02.313Z",
-    "updatedAt": "2025-06-20T01:51:08.870Z"
+    "updatedAt": "2025-07-04T17:29:38.498Z"
   },
   {
     "_id": "6850dfaabb1f2c76e61914fb",
@@ -276,9 +330,14 @@
     "category": "self improvement",
     "img": "/post-10.webp",
     "isFeatured": false,
-    "likes": ["671fc2c49096dc32b4c11820"],
+    "likes": [
+      "671fc2c49096dc32b4c11820",
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "dislikes": [],
-    "likeCount": 1,
+    "likeCount": 4,
     "dislikeCount": 0,
     "tags": [
       "public speaking",
@@ -289,11 +348,13 @@
       "leadership",
       "personal development"
     ],
-    "views": 19,
+    "views": 25009,
     "author": "671fc2c49096dc32b4c11820",
+    "savedBy": [],
+    "savedCount": 0,
+    "slug": "how-can-you-improve-your-public-speaking-skills",
     "createdAt": "2025-06-17T03:23:22.403Z",
-    "updatedAt": "2025-06-20T01:51:08.870Z",
-    "slug": "how-can-you-improve-your-public-speaking-skills"
+    "updatedAt": "2025-06-28T03:33:41.891Z"
   },
   {
     "_id": "685437108878fda529ad4a6c",
@@ -302,9 +363,14 @@
     "category": "self improvement",
     "img": "/post-11.jpeg",
     "isFeatured": false,
-    "likes": ["671fc2c49096dc32b4c11820"],
+    "likes": [
+      "671fc2c49096dc32b4c11820",
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "dislikes": [],
-    "likeCount": 1,
+    "likeCount": 4,
     "dislikeCount": 0,
     "tags": [
       "success",
@@ -315,10 +381,12 @@
       "self improvement",
       "leadership"
     ],
-    "views": 11,
+    "views": 2200007,
     "author": "671fc2c49096dc32b4c11820",
+    "savedBy": [],
+    "savedCount": 0,
+    "slug": "7-habits-of-highly-successful-people",
     "createdAt": "2025-06-19T16:13:04.433Z",
-    "updatedAt": "2025-06-20T02:44:48.293Z",
-    "slug": "7-habits-of-highly-successful-people"
+    "updatedAt": "2025-07-02T08:15:59.743Z"
   }
 ]

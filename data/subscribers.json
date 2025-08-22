@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "688a61153276f6deffc468e9",
+    "email": "chris@gmail.com",
+    "status": "confirmed",
+    "createdAt": "2025-07-30T18:14:45.674Z",
+    "updatedAt": "2025-07-30T18:14:45.674Z"
+  },
+  {
+    "_id": "688e5fd0a01f9eae5cff3228",
+    "email": "jdoe@gmail.com",
+    "status": "confirmed",
+    "createdAt": "2025-08-02T18:58:24.665Z",
+    "updatedAt": "2025-08-02T19:03:27.043Z"
+  },
+  {
+    "_id": "6890f24a644ec1a9507ca555",
+    "email": "mdoe@gmail.com",
+    "status": "confirmed",
+    "createdAt": "2025-08-04T17:47:54.693Z",
+    "updatedAt": "2025-08-04T17:49:18.335Z"
+  },
+  {
+    "_id": "6890f6dbe704b0384b075bef",
+    "email": "oliver25@gmail.com",
+    "status": "unsubscribed",
+    "createdAt": "2025-08-04T18:07:23.473Z",
+    "updatedAt": "2025-08-09T01:48:26.981Z"
+  },
+  {
+    "_id": "6890f97f3c68459c95743313",
+    "email": "jterry@gmail.com",
+    "status": "unsubscribed",
+    "createdAt": "2025-08-04T18:18:39.134Z",
+    "updatedAt": "2025-08-09T02:04:37.495Z"
+  },
+  {
+    "_id": "6896af8edea5d4e760092846",
+    "email": "ayls@gmail.com",
+    "status": "confirmed",
+    "createdAt": "2025-08-09T02:16:46.850Z",
+    "updatedAt": "2025-08-09T02:17:08.742Z"
+  }
+]

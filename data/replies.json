@@ -5,6 +5,13 @@
     "comment": "67198b5d931f5ed6dfb2a144",
     "post": "671835dabd0746c3504607c6",
     "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 4,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9f4aaa3db2f8c8f50fe4",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "createdAt": "2024-10-24T15:42:39.486Z",
     "updatedAt": "2024-10-24T15:42:39.486Z"
   },
@@ -14,6 +21,8 @@
     "comment": "67198ae1931f5ed6dfb2a13d",
     "post": "67183d6ce7a63f6c57042cea",
     "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 0,
+    "likes": [],
     "createdAt": "2024-10-24T15:58:36.431Z",
     "updatedAt": "2024-10-24T15:58:36.431Z"
   },
@@ -23,6 +32,8 @@
     "comment": "67198b5d931f5ed6dfb2a144",
     "post": "671835dabd0746c3504607c6",
     "author": "6717d5e2f085fd00082dbea5",
+    "likeCount": 1,
+    "likes": ["6717d41bf085fd00082dbe98"],
     "createdAt": "2024-10-25T00:35:15.244Z",
     "updatedAt": "2024-10-25T00:35:15.244Z"
   },
@@ -32,17 +43,10 @@
     "comment": "67198ae1931f5ed6dfb2a13d",
     "post": "67183d6ce7a63f6c57042cea",
     "author": "6717d5e2f085fd00082dbea5",
+    "likeCount": 0,
+    "likes": [],
     "createdAt": "2024-10-25T00:41:31.496Z",
     "updatedAt": "2024-10-25T00:41:31.496Z"
-  },
-  {
-    "_id": "6835dde57699e5ca9a5bc672",
-    "content": "Testing all edge cases is a valid way of ensuring your endpoints are working has intended!",
-    "comment": "68337c11233942a7a84df118",
-    "post": "67183d6ce7a63f6c57042cea",
-    "author": "682016e9149690d2262926dc",
-    "createdAt": "2025-05-27T15:44:37.092Z",
-    "updatedAt": "2025-05-27T15:44:37.092Z"
   },
   {
     "_id": "68378ad665bc356f9aadec66",
@@ -50,7 +54,142 @@
     "comment": "671931620aeed3a98d5cb605",
     "post": "67183d6ce7a63f6c57042cea",
     "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 3,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
     "createdAt": "2025-05-28T22:14:46.378Z",
-    "updatedAt": "2025-05-29T15:13:37.595Z"
+    "updatedAt": "2025-05-28T22:14:46.378Z"
+  },
+  {
+    "_id": "68464ad7dd8c1e8716437632",
+    "content": "Testing is indeed very important and a must essential skill to possess!",
+    "comment": "68337c11233942a7a84df118",
+    "post": "67183a015b3589789398fc86",
+    "author": "67ee9fe1aa3db2f8c8f50ff9",
+    "likeCount": 0,
+    "likes": [],
+    "createdAt": "2025-06-09T02:45:43.777Z",
+    "updatedAt": "2025-06-09T02:45:43.777Z"
+  },
+  {
+    "_id": "685303296dd6605fc51f5326",
+    "content": "I can't agree less...",
+    "comment": "684652a6dd8c1e87164377af",
+    "post": "67ed8dedf3926f5008aeb89b",
+    "author": "671fc2c49096dc32b4c11820",
+    "likeCount": 1,
+    "likes": ["6717d41bf085fd00082dbe98"],
+    "createdAt": "2025-06-18T18:19:21.626Z",
+    "updatedAt": "2025-06-18T18:19:32.828Z"
+  },
+  {
+    "_id": "68575f7343c2271fde28273c",
+    "content": "some random reply",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 0,
+    "likes": [],
+    "createdAt": "2025-06-22T01:42:11.178Z",
+    "updatedAt": "2025-06-22T01:42:11.178Z"
+  },
+  {
+    "_id": "68575f8843c2271fde282741",
+    "content": "another one for testing",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "likeCount": 0,
+    "likes": [],
+    "createdAt": "2025-06-22T01:42:32.577Z",
+    "updatedAt": "2025-06-22T01:42:32.577Z"
+  },
+  {
+    "_id": "685772ed43c2271fde283059",
+    "content": "Beautiful is an understatement!",
+    "comment": "67198b1e931f5ed6dfb2a140",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671fc2c49096dc32b4c11820",
+    "likeCount": 5,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "671a5ac8c645d68f5d52e3d0",
+      "6717d5e2f085fd00082dbea5",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-06-22T03:05:17.931Z",
+    "updatedAt": "2025-06-22T03:05:17.931Z"
+  },
+  {
+    "_id": "6858afea1f538f072e0ae689",
+    "content": "I can't get over the way he went about it. What a great way to start frontend development!",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671fc2c49096dc32b4c11820",
+    "likeCount": 6,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "6717d5e2f085fd00082dbea5",
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "67ee9f4aaa3db2f8c8f50fe4"
+    ],
+    "createdAt": "2025-06-23T01:37:46.404Z",
+    "updatedAt": "2025-06-23T01:37:46.404Z"
+  },
+  {
+    "_id": "68601a498e008d06bae44f52",
+    "content": "It's really nice to see people with great enthusiasm for backend engineering!",
+    "comment": "68335d8a233942a7a84deb59",
+    "post": "67183a015b3589789398fc86",
+    "author": "6717d41bf085fd00082dbe98",
+    "likeCount": 5,
+    "likes": [
+      "6717d41bf085fd00082dbe98",
+      "6717d5e2f085fd00082dbea5",
+      "671a5ac8c645d68f5d52e3d0",
+      "67f47b1520c965fa85f37a04",
+      "67ee9ed8aa3db2f8c8f50fd6"
+    ],
+    "createdAt": "2025-06-28T16:37:29.570Z",
+    "updatedAt": "2025-06-28T16:37:29.570Z"
+  },
+  {
+    "_id": "686718c1d296906a8ea5e8aa",
+    "content": "It's really good to know that this article has so much impartation on you",
+    "comment": "685699e2d0658fb08c99f3f4",
+    "post": "671835dabd0746c3504607c6",
+    "author": "6717d41bf085fd00082dbe98",
+    "likeCount": 10,
+    "likes": [
+      "671a5ac8c645d68f5d52e3d0",
+      "6717d5e2f085fd00082dbea5",
+      "67f47b1520c965fa85f37a04",
+      "682016e9149690d2262926dc",
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "6717d41bf085fd00082dbe98",
+      "67ee9f4aaa3db2f8c8f50fe4",
+      "67ee9e5daa3db2f8c8f50fcf",
+      "67eea03aaa3db2f8c8f51007",
+      "67ee9f7baa3db2f8c8f50feb"
+    ],
+    "createdAt": "2025-07-03T23:56:49.165Z",
+    "updatedAt": "2025-07-03T23:56:49.165Z"
+  },
+  {
+    "_id": "686b7a4e71165004184555a0",
+    "content": "Testing all edge cases is a valid way of ensuring your endpoints are working as intended!",
+    "comment": "67198ae1931f5ed6dfb2a13d",
+    "post": "67183d6ce7a63f6c57042cea",
+    "author": "67ee9fe1aa3db2f8c8f50ff9",
+    "likes": [],
+    "likeCount": 0,
+    "createdAt": "2025-07-07T07:42:06.862Z",
+    "updatedAt": "2025-07-07T07:42:06.862Z"
   }
 ]

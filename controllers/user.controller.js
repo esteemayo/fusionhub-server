@@ -94,6 +94,7 @@ export const updateMe = asyncHandler(async (req, res, next) => {
     'bio',
     'about',
     'image',
+    'banner'
   ]);
 
   const updatedUser = await User.findByIdAndUpdate(
