@@ -18,6 +18,24 @@ import { createSendGoogleToken } from '../utils/create.send.google.token.util.js
 const devEnv = process.env.NODE_ENV !== 'production';
 
 export const register = asyncHandler(async (req, res, next) => {
+  const { password, passwordConfirm, country, bio } = req.body;
+
+  if (!password) {
+    return next(new BadRequestError('Please provide your password'));
+  }
+
+  if (!passwordConfirm) {
+    return next(new BadRequestError('Please confirm your password'));
+  }
+
+  if (!country) {
+    return next(new BadRequestError('Please enter your country of residence'));
+  }
+
+  if (!bio) {
+    return next(new BadRequestError('Please write a short biography'));
+  }
+
   const user = await User.create({ ...req.body });
 
   if (user) {
@@ -50,11 +68,11 @@ export const login = asyncHandler(async (req, res, next) => {
 });
 
 export const googleLogin = asyncHandler(async (req, res, next) => {
-  const { email } = req.body;
+  const { email, providerId } = req.body;
 
   const user = await User.findOne({ email });
 
-  if (!user) {
+  if (!user && providerId === 'firebase') {
     const newUser = await User.create({
       ...req.body,
       fromGoogle: true,

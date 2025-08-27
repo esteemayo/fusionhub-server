@@ -44,7 +44,9 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, 'Please provide your password'],
+      required: function () {
+        return !this.fromGoogle || !this.providerId;
+      },
       minLength: [8, 'Password must be at least 8 characters long'],
       maxLength: [32, 'Password cannot exceed 32 characters'],
       validate: {
@@ -60,7 +62,9 @@ const userSchema = new Schema(
     },
     passwordConfirm: {
       type: String,
-      required: [true, 'Please confirm your password'],
+      required: function () {
+        return !this.fromGoogle || !this.providerId;
+      },
       validate: {
         validator: function (val) {
           return val === this.password;
@@ -76,11 +80,15 @@ const userSchema = new Schema(
     },
     country: {
       type: String,
-      required: [true, 'Please enter your country of residence'],
+      required: function () {
+        return !this.fromGoogle || !this.providerId;
+      },
     },
     bio: {
       type: String,
-      required: [true, 'Please write a short biography'],
+      required: function () {
+        return !this.fromGoogle || !this.providerId;
+      },
     },
     about: {
       type: String,
@@ -101,6 +109,9 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    providerId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: {
@@ -113,9 +124,27 @@ const userSchema = new Schema(
       type: Boolean,
       default: true,
     },
-    passwordChangedAt: Date,
-    passwordResetToken: String,
-    passwordResetExpires: Date,
+    passwordChangedAt: {
+      type: Date,
+    },
+    passwordResetToken: {
+      type: String,
+    },
+    passwordResetExpires: {
+      type: Date,
+    },
+    lastLoggedInAt: {
+      type: Date,
+    },
+    lastLoggedInTimestamp: {
+      type: Date,
+    },
+    lastSignedInTime: {
+      type: Date,
+    },
+    lastSignedInTimestamp: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
@@ -134,6 +163,24 @@ userSchema.pre('save', function (next) {
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
+});
+
+userSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    if (ret.lastLoggedInAt) {
+      const now = new Date(ret.lastLoggedInAt);
+      ret.lastLoggedInAt = now.toUTCString();
+      ret.lastLoggedInTimestamp = now.getTime();
+    }
+
+    if (ret.lastSignedInTime) {
+      const now = new Date();
+      ret.lastSignedInTime = now.toUTCString();
+      ret.lastSignedInTimestamp = now.getTime();
+    }
+
+    return ret;
+  },
 });
 
 userSchema.pre(/^find/, function (next) {
