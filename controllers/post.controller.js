@@ -201,6 +201,22 @@ export const getRelatedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(posts);
 });
 
+export const savedPostsCount = asyncHandler(async (req, res, next) => {
+  const { id: postId } = req.params;
+
+  const post = await Post.findById(postId).select('savedBy savedCount');
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
+    );
+  }
+
+  const savedCount = post.savedBy.length ?? post.savedCount;
+
+  return res.status(StatusCodes.OK).json(savedCount);
+});
+
 export const getPostsByUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
   let { page, limit } = req.query;

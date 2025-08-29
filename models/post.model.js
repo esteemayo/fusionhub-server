@@ -95,6 +95,11 @@ postSchema.index({
 postSchema.index({ title: 1 });
 postSchema.index({ slug: -1 });
 
+postSchema.index({ _id: 1, likes: 1 }, { unique: true });
+postSchema.index({ _id: -1, dislikes: -1 }, { unique: true });
+
+postSchema.index({ _id: 1, savedBy: -1 }, { unique: true });
+
 postSchema.virtual('comments', {
   ref: 'Comment',
   localField: '_id',

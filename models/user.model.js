@@ -133,23 +133,13 @@ const userSchema = new Schema(
     passwordResetExpires: {
       type: Date,
     },
-    lastLoggedInAt: {
-      type: Date,
-    },
-    lastLoggedInTimestamp: {
-      type: Date,
-    },
-    lastSignedInTime: {
-      type: Date,
-    },
-    lastSignedInTimestamp: {
-      type: Date,
-    },
   },
   {
     timestamps: true,
   },
 );
+
+userSchema.index({ _id: 1, savedPosts: -1 }, { unique: true });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
@@ -163,24 +153,6 @@ userSchema.pre('save', function (next) {
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
-});
-
-userSchema.set('toJSON', {
-  transform: function (doc, ret) {
-    if (ret.lastLoggedInAt) {
-      const now = new Date(ret.lastLoggedInAt);
-      ret.lastLoggedInAt = now.toUTCString();
-      ret.lastLoggedInTimestamp = now.getTime();
-    }
-
-    if (ret.lastSignedInTime) {
-      const now = new Date();
-      ret.lastSignedInTime = now.toUTCString();
-      ret.lastSignedInTimestamp = now.getTime();
-    }
-
-    return ret;
-  },
 });
 
 userSchema.pre(/^find/, function (next) {

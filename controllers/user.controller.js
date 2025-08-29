@@ -64,6 +64,14 @@ export const getUserSavedPosts = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(user.savedPosts);
 });
 
+export const savedPostsCount = asyncHandler(async (req, res, next) => {
+  const { postId } = req.params;
+
+  const counts = await User.countDocuments({ savedPosts: postId });
+
+  return res.status(StatusCodes.OK).json(counts);
+});
+
 export const updateMe = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { password, passwordConfirm } = req.body;
@@ -94,7 +102,7 @@ export const updateMe = asyncHandler(async (req, res, next) => {
     'bio',
     'about',
     'image',
-    'banner'
+    'banner',
   ]);
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -127,13 +135,13 @@ export const savePost = asyncHandler(async (req, res, next) => {
 
   if (!isSaved) {
     update = {
-      $push: { savedPosts: postId },
+      $addToSet: { savedPosts: postId },
     };
 
     await Post.findByIdAndUpdate(
       postId,
       {
-        $push: { savedBy: userId },
+        $addToSet: { savedBy: userId },
         $inc: { savedCount: 1 },
       },
       {

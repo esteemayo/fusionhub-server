@@ -37,6 +37,8 @@ const commentSchema = new Schema(
   },
 );
 
+commentSchema.index({ _id: 1, likes: 1 }, { unique: true });
+
 commentSchema.virtual('replies', {
   ref: 'Reply',
   localField: '_id',
@@ -51,7 +53,7 @@ commentSchema.pre(/^find/, function (next) {
 
   this.populate({
     path: 'author',
-    select: 'name username image role',
+    select: 'name username image role fromGoogle',
   });
 
   next();

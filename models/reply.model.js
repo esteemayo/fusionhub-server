@@ -42,6 +42,8 @@ const replySchema = new Schema(
   },
 );
 
+replySchema.index({ _id: -1, likes: -1 }, { unique: true });
+
 replySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comment',
@@ -55,7 +57,7 @@ replySchema.pre(/^find/, function (next) {
 
   this.populate({
     path: 'author',
-    select: 'name username image role',
+    select: 'name username image role fromGoogle',
   });
 
   next();

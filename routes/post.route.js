@@ -29,6 +29,8 @@ router.get('/featured-posts', postController.getFeaturedPosts);
 
 router.get('/related-posts', postController.getRelatedPosts);
 
+router.get('/:id/saved-count', postController.savedPostsCount);
+
 router.get(
   '/:userId/user',
   authMiddleware.protect,

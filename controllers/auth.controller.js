@@ -18,22 +18,22 @@ import { createSendGoogleToken } from '../utils/create.send.google.token.util.js
 const devEnv = process.env.NODE_ENV !== 'production';
 
 export const register = asyncHandler(async (req, res, next) => {
-  const { password, passwordConfirm, country, bio } = req.body;
+  const { bio, country, password, passwordConfirm } = req.body;
 
-  if (!password) {
-    return next(new BadRequestError('Please provide your password'));
-  }
-
-  if (!passwordConfirm) {
-    return next(new BadRequestError('Please confirm your password'));
-  }
-
-  if (!country) {
+  if (!country || country.trim() === '') {
     return next(new BadRequestError('Please enter your country of residence'));
   }
 
-  if (!bio) {
+  if (!bio || bio.trim() === '') {
     return next(new BadRequestError('Please write a short biography'));
+  }
+
+  if (!password || password.trim() === '') {
+    return next(new BadRequestError('Please provide your password'));
+  }
+
+  if (!passwordConfirm || passwordConfirm.trim() === '') {
+    return next(new BadRequestError('Please confirm your password'));
   }
 
   const user = await User.create({ ...req.body });

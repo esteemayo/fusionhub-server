@@ -21,6 +21,8 @@ router.get(
 
 router.get('/saved-posts', userController.getUserSavedPosts);
 
+router.get('/:postId/saved-count', userController.savedPostsCount);
+
 router.patch('/update-me', userController.updateMe);
 
 router.patch(
