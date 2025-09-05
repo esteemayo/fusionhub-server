@@ -39,6 +39,27 @@ export const getRepliesByUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+export const createReply = asyncHandler(async (req, res, next) => {
+  const { parentReplyId } = req.body;
+
+  if (!req.body.post) req.body.post = req.params.postId;
+  if (!req.body.author) req.body.author = req.user.id;
+  if (!req.body.comment) req.body.comment = req.params.comentId;
+
+  const reply = await Reply.create({
+    ...req.body,
+    parentReply: parentReplyId || null,
+  });
+
+  if (parentReplyId) {
+    await Reply.findByIdAndUpdate(parentReplyId, {
+      $push: { replies: reply._id },
+    });
+  }
+
+  return res.status(StatusCodes.CREATED).json(reply);
+});
+
 export const updateReply = asyncHandler(async (req, res, next) => {
   const { id: replyId } = req.params;
   const { id: userId, role } = req.user;
@@ -248,4 +269,4 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
 
 export const getReplies = factory.getAll(Reply);
 export const getReply = factory.getOneById(Reply, 'reply');
-export const createReply = factory.createOne(Reply);
+// export const createReply = factory.createOne(Reply);

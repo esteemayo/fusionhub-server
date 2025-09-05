@@ -24,6 +24,17 @@ const replySchema = new Schema(
       ref: 'User',
       required: [true, 'A reply must belong to an author'],
     },
+    parentReply: {
+      type: Types.ObjectId,
+      ref: 'Reply',
+      default: null,
+    },
+    replies: [
+      {
+        type: Types.ObjectId,
+        ref: 'Reply',
+      },
+    ],
     likes: [
       {
         type: Types.ObjectId,
@@ -58,6 +69,14 @@ replySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
     select: 'name username image role fromGoogle',
+  });
+
+  this.populate({
+    path: 'replies',
+    populate: {
+      path: 'author',
+      select: 'name username image role fromGoogle',
+    },
   });
 
   next();
