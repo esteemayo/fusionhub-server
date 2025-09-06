@@ -55,32 +55,32 @@ const replySchema = new Schema(
 
 replySchema.index({ _id: -1, likes: -1 }, { unique: true });
 
-replySchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'comment',
-    select: 'author',
-  });
+// replySchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'comment',
+//     select: 'author',
+//   });
 
-  this.populate({
-    path: 'post',
-    select: 'author',
-  });
+//   this.populate({
+//     path: 'post',
+//     select: 'author',
+//   });
 
-  this.populate({
-    path: 'author',
-    select: 'name username image role fromGoogle',
-  });
+//   this.populate({
+//     path: 'author',
+//     select: 'name username image role fromGoogle',
+//   });
 
-  this.populate({
-    path: 'replies',
-    populate: {
-      path: 'author',
-      select: 'name username image role fromGoogle',
-    },
-  });
+//   this.populate({
+//     path: 'replies',
+//     populate: {
+//       path: 'author',
+//       select: 'name username image role fromGoogle',
+//     },
+//   });
 
-  next();
-});
+//   next();
+// });
 
 const Reply = mongoose.models.Reply || mongoose.model('Reply', replySchema);
 

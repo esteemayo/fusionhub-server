@@ -11,6 +11,21 @@ import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
+import { buildReplyTree } from '../utils/build.reply.tree.js';
+
+export const getRepliesByComment = asyncHandler(async (req, res, next) => {
+  const { commentId } = req.params;
+
+  const replies = await Reply.find({ comment: commentId })
+    .populate('comment', 'author')
+    .populate('post', 'author')
+    .populate('author', 'name username image role fromGoogle')
+    .lean();
+
+  const tree = buildReplyTree(replies);
+
+  return res.status(StatusCodes.OK).json(tree);
+});
 
 export const getRepliesByUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
@@ -52,9 +67,15 @@ export const createReply = asyncHandler(async (req, res, next) => {
   });
 
   if (parentReplyId) {
-    await Reply.findByIdAndUpdate(parentReplyId, {
-      $push: { replies: reply._id },
-    });
+    await Reply.findByIdAndUpdate(
+      parentReplyId,
+      {
+        $push: { replies: reply._id },
+      },
+      {
+        timestamps: false,
+      },
+    );
   }
 
   return res.status(StatusCodes.CREATED).json(reply);
@@ -269,4 +290,3 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
 
 export const getReplies = factory.getAll(Reply);
 export const getReply = factory.getOneById(Reply, 'reply');
-// export const createReply = factory.createOne(Reply);
