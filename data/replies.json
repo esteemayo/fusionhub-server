@@ -6,13 +6,14 @@
     "post": "671835dabd0746c3504607c6",
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
-    "replies": [],
-    "likeCount": 4,
+    "replies": ["68bafa3f2f968a6ec3216dfe"],
+    "likeCount": 5,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "67f47b1520c965fa85f37a04",
       "67ee9f4aaa3db2f8c8f50fe4",
-      "67ee9ed8aa3db2f8c8f50fd6"
+      "67ee9ed8aa3db2f8c8f50fd6",
+      "68a4c132c1d93353af20795f"
     ],
     "createdAt": "2024-10-24T15:42:39.486Z",
     "updatedAt": "2024-10-24T15:42:39.486Z"
@@ -219,5 +220,44 @@
     "likeCount": 0,
     "createdAt": "2025-07-07T07:42:06.862Z",
     "updatedAt": "2025-07-07T07:42:06.862Z"
+  },
+  {
+    "_id": "68bafa3f2f968a6ec3216dfe",
+    "content": "I totally agree with you, best is an understatement, is there any word better than best?",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "68a4c132c1d93353af20795f",
+    "parentReply": "671a6aef647fc0d2f550276c",
+    "replies": ["68bafb306236b25ce2fa4aa9"],
+    "likes": ["68a4c132c1d93353af20795f"],
+    "likeCount": 1,
+    "createdAt": "2025-09-05T14:57:03.129Z",
+    "updatedAt": "2025-09-05T14:57:03.129Z"
+  },
+  {
+    "_id": "68bafb306236b25ce2fa4aa9",
+    "content": "Thank you sam for the kind words",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "671a5ac8c645d68f5d52e3d0",
+    "parentReply": "68bafa3f2f968a6ec3216dfe",
+    "replies": ["68bafcd56236b25ce2fa4b5c"],
+    "likes": [],
+    "likeCount": 0,
+    "createdAt": "2025-09-05T15:01:04.204Z",
+    "updatedAt": "2025-09-05T15:01:04.204Z"
+  },
+  {
+    "_id": "68bafcd56236b25ce2fa4b5c",
+    "content": "You're welcome chris",
+    "comment": "67198b5d931f5ed6dfb2a144",
+    "post": "671835dabd0746c3504607c6",
+    "author": "68a4c132c1d93353af20795f",
+    "parentReply": "68bafb306236b25ce2fa4aa9",
+    "replies": [],
+    "likes": [],
+    "likeCount": 0,
+    "createdAt": "2025-09-05T15:08:05.096Z",
+    "updatedAt": "2025-09-05T15:08:05.096Z"
   }
 ]

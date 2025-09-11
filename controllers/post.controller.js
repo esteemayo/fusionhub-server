@@ -212,7 +212,7 @@ export const savedPostsCount = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const savedCount = post.savedBy.length ?? post.savedCount;
+  const savedCount = post.savedBy.length || post.savedCount;
 
   return res.status(StatusCodes.OK).json(savedCount);
 });
