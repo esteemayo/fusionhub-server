@@ -105,6 +105,18 @@ const userSchema = new Schema(
         ref: 'Post',
       },
     ],
+    mutedComments: [
+      {
+        type: Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+    mutedUsers: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     fromGoogle: {
       type: Boolean,
       default: false,

@@ -6,9 +6,11 @@ import asyncHandler from 'express-async-handler';
 import Reply from '../models/reply.model.js';
 import Post from '../models/post.model.js';
 import Comment from '../models/comment.model.js';
+import User from '../models/user.model.js';
 
-import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
+import { NotFoundError } from '../errors/not.found.error.js';
+import { BadRequestError } from '../errors/bad.request.error.js';
 
 import * as factory from './handler.factory.controller.js';
 
@@ -37,6 +39,56 @@ export const getCommentsByUser = asyncHandler(async (req, res, next) => {
     hasMore,
     comments,
   });
+});
+
+export const reportComment = asyncHandler(async (req, res, next) => {
+  const { reason } = req.body;
+  const { id: userId } = req.user;
+  const { id: commentId } = req.params;
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    return next(
+      new NotFoundError(
+        `There is no comment found with the given ID → ${commentId}`,
+      ),
+    );
+  }
+
+  const isReported = comment.reports.some((report) =>
+    report.user.equal(userId),
+  );
+
+  if (isReported) {
+    return next(new BadRequestError('You already reported this comment'));
+  }
+
+  comment.reports.push({ user: userId, reason });
+  await comment.save();
+
+  return res.status(StatusCodes.OK).json({ message: 'Comment reported' });
+});
+
+export const muteComment = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: commentId } = req.params;
+
+  const user = await User.findById(userId);
+
+  const index = user.mutedComments.indexOf(commentId);
+
+  if (index > -1) {
+    user.mutedComments.splice(index, 1);
+    await user.save();
+
+    return res.status(StatusCodes.OK).json({ message: 'Comment unmuted' });
+  } else {
+    user.mutedComments.push(commentId);
+    await user.save();
+
+    return res.status(StatusCodes.OK).json({ message: 'Comment muted' });
+  }
 });
 
 export const updateComment = asyncHandler(async (req, res, next) => {

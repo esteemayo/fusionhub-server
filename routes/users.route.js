@@ -23,6 +23,12 @@ router.get('/saved-posts', userController.getUserSavedPosts);
 
 router.get('/:postId/saved-count', userController.savedPostsCount);
 
+router.post(
+  '/:id/mute',
+  authMiddleware.protect,
+  userController.muteAndUnmuteUser,
+);
+
 router.patch('/update-me', userController.updateMe);
 
 router.patch(
