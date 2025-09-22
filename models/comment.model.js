@@ -25,7 +25,17 @@ const commentSchema = new Schema(
         ref: 'User',
       },
     ],
+    dislikes: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     likeCount: {
+      type: Number,
+      default: 0,
+    },
+    dislikeCount: {
       type: Number,
       default: 0,
     },
@@ -54,6 +64,7 @@ const commentSchema = new Schema(
 );
 
 commentSchema.index({ _id: 1, likes: 1 }, { unique: true });
+commentSchema.index({ _id: -1, dislikes: -1 }, { unique: true });
 
 commentSchema.virtual('replies', {
   ref: 'Reply',

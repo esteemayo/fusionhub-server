@@ -592,8 +592,8 @@ export const likePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const isLiked = post.likes.some((id) => String(id) === userId);
-  const isDisliked = post.dislikes.some((id) => String(id) === userId);
+  const isLiked = post.likes.some((id) => String(id) === userId) || false;
+  const isDisliked = post.dislikes.some((id) => String(id) === userId) || false;
 
   let update = {};
 
@@ -636,8 +636,8 @@ export const dislikePost = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const isLiked = post.likes.some((id) => String(id) === userId);
-  const isDisliked = post.dislikes.some((id) => String(id) === userId);
+  const isLiked = post.likes.some((id) => String(id) === userId) || false;
+  const isDisliked = post.dislikes.some((id) => String(id) === userId) || false;
 
   let update = {};
 

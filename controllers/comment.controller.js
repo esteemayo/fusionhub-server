@@ -184,6 +184,9 @@ export const likeComment = asyncHandler(async (req, res, next) => {
   const isLiked =
     comment.likes.some((like) => String(like) === userId) || false;
 
+  const isDisliked =
+    comment.dislikes.some((dislike) => String(dislike) === userId) || false;
+
   let update = {};
 
   if (isLiked) {
@@ -191,10 +194,62 @@ export const likeComment = asyncHandler(async (req, res, next) => {
       $pull: { likes: userId },
       $inc: { likeCount: -1 },
     };
+  } else if (isDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $addToSet: { likes: userId },
+      $inc: { dislikeCount: -1, likeCount: 1 },
+    };
   } else {
     update = {
-      $push: { likes: userId },
+      $addToSet: { likes: userId },
       $inc: { likeCount: 1 },
+    };
+  }
+
+  const updatedComment = await Comment.findByIdAndUpdate(commentId, update, {
+    new: true,
+    timestamps: false,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedComment);
+});
+
+export const dislikeComment = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: commentId } = req.params;
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    return next(
+      new NotFoundError(
+        `There is no comment found with the given ID → ${commentId}`,
+      ),
+    );
+  }
+
+  const isLiked = comment.likes.includes(userId) || false;
+  const isDisliked = comment.dislikes.includes(userId) || false;
+
+  let update = {};
+
+  if (isDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $inc: { dislikeCount: -1 },
+    };
+  } else if (isLiked) {
+    update = {
+      $pull: { likes: userId },
+      $addToSet: { dislikes: userId },
+      $inc: { likeCount: -1, dislikeCount: 1 },
+    };
+  } else {
+    update = {
+      $addToSet: { dislikes: userId },
+      $inc: { dislikeCount: 1 },
     };
   }
 

@@ -31,6 +31,12 @@ router.patch(
   commentController.likeComment,
 );
 
+router.patch(
+  '/:id/dislike',
+  authMiddleware.protect,
+  commentController.dislikeComment,
+);
+
 router
   .route('/')
   .get(commentController.getComments)

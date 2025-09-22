@@ -41,7 +41,17 @@ const replySchema = new Schema(
         ref: 'User',
       },
     ],
+    dislikes: [
+      {
+        type: Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     likeCount: {
+      type: Number,
+      default: 0,
+    },
+    dislikeCount: {
       type: Number,
       default: 0,
     },
@@ -54,6 +64,7 @@ const replySchema = new Schema(
 );
 
 replySchema.index({ _id: -1, likes: -1 }, { unique: true });
+replySchema.index({ _id: 1, dislikes: 1 }, { unique: true });
 
 // replySchema.pre(/^find/, function (next) {
 //   this.populate({

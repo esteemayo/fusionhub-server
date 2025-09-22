@@ -7,7 +7,6 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
     "replies": ["68bafa3f2f968a6ec3216dfe"],
-    "likeCount": 5,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "67f47b1520c965fa85f37a04",
@@ -15,6 +14,9 @@
       "67ee9ed8aa3db2f8c8f50fd6",
       "68a4c132c1d93353af20795f"
     ],
+    "dislikes": [],
+    "likeCount": 5,
+    "dislikeCount": 0,
     "createdAt": "2024-10-24T15:42:39.486Z",
     "updatedAt": "2024-10-24T15:42:39.486Z"
   },
@@ -26,8 +28,10 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
     "replies": [],
-    "likeCount": 0,
     "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2024-10-24T15:58:36.431Z",
     "updatedAt": "2024-10-24T15:58:36.431Z"
   },
@@ -39,8 +43,10 @@
     "author": "6717d5e2f085fd00082dbea5",
     "parentReply": null,
     "replies": [],
-    "likeCount": 1,
     "likes": ["6717d41bf085fd00082dbe98"],
+    "dislikes": [],
+    "likeCount": 1,
+    "dislikeCount": 0,
     "createdAt": "2024-10-25T00:35:15.244Z",
     "updatedAt": "2024-10-25T00:35:15.244Z"
   },
@@ -52,8 +58,10 @@
     "author": "6717d5e2f085fd00082dbea5",
     "parentReply": null,
     "replies": [],
-    "likeCount": 0,
     "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2024-10-25T00:41:31.496Z",
     "updatedAt": "2024-10-25T00:41:31.496Z"
   },
@@ -65,12 +73,14 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
     "replies": [],
-    "likeCount": 3,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "67f47b1520c965fa85f37a04",
       "67ee9ed8aa3db2f8c8f50fd6"
     ],
+    "dislikes": [],
+    "likeCount": 3,
+    "dislikeCount": 0,
     "createdAt": "2025-05-28T22:14:46.378Z",
     "updatedAt": "2025-05-28T22:14:46.378Z"
   },
@@ -82,8 +92,10 @@
     "author": "67ee9fe1aa3db2f8c8f50ff9",
     "parentReply": null,
     "replies": [],
-    "likeCount": 0,
     "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-06-09T02:45:43.777Z",
     "updatedAt": "2025-06-09T02:45:43.777Z"
   },
@@ -95,8 +107,10 @@
     "author": "671fc2c49096dc32b4c11820",
     "parentReply": null,
     "replies": [],
-    "likeCount": 1,
     "likes": ["6717d41bf085fd00082dbe98"],
+    "dislikes": [],
+    "likeCount": 1,
+    "dislikeCount": 0,
     "createdAt": "2025-06-18T18:19:21.626Z",
     "updatedAt": "2025-06-18T18:19:32.828Z"
   },
@@ -108,8 +122,10 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
     "replies": [],
-    "likeCount": 0,
     "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-06-22T01:42:11.178Z",
     "updatedAt": "2025-06-22T01:42:11.178Z"
   },
@@ -121,8 +137,10 @@
     "author": "671a5ac8c645d68f5d52e3d0",
     "parentReply": null,
     "replies": [],
-    "likeCount": 0,
     "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-06-22T01:42:32.577Z",
     "updatedAt": "2025-06-22T01:42:32.577Z"
   },
@@ -134,7 +152,6 @@
     "author": "671fc2c49096dc32b4c11820",
     "parentReply": null,
     "replies": [],
-    "likeCount": 5,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "671a5ac8c645d68f5d52e3d0",
@@ -142,6 +159,9 @@
       "67f47b1520c965fa85f37a04",
       "67ee9ed8aa3db2f8c8f50fd6"
     ],
+    "dislikes": [],
+    "likeCount": 5,
+    "dislikeCount": 0,
     "createdAt": "2025-06-22T03:05:17.931Z",
     "updatedAt": "2025-06-22T03:05:17.931Z"
   },
@@ -153,7 +173,6 @@
     "author": "671fc2c49096dc32b4c11820",
     "parentReply": null,
     "replies": [],
-    "likeCount": 6,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "6717d5e2f085fd00082dbea5",
@@ -162,6 +181,9 @@
       "67ee9ed8aa3db2f8c8f50fd6",
       "67ee9f4aaa3db2f8c8f50fe4"
     ],
+    "dislikes": [],
+    "likeCount": 6,
+    "dislikeCount": 0,
     "createdAt": "2025-06-23T01:37:46.404Z",
     "updatedAt": "2025-06-23T01:37:46.404Z"
   },
@@ -173,7 +195,6 @@
     "author": "6717d41bf085fd00082dbe98",
     "parentReply": null,
     "replies": [],
-    "likeCount": 5,
     "likes": [
       "6717d41bf085fd00082dbe98",
       "6717d5e2f085fd00082dbea5",
@@ -181,6 +202,9 @@
       "67f47b1520c965fa85f37a04",
       "67ee9ed8aa3db2f8c8f50fd6"
     ],
+    "dislikes": [],
+    "likeCount": 5,
+    "dislikeCount": 0,
     "createdAt": "2025-06-28T16:37:29.570Z",
     "updatedAt": "2025-06-28T16:37:29.570Z"
   },
@@ -192,7 +216,6 @@
     "author": "6717d41bf085fd00082dbe98",
     "parentReply": null,
     "replies": [],
-    "likeCount": 10,
     "likes": [
       "671a5ac8c645d68f5d52e3d0",
       "6717d5e2f085fd00082dbea5",
@@ -205,6 +228,9 @@
       "67eea03aaa3db2f8c8f51007",
       "67ee9f7baa3db2f8c8f50feb"
     ],
+    "dislikes": [],
+    "likeCount": 10,
+    "dislikeCount": 0,
     "createdAt": "2025-07-03T23:56:49.165Z",
     "updatedAt": "2025-07-03T23:56:49.165Z"
   },
@@ -217,7 +243,9 @@
     "parentReply": null,
     "replies": [],
     "likes": [],
+    "dislikes": [],
     "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-07-07T07:42:06.862Z",
     "updatedAt": "2025-07-07T07:42:06.862Z"
   },
@@ -230,7 +258,9 @@
     "parentReply": "671a6aef647fc0d2f550276c",
     "replies": ["68bafb306236b25ce2fa4aa9"],
     "likes": ["68a4c132c1d93353af20795f"],
+    "dislikes": [],
     "likeCount": 1,
+    "dislikeCount": 0,
     "createdAt": "2025-09-05T14:57:03.129Z",
     "updatedAt": "2025-09-05T14:57:03.129Z"
   },
@@ -243,7 +273,9 @@
     "parentReply": "68bafa3f2f968a6ec3216dfe",
     "replies": ["68bafcd56236b25ce2fa4b5c"],
     "likes": [],
+    "dislikes": [],
     "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-09-05T15:01:04.204Z",
     "updatedAt": "2025-09-05T15:01:04.204Z"
   },
@@ -256,7 +288,9 @@
     "parentReply": "68bafb306236b25ce2fa4aa9",
     "replies": [],
     "likes": [],
+    "dislikes": [],
     "likeCount": 0,
+    "dislikeCount": 0,
     "createdAt": "2025-09-05T15:08:05.096Z",
     "updatedAt": "2025-09-05T15:08:05.096Z"
   }

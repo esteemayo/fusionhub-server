@@ -17,6 +17,12 @@ router.get(
 
 router.patch('/:id/like', authMiddleware.protect, replyController.likeReply);
 
+router.patch(
+  '/:id/dislike',
+  authMiddleware.protect,
+  replyController.dislikeReply,
+);
+
 router
   .route('/')
   .get(replyController.getReplies)

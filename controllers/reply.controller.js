@@ -185,18 +185,72 @@ export const likeReply = asyncHandler(async (req, res, next) => {
   }
 
   const hasLiked = reply.likes.some((like) => String(like) === userId) || false;
+  const hasDisliked =
+    reply.dislikes.some((dislike) => String(dislike) === userId) || false;
 
   let update = {};
 
-  if (!hasLiked) {
-    update = {
-      $push: { likes: userId },
-      $inc: { likeCount: 1 },
-    };
-  } else {
+  if (hasLiked) {
     update = {
       $pull: { likes: userId },
       $inc: { likeCount: -1 },
+    };
+  } else if (hasDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $addToSet: { likes: userId },
+      $inc: { dislikeCount: -1, likeCount: 1 },
+    };
+  } else {
+    update = {
+      $addToSet: { likes: userId },
+      $inc: { likeCount: 1 },
+    };
+  }
+
+  const updatedReply = await Reply.findByIdAndUpdate(replyId, update, {
+    new: true,
+    timestamps: false,
+    runValidators: true,
+  });
+
+  return res.status(StatusCodes.OK).json(updatedReply);
+});
+
+export const dislikeReply = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: replyId } = req.params;
+
+  const reply = await Reply.findById(replyId);
+
+  if (!reply) {
+    return next(
+      new NotFoundError(
+        `There is no reply found with the given ID → ${replyId}`,
+      ),
+    );
+  }
+
+  const hasLiked = reply.likes.includes(userId) || false;
+  const hasDisliked = reply.dislikes.includes(userId) || false;
+
+  let update = {};
+
+  if (hasDisliked) {
+    update = {
+      $pull: { dislikes: userId },
+      $inc: { dislikeCount: -1 },
+    };
+  } else if (hasLiked) {
+    update = {
+      $pull: { likes: userId },
+      $addToSet: { dislikes: userId },
+      $inc: { likeCount: -1, dislikeCount: 1 },
+    };
+  } else {
+    update = {
+      $addToSet: { dislikes: userId },
+      $inc: { dislikeCount: 1 },
     };
   }
 
