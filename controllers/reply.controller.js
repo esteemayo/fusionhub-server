@@ -43,7 +43,14 @@ export const getRepliesByUser = asyncHandler(async (req, res, next) => {
 
   const query = Reply.find({ author: userId });
 
-  const replies = await query.skip(skip).limit(limit).sort('-createdAt');
+  const replies = await query
+    .skip(skip)
+    .limit(limit)
+    .sort('-createdAt')
+    .populate('comment', 'author')
+    .populate('post', 'author')
+    .populate('author', 'name username image role fromGoogle')
+    .lean();
 
   return res.status(StatusCodes.OK).json({
     page,
