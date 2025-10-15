@@ -17,12 +17,6 @@ router.get(
   commentController.getCommentsByUser,
 );
 
-router.post(
-  '/:id/report',
-  authMiddleware.protect,
-  commentController.reportComment,
-);
-
 router.post('/:id/mute', commentController.muteComment);
 
 router.patch(

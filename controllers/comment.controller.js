@@ -41,35 +41,6 @@ export const getCommentsByUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const reportComment = asyncHandler(async (req, res, next) => {
-  const { reason } = req.body;
-  const { id: userId } = req.user;
-  const { id: commentId } = req.params;
-
-  const comment = await Comment.findById(commentId);
-
-  if (!comment) {
-    return next(
-      new NotFoundError(
-        `There is no comment found with the given ID → ${commentId}`,
-      ),
-    );
-  }
-
-  const isReported = comment.reports.some((report) =>
-    report.user.equal(userId),
-  );
-
-  if (isReported) {
-    return next(new BadRequestError('You already reported this comment'));
-  }
-
-  comment.reports.push({ user: userId, reason });
-  await comment.save();
-
-  return res.status(StatusCodes.OK).json({ message: 'Comment reported' });
-});
-
 export const muteComment = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: commentId } = req.params;

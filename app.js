@@ -23,6 +23,7 @@ import userRoute from './routes/users.route.js';
 import categoryRoute from './routes/category.route.js';
 import replyRoute from './routes/reply.route.js';
 import newsletterRouter from './routes/newsletter.route.js';
+import reportRoute from './routes/report.route.js';
 
 import { NotFoundError } from './errors/not.found.error.js';
 import { errorHandlerMiddleware } from './middlewares/error.handler.middleware.js';
@@ -91,6 +92,7 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/categories', categoryRoute);
 app.use('/api/v1/replies', replyRoute);
 app.use('/api/v1/newsletter', newsletterRouter);
+app.use('/api/v1/reports', reportRoute);
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError(`Can't find ${req.originalUrl} on this server`));

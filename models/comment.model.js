@@ -39,22 +39,10 @@ const commentSchema = new Schema(
       type: Number,
       default: 0,
     },
-    reports: [
-      {
-        user: {
-          type: Types.ObjectId,
-          ref: 'User',
-          required: [true, 'A report must belong to a user'],
-        },
-        reason: {
-          type: String,
-        },
-        reportedAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    isHidden: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

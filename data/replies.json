@@ -293,5 +293,20 @@
     "dislikeCount": 0,
     "createdAt": "2025-09-05T15:08:05.096Z",
     "updatedAt": "2025-09-05T15:08:05.096Z"
+  },
+  {
+    "_id": "68e32c17964871fb68f75a72",
+    "content": "You’re welcome mate!",
+    "comment": "68569bbd3f010863151329c4",
+    "post": "671835dabd0746c3504607c6",
+    "author": "6717d41bf085fd00082dbe98",
+    "parentReply": null,
+    "replies": [],
+    "likes": ["6717d41bf085fd00082dbe98"],
+    "dislikes": [],
+    "likeCount": 1,
+    "dislikeCount": 0,
+    "createdAt": "2025-10-06T02:40:23.571+00:00",
+    "updatedAt": "2025-10-06T02:40:23.571+00:00"
   }
 ]

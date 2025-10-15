@@ -287,5 +287,17 @@
     "dislikeCount": 0,
     "createdAt": "2025-08-17T01:10:07.425+00:00",
     "updatedAt": "2025-08-17T01:10:07.425+00:00"
+  },
+  {
+    "_id": "68e3dda143e20c8cd64d8ff9",
+    "content": "Success is not given it is earned just as respect. Keep working and showing up daily, never stop grinding. The ground work would definitely pay off one day. Believe!!!",
+    "post": "685437108878fda529ad4a6c",
+    "author": "6717d41bf085fd00082dbe98",
+    "likes": [],
+    "dislikes": [],
+    "likeCount": 0,
+    "dislikeCount": 0,
+    "createdAt": "2025-10-06T15:17:53.459Z",
+    "updatedAt": "2025-10-06T15:17:53.459Z"
   }
 ]
