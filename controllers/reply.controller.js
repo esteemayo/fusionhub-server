@@ -6,6 +6,7 @@ import asyncHandler from 'express-async-handler';
 import Reply from '../models/reply.model.js';
 import Post from '../models/post.model.js';
 import Comment from '../models/comment.model.js';
+import User from '../models/user.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
@@ -14,9 +15,17 @@ import * as factory from './handler.factory.controller.js';
 import { buildReplyTree } from '../utils/build.reply.tree.js';
 
 export const getRepliesByComment = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
   const { commentId } = req.params;
 
-  const replies = await Reply.find({ comment: commentId })
+  const user = await User.findById(userId).select('mutedReplies mutedUsers');
+
+  const replies = await Reply.find({
+    comment: commentId,
+    _id: { $nin: user.mutedReplies },
+    user: { $nin: user.mutedUsers },
+    isHidden: false,
+  })
     .populate('comment', 'author')
     .populate('post', 'author')
     .populate('author', 'name username image role fromGoogle')

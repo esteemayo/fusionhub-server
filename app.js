@@ -14,16 +14,18 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import 'colors';
 
-import uploadRoute from './routes/upload.route.js';
-import authRoute from './routes/auth.route.js';
-import commentRoute from './routes/comment.route.js';
-import postRoute from './routes/post.route.js';
-import contactRoute from './routes/contact.route.js';
-import userRoute from './routes/users.route.js';
-import categoryRoute from './routes/category.route.js';
-import replyRoute from './routes/reply.route.js';
-import newsletterRouter from './routes/newsletter.route.js';
-import reportRoute from './routes/report.route.js';
+import uploadRoutes from './routes/upload.route.js';
+import authRoutes from './routes/auth.route.js';
+import commentRoutes from './routes/comment.route.js';
+import muteRoutes from './routes/mute.route.js';
+import contactRoutes from './routes/contact.route.js';
+import postRoutes from './routes/post.route.js';
+import categoryRoutes from './routes/category.route.js';
+import userRoutes from './routes/users.route.js';
+import newsletterRoutes from './routes/newsletter.route.js';
+import replyRoutes from './routes/reply.route.js';
+import adminDashboardRoutes from './routes/admin.dashboard.route.js';
+import reportRoutes from './routes/report.route.js';
 
 import { NotFoundError } from './errors/not.found.error.js';
 import { errorHandlerMiddleware } from './middlewares/error.handler.middleware.js';
@@ -83,16 +85,18 @@ app.use(xss());
 
 app.use(compression());
 
-app.use('/api/v1/uploads', uploadRoute);
-app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/comments', commentRoute);
-app.use('/api/v1/posts', postRoute);
-app.use('/api/v1/contacts', contactRoute);
-app.use('/api/v1/users', userRoute);
-app.use('/api/v1/categories', categoryRoute);
-app.use('/api/v1/replies', replyRoute);
-app.use('/api/v1/newsletter', newsletterRouter);
-app.use('/api/v1/reports', reportRoute);
+app.use('/api/v1/uploads', uploadRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/comments', commentRoutes);
+app.use('/api/v1/mutes', muteRoutes);
+app.use('/api/v1/contacts', contactRoutes);
+app.use('/api/v1/posts', postRoutes);
+app.use('/api/v1/categories', categoryRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/newsletter', newsletterRoutes);
+app.use('/api/v1/replies', replyRoutes);
+app.use('/api/v1/admin/dashboard', adminDashboardRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError(`Can't find ${req.originalUrl} on this server`));

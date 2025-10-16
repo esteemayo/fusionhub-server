@@ -111,6 +111,12 @@ const userSchema = new Schema(
         ref: 'Comment',
       },
     ],
+    mutedReplies: [
+      {
+        type: Types.ObjectId,
+        ref: 'Reply',
+      },
+    ],
     mutedUsers: [
       {
         type: Types.ObjectId,

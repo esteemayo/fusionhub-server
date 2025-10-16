@@ -8,6 +8,7 @@
     "dislikes": [],
     "likeCount": 1,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2024-10-23T17:24:50.432Z",
     "updatedAt": "2024-10-23T17:24:50.432Z"
   },
@@ -20,6 +21,7 @@
     "dislikes": [],
     "likeCount": 1,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2024-10-23T23:46:41.321Z",
     "updatedAt": "2025-06-10T01:00:01.161Z"
   },
@@ -32,6 +34,7 @@
     "dislikes": [],
     "likeCount": 2,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2024-10-23T23:47:42.715Z",
     "updatedAt": "2024-10-23T23:47:42.715Z"
   },
@@ -49,6 +52,7 @@
     "dislikes": [],
     "likeCount": 4,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2024-10-23T23:48:45.234Z",
     "updatedAt": "2024-10-23T23:48:45.234Z"
   },
@@ -61,6 +65,7 @@
     "dislikes": [],
     "likeCount": 2,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2024-10-24T14:35:58.838Z",
     "updatedAt": "2024-10-24T14:35:58.838Z"
   },
@@ -77,6 +82,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-05-20T18:09:28.928Z",
     "updatedAt": "2025-05-20T18:09:28.928Z"
   },
@@ -93,6 +99,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-05-21T12:52:48.501Z",
     "updatedAt": "2025-05-21T12:52:48.501Z"
   },
@@ -111,6 +118,7 @@
     "dislikes": [],
     "likeCount": 5,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-05-25T18:12:26.148Z",
     "updatedAt": "2025-05-25T18:12:26.148Z"
   },
@@ -123,6 +131,7 @@
     "dislikes": [],
     "likeCount": 0,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-09T03:19:02.200Z",
     "updatedAt": "2025-06-09T03:19:02.200Z"
   },
@@ -143,6 +152,7 @@
     "dislikes": [],
     "likeCount": 7,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-21T11:39:14.877Z",
     "updatedAt": "2025-06-21T11:39:14.877Z"
   },
@@ -159,6 +169,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-21T11:40:52.232Z",
     "updatedAt": "2025-06-21T11:40:52.232Z"
   },
@@ -175,6 +186,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-21T11:42:43.799Z",
     "updatedAt": "2025-06-21T11:42:43.799Z"
   },
@@ -187,6 +199,7 @@
     "dislikes": [],
     "likeCount": 2,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-21T11:45:29.813Z",
     "updatedAt": "2025-06-21T11:45:29.813Z"
   },
@@ -207,6 +220,7 @@
     "dislikes": [],
     "likeCount": 7,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-21T11:47:09.508Z",
     "updatedAt": "2025-06-21T11:47:09.508Z"
   },
@@ -225,6 +239,7 @@
     "dislikes": [],
     "likeCount": 5,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-06-28T03:18:35.959Z",
     "updatedAt": "2025-07-01T18:09:34.159Z"
   },
@@ -241,6 +256,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-07-01T18:04:25.968Z",
     "updatedAt": "2025-07-01T18:04:25.968Z"
   },
@@ -257,6 +273,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-07-02T01:22:47.703Z",
     "updatedAt": "2025-07-02T01:22:47.703Z"
   },
@@ -273,6 +290,7 @@
     "dislikes": [],
     "likeCount": 3,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-07-02T01:27:27.668Z",
     "updatedAt": "2025-07-02T01:27:27.668Z"
   },
@@ -285,6 +303,7 @@
     "dislikes": [],
     "likeCount": 1,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-08-17T01:10:07.425+00:00",
     "updatedAt": "2025-08-17T01:10:07.425+00:00"
   },
@@ -297,6 +316,7 @@
     "dislikes": [],
     "likeCount": 0,
     "dislikeCount": 0,
+    "isHidden": false,
     "createdAt": "2025-10-06T15:17:53.459Z",
     "updatedAt": "2025-10-06T15:17:53.459Z"
   }

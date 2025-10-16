@@ -17,8 +17,6 @@ router.get(
   commentController.getCommentsByUser,
 );
 
-router.post('/:id/mute', commentController.muteComment);
-
 router.patch(
   '/:id/like',
   authMiddleware.protect,
@@ -33,7 +31,7 @@ router.patch(
 
 router
   .route('/')
-  .get(commentController.getComments)
+  .get(authMiddleware.protect, commentController.getComments)
   .post(authMiddleware.protect, commentController.createComment);
 
 router

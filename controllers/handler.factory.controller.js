@@ -3,14 +3,36 @@
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
+import User from '../models/user.model.js';
+
 import { APIFeatures } from '../utils/api.features.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 
 export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
+    const { id: userId } = req.user;
+
+    const user = await User.findById(userId).select(
+      'mutedComments, mutedReplies, mutedUsers',
+    );
+
     let filter = {};
-    if (req.params.postId) filter = { post: req.params.postId };
-    if (req.params.commentId) filter = { comment: req.params.commentId };
+
+    if (req.params.postId)
+      filter = {
+        post: req.params.postId,
+        _id: { $nin: user.mutedComments },
+        user: { $nin: user.mutedUsers },
+        isHidden: false,
+      };
+
+    if (req.params.commentId)
+      filter = {
+        comment: req.params.commentId,
+        _id: { $nin: user.mutedReplies },
+        user: { $nin: user.mutedUsers },
+        isHidden: false,
+      };
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()

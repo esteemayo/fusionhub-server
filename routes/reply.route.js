@@ -7,7 +7,7 @@ import * as replyController from '../controllers/reply.controller.js';
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/:commentId/comment', replyController.getRepliesByComment);
+router.get('/:commentId/comment', authMiddleware.protect, replyController.getRepliesByComment);
 
 router.get(
   '/:userId/user',
