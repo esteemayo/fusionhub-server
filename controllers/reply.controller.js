@@ -15,15 +15,24 @@ import * as factory from './handler.factory.controller.js';
 import { buildReplyTree } from '../utils/build.reply.tree.js';
 
 export const getRepliesByComment = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
   const { commentId } = req.params;
+  const userId = req.user ? req.user.id : null;
 
-  const user = await User.findById(userId).select('mutedReplies mutedUsers');
+  let user = null;
+
+  if (userId) {
+    user = await User.findById(userId).select('mutedReplies mutedUsers');
+  } else {
+    user = {
+      mutedReplies: null,
+      mutedUsers: null,
+    };
+  }
 
   const replies = await Reply.find({
     comment: commentId,
-    _id: { $nin: user.mutedReplies },
-    user: { $nin: user.mutedUsers },
+    _id: { $nin: user.mutedReplies || [] },
+    user: { $nin: user.mutedUsers || [] },
     isHidden: false,
   })
     .populate('comment', 'author')

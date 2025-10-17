@@ -51,19 +51,43 @@ export const protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
+export const optionalAuth = asyncHandler(async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader && authHeader.startsWith('Bearer')) {
+    token = authHeader.split(' ').pop();
+
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    const currentUser = await User.findById(decoded.id);
+    req.user = currentUser;
+  } else if (req.cookies.authToken) {
+    token = req.cookies.authToken;
+
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    const currentUser = await User.findById(decoded.id);
+    req.user = currentUser;
+  } else {
+    req.user = null;
+  }
+
+  next();
+});
+
 export const restrictTo =
   (...roles) =>
-    (req, res, next) => {
-      if (!roles.includes(req.user.role)) {
-        return next(
-          new ForbiddenError(
-            'You do not have permission to perform this operation',
-          ),
-        );
-      }
+  (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ForbiddenError(
+          'You do not have permission to perform this operation',
+        ),
+      );
+    }
 
-      next();
-    };
+    next();
+  };
 
 export const verifyUser = (req, res, next) => {
   if (req.params.id !== req.user.id || req.user.role !== 'admin') {

@@ -27,6 +27,12 @@ router.get('/trends', postController.getTrendingPosts);
 
 router.get('/featured-posts', postController.getFeaturedPosts);
 
+router.get(
+  '/comments/:id',
+  authMiddleware.protect,
+  postController.getCommentsOnPost,
+);
+
 router.get('/related-posts', postController.getRelatedPosts);
 
 router.get('/:id/saved-count', postController.savedPostsCount);

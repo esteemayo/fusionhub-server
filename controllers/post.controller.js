@@ -11,6 +11,7 @@ import Comment from '../models/comment.model.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
+import { APIFeatures } from '../utils/api.features.js';
 import * as factory from './handler.factory.controller.js';
 
 export const getPosts = asyncHandler(async (req, res, next) => {
@@ -189,6 +190,38 @@ export const getFeaturedPosts = asyncHandler(async (req, res, next) => {
   const posts = await Post.getFeaturedPosts();
 
   return res.status(StatusCodes.OK).json(posts);
+});
+
+export const getCommentsOnPost = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { id: postId } = req.params;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
+    );
+  }
+
+  const user = await User.findById(userId).select('mutedUsers mutedComments');
+
+  const filter = {
+    post: post._id,
+    _id: { $nin: user.mutedComments },
+    user: { $nin: user.mutedUsers },
+    isHidden: false,
+  };
+
+  const features = new APIFeatures(Comment.find(filter), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const comments = await features.query;
+
+  return res.status(StatusCodes.OK).json(comments);
 });
 
 export const getRelatedPosts = asyncHandler(async (req, res, next) => {

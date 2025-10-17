@@ -103,24 +103,28 @@ const userSchema = new Schema(
       {
         type: Types.ObjectId,
         ref: 'Post',
+        default: [],
       },
     ],
     mutedComments: [
       {
         type: Types.ObjectId,
         ref: 'Comment',
+        default: [],
       },
     ],
     mutedReplies: [
       {
         type: Types.ObjectId,
         ref: 'Reply',
+        default: [],
       },
     ],
     mutedUsers: [
       {
         type: Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
     fromGoogle: {

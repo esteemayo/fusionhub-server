@@ -54,7 +54,7 @@ export const muteEntity = asyncHandler(async (req, res, next) => {
   };
 
   const field = fieldMap[targetType];
-  const targetArray = user[field];
+  const targetArray = user[field] || [];
 
   const alreadyMuted = targetArray.includes(targetId) || false;
 

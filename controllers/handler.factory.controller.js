@@ -10,19 +10,28 @@ import { NotFoundError } from '../errors/not.found.error.js';
 
 export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
-    const { id: userId } = req.user;
+    const userId = req.user ? req.user.id : null;
+    let user = null;
 
-    const user = await User.findById(userId).select(
-      'mutedComments, mutedReplies, mutedUsers',
-    );
+    if (userId) {
+      user = await User.findById(userId).select(
+        'mutedComments mutedReplies mutedUsers',
+      );
+    } else {
+      user = {
+        mutedComments: null,
+        mutedReplies: null,
+        mutedUsers: null,
+      };
+    }
 
     let filter = {};
 
     if (req.params.postId)
       filter = {
         post: req.params.postId,
-        _id: { $nin: user.mutedComments },
-        user: { $nin: user.mutedUsers },
+        _id: { $nin: user.mutedComments || [] },
+        user: { $nin: user.mutedUsers || [] },
         isHidden: false,
       };
 

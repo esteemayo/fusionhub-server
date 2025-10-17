@@ -31,7 +31,7 @@ router.patch(
 
 router
   .route('/')
-  .get(authMiddleware.protect, commentController.getComments)
+  .get(authMiddleware.optionalAuth, commentController.getComments)
   .post(authMiddleware.protect, commentController.createComment);
 
 router
