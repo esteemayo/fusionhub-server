@@ -9,7 +9,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(categoryController.getCategories)
+  .get(authMiddleware.optionalAuth, categoryController.getCategories)
   .post(
     authMiddleware.protect,
     authMiddleware.restrictTo('admin'),

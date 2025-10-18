@@ -50,7 +50,7 @@ export const muteEntity = asyncHandler(async (req, res, next) => {
   const fieldMap = {
     user: 'mutedUsers',
     comment: 'mutedComments',
-    replies: 'mutedReplies',
+    reply: 'mutedReplies',
   };
 
   const field = fieldMap[targetType];

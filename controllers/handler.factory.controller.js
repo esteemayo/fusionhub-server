@@ -3,43 +3,30 @@
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
-import User from '../models/user.model.js';
-
 import { APIFeatures } from '../utils/api.features.js';
+import { getMutedData } from '../utils/get.muted.data.js';
+
 import { NotFoundError } from '../errors/not.found.error.js';
 
 export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
-    const userId = req.user ? req.user.id : null;
-    let user = null;
-
-    if (userId) {
-      user = await User.findById(userId).select(
-        'mutedComments mutedReplies mutedUsers',
-      );
-    } else {
-      user = {
-        mutedComments: null,
-        mutedReplies: null,
-        mutedUsers: null,
-      };
-    }
+    const { mutedUsers, mutedComments, mutedReplies } = await getMutedData(req);
 
     let filter = {};
 
     if (req.params.postId)
       filter = {
         post: req.params.postId,
-        _id: { $nin: user.mutedComments || [] },
-        user: { $nin: user.mutedUsers || [] },
+        _id: { $nin: mutedComments },
+        author: { $nin: mutedUsers },
         isHidden: false,
       };
 
     if (req.params.commentId)
       filter = {
         comment: req.params.commentId,
-        _id: { $nin: user.mutedReplies },
-        user: { $nin: user.mutedUsers },
+        _id: { $nin: mutedReplies },
+        author: { $nin: mutedUsers },
         isHidden: false,
       };
 

@@ -6,33 +6,22 @@ import asyncHandler from 'express-async-handler';
 import Reply from '../models/reply.model.js';
 import Post from '../models/post.model.js';
 import Comment from '../models/comment.model.js';
-import User from '../models/user.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
+import { getMutedData } from '../utils/get.muted.data.js';
 import { buildReplyTree } from '../utils/build.reply.tree.js';
 
 export const getRepliesByComment = asyncHandler(async (req, res, next) => {
   const { commentId } = req.params;
-  const userId = req.user ? req.user.id : null;
-
-  let user = null;
-
-  if (userId) {
-    user = await User.findById(userId).select('mutedReplies mutedUsers');
-  } else {
-    user = {
-      mutedReplies: null,
-      mutedUsers: null,
-    };
-  }
+  const { mutedUsers, mutedReplies } = await getMutedData(req);
 
   const replies = await Reply.find({
     comment: commentId,
-    _id: { $nin: user.mutedReplies || [] },
-    user: { $nin: user.mutedUsers || [] },
+    _id: { $nin: mutedReplies },
+    author: { $nin: mutedUsers },
     isHidden: false,
   })
     .populate('comment', 'author')

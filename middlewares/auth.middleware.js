@@ -52,22 +52,25 @@ export const protect = asyncHandler(async (req, res, next) => {
 });
 
 export const optionalAuth = asyncHandler(async (req, res, next) => {
+  let token;
   const authHeader = req.headers.authorization;
 
   if (authHeader && authHeader.startsWith('Bearer')) {
     token = authHeader.split(' ').pop();
-
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-    const currentUser = await User.findById(decoded.id);
-    req.user = currentUser;
   } else if (req.cookies.authToken) {
     token = req.cookies.authToken;
+  }
 
+  if (token) {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     const currentUser = await User.findById(decoded.id);
-    req.user = currentUser;
+
+    if (currentUser && !currentUser.changedPasswordAfter(decoded.iat)) {
+      req.user = currentUser;
+    } else {
+      req.user = null;
+    }
   } else {
     req.user = null;
   }
