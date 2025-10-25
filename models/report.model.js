@@ -2,6 +2,14 @@ import mongoose from 'mongoose';
 
 const { Types, Schema } = mongoose;
 
+const VALID_REASONS = [
+  'Spam or misleading',
+  'Harassment or bullying',
+  'Hate speech or discrimination',
+  'Inappropriate or sexual content',
+  'Other',
+];
+
 const reportSchema = new Schema(
   {
     reporter: {
@@ -24,11 +32,37 @@ const reportSchema = new Schema(
     },
     reason: {
       type: String,
+      enum: {
+        values: VALID_REASONS,
+        message:
+          'Reason must be either "Spam or misleading" or "Harassment or bullying" or "Hate speech or discrimination" or "Inappropriate or sexual content" or "Other"',
+      },
+      required: [true, 'A report must have a reason'],
+    },
+    customReason: {
+      type: String,
+      trim: true,
+      maxLength: [
+        200,
+        'A custom reason must be less than or equal to 200 characters',
+      ],
+      validate: {
+        validator: function (val) {
+          if (this.reason === 'Other') {
+            return !!val && val.trim().length > 0;
+          }
+          return !val;
+        },
+        message:
+          'A custom reason is required when reason is "Other", and must b empty otherwise',
+      },
+    },
+    details: {
+      type: String,
       maxLength: [
         500,
-        'A report reason must be less than or equal to 500 characters',
+        'A report details must be less than or equal to 500 characters',
       ],
-      required: [true, 'A report must have a reason'],
     },
     status: {
       type: String,

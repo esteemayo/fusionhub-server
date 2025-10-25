@@ -94,7 +94,7 @@ export const updateReport = asyncHandler(async (req, res, next) => {
     }
 
     target.isHidden = true;
-    await target.save({ timestamp: false });
+    await target.save({ timestamps: false });
   }
 
   await report.save();
