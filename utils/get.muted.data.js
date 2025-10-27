@@ -15,9 +15,14 @@ export const getMutedData = async (req) => {
     'mutedUsers mutedComments mutedReplies',
   );
 
-  const mutedUsers = user?.mutedUsers ?? [];
-  const mutedComments = user?.mutedComments ?? [];
-  const mutedReplies = user?.mutedReplies ?? [];
+  const mutedUsers =
+    user?.mutedUsers.map((user) => user.targetId.toString()) ?? [];
+
+  const mutedComments =
+    user?.mutedComments.map((comment) => comment.targetId.toString()) ?? [];
+
+  const mutedReplies =
+    user?.mutedReplies.map((reply) => reply.targetId.toString()) ?? [];
 
   return {
     mutedUsers,

@@ -10,9 +10,10 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
   const user = await User.findById(userId)
-    .populate('mutedUsers', 'username')
-    .populate('mutedComments', 'content')
-    .populate('mutedReplies', 'content');
+    .select('mutedUsers mutedComments mutedReplies')
+    .populate('mutedUsers.targetId', 'username email')
+    .populate('mutedComments.targetId', 'content author createdAt')
+    .populate('mutedReplies.targetId', 'content author createdAt');
 
   if (!user) {
     return next(
@@ -20,24 +21,49 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const mutedUsers = (user.mutedUsers ?? [])
+    .filter((item) => item.targetId)
+    .map((item) => ({
+      id: item.targetId._id,
+      targetType: item.targetType,
+      username: item.targetId.username,
+      email: item.targetId.email,
+      reason: item.reason,
+      mutedAt: item.mutedAt,
+    }));
+
+  const mutedComments = (user.mutedComments ?? [])
+    .filter((item) => item.targetId)
+    .map((item) => ({
+      id: item.targetId._id,
+      targetType: item.targetType,
+      content: item.targetId.content,
+      author: item.targetId.author,
+      reason: item.reason,
+      mutedAt: item.mutedAt,
+    }));
+
+  const mutedReplies = (user.mutedRepliess ?? [])
+    .filter((item) => item.targetId)
+    .map((item) => ({
+      id: item.targetId._id,
+      targetType: item.targetType,
+      content: item.targetId.content,
+      author: item.targetId.author,
+      reason: item.reason,
+      mutedAt: item.mutedAt,
+    }));
+
   return res.status(StatusCodes.OK).json({
-    mutedUsers: user.mutedUsers,
-    mutedComments: user.mutedComments,
-    mutedReplies: user.mutedReplies,
+    mutedUsers,
+    mutedComments,
+    mutedReplies,
   });
 });
 
-export const muteEntity = asyncHandler(async (req, res, next) => {
+export const muteTarget = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
-  const { targetType, targetId, action } = req.body;
-
-  if (!['user', 'comment', 'reply'].includes(targetType)) {
-    return next(new BadRequestError('Invalid target type'));
-  }
-
-  if (!['mute', 'unmute'].includes(action)) {
-    return next(new BadRequestError('Invalid action type'));
-  }
+  const { targetType, targetId, reason } = req.body;
 
   const user = await User.findById(userId);
 
@@ -47,31 +73,47 @@ export const muteEntity = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const fieldMap = {
+  const muteFieldMap = {
     user: 'mutedUsers',
     comment: 'mutedComments',
     reply: 'mutedReplies',
   };
 
-  const field = fieldMap[targetType];
-  const targetArray = user[field] || [];
+  const muteField = muteFieldMap[targetType];
 
-  const alreadyMuted = targetArray.includes(targetId) || false;
-
-  if (action === 'mute') {
-    if (!alreadyMuted) {
-      targetArray.push(targetId);
-    }
-  } else if (action === 'unmute') {
-    user[field] = targetArray.filter(
-      (id) => id.toString() !== targetId.toString(),
-    );
+  if (!muteField) {
+    return next(new BadRequestError('Invalid target type mapping'));
   }
+
+  const alreadyMuted =
+    user[muteField].some((item) => item.targetId.toString() === targetId) ||
+    false;
+
+  if (alreadyMuted) {
+    user[muteField] = user[muteField].filter(
+      (item) => item.targetId.toString() !== targetId,
+    );
+
+    await user.save({ validateBeforeSave: false });
+
+    return res.status(StatusCodes.OK).json({
+      message: `${targetType} unmuted successfully`,
+      muted: user[muteField],
+    });
+  }
+
+  user[muteField].push({
+    targetId,
+    targetType,
+    reason,
+    mutedAt: new Date(),
+  });
 
   await user.save({ validateBeforeSave: false });
 
   return res.status(StatusCodes.OK).json({
-    message: `${targetType} ${action}d successfully`,
-    muted: user[field],
+    message: `${targetType} muted successfully`,
+    muted: user[muteField],
+    mutedAt: new Date(),
   });
 });

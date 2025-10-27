@@ -12,6 +12,6 @@ router.use(authMiddleware.protect);
 router
   .route('/')
   .get(muteController.getMutedEntities)
-  .post(muteController.muteEntity);
+  .post(muteController.muteTarget);
 
 export default router;

@@ -3,6 +3,8 @@ import crypto from 'crypto';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+import muteEntrySchema from './mute.entry.model.js';
+
 const { Types, Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -106,27 +108,9 @@ const userSchema = new Schema(
         default: [],
       },
     ],
-    mutedComments: [
-      {
-        type: Types.ObjectId,
-        ref: 'Comment',
-        default: [],
-      },
-    ],
-    mutedReplies: [
-      {
-        type: Types.ObjectId,
-        ref: 'Reply',
-        default: [],
-      },
-    ],
-    mutedUsers: [
-      {
-        type: Types.ObjectId,
-        ref: 'User',
-        default: [],
-      },
-    ],
+    mutedUsers: [muteEntrySchema],
+    mutedComments: [muteEntrySchema],
+    mutedReplies: [muteEntrySchema],
     fromGoogle: {
       type: Boolean,
       default: false,
