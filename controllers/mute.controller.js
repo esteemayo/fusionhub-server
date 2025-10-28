@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/user.model.js';
+import { validateMuteTarget } from '../utils/validate.mute.target.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequestError } from '../errors/bad.request.error.js';
@@ -11,9 +12,21 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(userId)
     .select('mutedUsers mutedComments mutedReplies')
-    .populate('mutedUsers.targetId', 'username email')
-    .populate('mutedComments.targetId', 'content author createdAt')
-    .populate('mutedReplies.targetId', 'content author createdAt');
+    .populate({
+      path: 'mutedUsers.targetId',
+      model: 'User',
+      select: 'username email name',
+    })
+    .populate({
+      path: 'mutedComments.targetId',
+      model: 'Comment',
+      select: 'content author createdAt',
+    })
+    .populate({
+      path: 'mutedReplies.targetId',
+      model: 'Reply',
+      select: 'content author createdAt',
+    });
 
   if (!user) {
     return next(
@@ -43,7 +56,7 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
       mutedAt: item.mutedAt,
     }));
 
-  const mutedReplies = (user.mutedRepliess ?? [])
+  const mutedReplies = (user.mutedReplies ?? [])
     .filter((item) => item.targetId)
     .map((item) => ({
       id: item.targetId._id,
@@ -63,7 +76,9 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
 
 export const muteTarget = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
-  const { targetType, targetId, reason } = req.body;
+  const { targetId, targetType, reason } = req.body;
+
+  const normalizedType = await validateMuteTarget(targetId, targetType);
 
   const user = await User.findById(userId);
 
@@ -74,20 +89,23 @@ export const muteTarget = asyncHandler(async (req, res, next) => {
   }
 
   const muteFieldMap = {
-    user: 'mutedUsers',
-    comment: 'mutedComments',
-    reply: 'mutedReplies',
+    User: 'mutedUsers',
+    Comment: 'mutedComments',
+    Reply: 'mutedReplies',
   };
 
-  const muteField = muteFieldMap[targetType];
+  const muteField = muteFieldMap[normalizedType];
 
   if (!muteField) {
     return next(new BadRequestError('Invalid target type mapping'));
   }
 
   const alreadyMuted =
-    user[muteField].some((item) => item.targetId.toString() === targetId) ||
-    false;
+    user[muteField].some(
+      (item) =>
+        item.targetId.toString() === targetId &&
+        item.targetType === normalizedType,
+    ) || false;
 
   if (alreadyMuted) {
     user[muteField] = user[muteField].filter(
@@ -97,14 +115,14 @@ export const muteTarget = asyncHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     return res.status(StatusCodes.OK).json({
-      message: `${targetType} unmuted successfully`,
+      message: `${normalizedType} unmuted successfully`,
       muted: user[muteField],
     });
   }
 
   user[muteField].push({
     targetId,
-    targetType,
+    targetType: normalizedType,
     reason,
     mutedAt: new Date(),
   });
@@ -112,8 +130,48 @@ export const muteTarget = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   return res.status(StatusCodes.OK).json({
-    message: `${targetType} muted successfully`,
+    message: `${normalizedType} muted successfully`,
     muted: user[muteField],
     mutedAt: new Date(),
+  });
+});
+
+export const unmuteTarget = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { targetId, targetType } = req.body;
+
+  const normalizedType = await validateMuteTarget(targetId, targetType);
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(
+      new NotFoundError(`There is no user found with the given ID → ${userId}`),
+    );
+  }
+
+  const muteFieldMap = {
+    User: 'mutedUsers',
+    Comment: 'mutedComments',
+    Reply: 'mutedReply',
+  };
+
+  const muteField = muteFieldMap[normalizedType];
+
+  if (!muteField) {
+    return next(new BadRequestError('Invalid target type mapping'));
+  }
+
+  user[muteField] = user[muteField].filter(
+    (entry) =>
+      entry.targetId.toString() !== targetId &&
+      entry.targetType === normalizedType,
+  );
+
+  await user.save({ validateBeforeSave: false });
+
+  return res.status(StatusCodes.OK).json({
+    message: `${normalizedType} unmuted successfully`,
+    muted: user[muteField],
   });
 });

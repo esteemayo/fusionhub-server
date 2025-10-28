@@ -14,4 +14,6 @@ router
   .get(muteController.getMutedEntities)
   .post(muteController.muteTarget);
 
+router.post('/unmute', muteController.unmuteTarget);
+
 export default router;

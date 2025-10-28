@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose;
+const { Schema, Types } = mongoose;
 
 const muteEntrySchema = new Schema(
   {
     targetId: {
-      type: String,
+      type: Types.ObjectId,
       required: [true, 'A mute entry must have a target ID'],
       refPath: 'targetType',
     },
@@ -16,6 +16,11 @@ const muteEntrySchema = new Schema(
         message: 'Target type must be either "User", "Comment", or "Reply"',
       },
       required: [true, 'A mute entry must have a target type'],
+      set: (val) => {
+        const formatted =
+          val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+        return formatted;
+      },
     },
     reason: {
       type: String,
