@@ -70,6 +70,15 @@ const replySchema = new Schema(
 replySchema.index({ _id: -1, likes: -1 }, { unique: true });
 replySchema.index({ _id: 1, dislikes: 1 }, { unique: true });
 
+replySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'author',
+    select: 'name username email image role fromGoogle',
+  });
+
+  next();
+});
+
 // replySchema.pre(/^find/, function (next) {
 //   this.populate({
 //     path: 'comment',

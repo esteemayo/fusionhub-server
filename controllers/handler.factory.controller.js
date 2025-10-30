@@ -3,13 +3,15 @@
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
-import { APIFeatures } from '../utils/api.features.js';
-import { getMutedData } from '../utils/get.muted.data.js';
+import { getMutedData } from '../utils/get.muted.data.util.js';
+import { APIFeatures } from '../utils/api.features.util.js';
+import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 
 export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
+    const { blockedUsers } = await getBlockedUsers(req);
     const { mutedUsers, mutedComments, mutedReplies } = await getMutedData(req);
 
     let filter = {};
@@ -18,7 +20,7 @@ export const getAll = (Model, popOptions) =>
       filter = {
         post: req.params.postId,
         _id: { $nin: mutedComments },
-        author: { $nin: mutedUsers },
+        author: { $nin: [...mutedUsers, ...blockedUsers] },
         isHidden: false,
       };
 
@@ -26,7 +28,7 @@ export const getAll = (Model, popOptions) =>
       filter = {
         comment: req.params.commentId,
         _id: { $nin: mutedReplies },
-        author: { $nin: mutedUsers },
+        author: { $nin: [...mutedUsers, ...blockedUsers] },
         isHidden: false,
       };
 

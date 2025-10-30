@@ -68,7 +68,7 @@ commentSchema.pre(/^find/, function (next) {
 
   this.populate({
     path: 'author',
-    select: 'name username image role fromGoogle',
+    select: 'name email username image role fromGoogle',
   });
 
   next();

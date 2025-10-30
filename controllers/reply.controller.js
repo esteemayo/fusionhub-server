@@ -10,23 +10,27 @@ import Comment from '../models/comment.model.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
+import { buildReplyTree } from '../utils/build.reply.tree.util.js';
+import { getMutedData } from '../utils/get.muted.data.util.js';
+import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
+
 import * as factory from './handler.factory.controller.js';
-import { getMutedData } from '../utils/get.muted.data.js';
-import { buildReplyTree } from '../utils/build.reply.tree.js';
 
 export const getRepliesByComment = asyncHandler(async (req, res, next) => {
   const { commentId } = req.params;
+
+  const { blockedUsers } = await getBlockedUsers(req)
   const { mutedUsers, mutedReplies } = await getMutedData(req);
 
   const replies = await Reply.find({
     comment: commentId,
     _id: { $nin: mutedReplies },
-    author: { $nin: mutedUsers },
+    author: { $nin: [...mutedUsers, ...blockedUsers] },
     isHidden: false,
   })
     .populate('comment', 'author')
     .populate('post', 'author')
-    .populate('author', 'name username image role fromGoogle')
+    .populate('author', 'name username email image role fromGoogle')
     .lean();
 
   const tree = buildReplyTree(replies);

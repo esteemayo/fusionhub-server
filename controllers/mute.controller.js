@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/user.model.js';
-import { validateMuteTarget } from '../utils/validate.mute.target.js';
+import { validateMuteTarget } from '../utils/validate.mute.target.util.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequestError } from '../errors/bad.request.error.js';
@@ -15,7 +15,7 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
     .populate({
       path: 'mutedUsers.targetId',
       model: 'User',
-      select: 'username email name',
+      select: 'username email name image',
     })
     .populate({
       path: 'mutedComments.targetId',
@@ -41,6 +41,8 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
       targetType: item.targetType,
       username: item.targetId.username,
       email: item.targetId.email,
+      name: item.targetId.name,
+      image: item.targetId.image,
       reason: item.reason,
       mutedAt: item.mutedAt,
     }));

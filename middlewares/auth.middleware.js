@@ -101,3 +101,25 @@ export const verifyUser = (req, res, next) => {
 
   next();
 };
+
+export const checkBlock = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { targetId } = req.body;
+
+  const user = await User.findById(userId).select('blockedUsers');
+
+  const blocked =
+    (user &&
+      user.blockedUsers.some(
+        (entry) => entry.targetId.toString() === targetId,
+      )) ||
+    false;
+
+  if (blocked) {
+    return next(
+      new ForbiddenError('You have blocked this user. Interaction denied'),
+    );
+  }
+
+  next();
+});

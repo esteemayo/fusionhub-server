@@ -4,6 +4,7 @@ import express from 'express';
 
 import * as authMiddleware from '../middlewares/auth.middleware.js';
 import * as userController from '../controllers/user.controller.js';
+import * as blockController from '../controllers/block.controller.js';
 
 const router = express.Router();
 
@@ -23,10 +24,12 @@ router.get('/saved-posts', userController.getUserSavedPosts);
 
 router.get('/:postId/saved-count', userController.savedPostsCount);
 
+router.get('/blocked', authMiddleware.protect, blockController.getBlockedUsers);
+
 router.post(
-  '/:id/mute',
+  '/:id/block',
   authMiddleware.protect,
-  userController.muteAndUnmuteUser,
+  blockController.toggleBlockUser,
 );
 
 router.patch('/update-me', userController.updateMe);

@@ -72,37 +72,6 @@ export const savedPostsCount = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json(counts);
 });
 
-export const muteAndUnmuteUser = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
-  const { id: targetUserId } = req.params;
-
-  if (userId === targetUserId) {
-    return next(new BadRequestError('You cannot mute/unmute yourself'));
-  }
-
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return next(
-      new NotFoundError(`There is no user found with the given ID → ${userId}`),
-    );
-  }
-
-  const isMuted = user.mutedUsers.includes(targetUserId);
-
-  if (isMuted) {
-    user.mutedUsers.pull(targetUserId);
-  } else {
-    user.mutedUsers.push(targetUserId);
-  }
-
-  await user.save();
-
-  return res.status(StatusCodes.OK).json({
-    message: isMuted ? 'User unmuted' : 'User muted',
-  });
-});
-
 export const updateMe = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { password, passwordConfirm } = req.body;

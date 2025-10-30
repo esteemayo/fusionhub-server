@@ -1,3 +1,5 @@
+/* eslint disable */
+
 export const buildReplyTree = (replies, parentId = null) => {
   return replies
     .filter((reply) => String(reply.parentReply) === String(parentId))

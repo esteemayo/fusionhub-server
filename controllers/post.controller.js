@@ -11,8 +11,8 @@ import Comment from '../models/comment.model.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
-import { APIFeatures } from '../utils/api.features.js';
 import * as factory from './handler.factory.controller.js';
+import { APIFeatures } from '../utils/api.features.util.js';
 
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};

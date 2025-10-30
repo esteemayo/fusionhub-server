@@ -1,3 +1,5 @@
+/* eslint disable */
+
 import mongoose from 'mongoose';
 
 import Reply from '../models/reply.model.js';

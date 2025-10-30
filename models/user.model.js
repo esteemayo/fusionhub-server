@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 import muteEntrySchema from './mute.entry.model.js';
+import blockEntrySchema from './block.entry.model.js';
 
 const { Types, Schema } = mongoose;
 
@@ -111,6 +112,7 @@ const userSchema = new Schema(
     mutedUsers: [muteEntrySchema],
     mutedComments: [muteEntrySchema],
     mutedReplies: [muteEntrySchema],
+    blockedUsers: [blockEntrySchema],
     fromGoogle: {
       type: Boolean,
       default: false,
