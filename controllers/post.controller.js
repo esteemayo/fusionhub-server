@@ -3,6 +3,7 @@
 import { StatusCodes } from 'http-status-codes';
 import slugify from 'slugify';
 import asyncHandler from 'express-async-handler';
+import mongoose from 'mongoose';
 
 import Post from '../models/post.model.js';
 import User from '../models/user.model.js';
@@ -13,6 +14,9 @@ import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
 import { APIFeatures } from '../utils/api.features.util.js';
+import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
+
+const { Types } = mongoose;
 
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};
@@ -29,6 +33,16 @@ export const getPosts = asyncHandler(async (req, res, next) => {
     tag,
   } = req.query;
 
+  const { blockedUsers } = await getBlockedUsers(req);
+
+  const blockedObjectIds = blockedUsers.map((id) =>
+    Types.ObjectId.createFromHexString(id),
+  );
+
+  if (!author && blockedObjectIds.length > 0) {
+    queryObj.author = { $nin: blockedObjectIds };
+  }
+
   if (author) {
     const user = await User.findOne({ username: author }).select('_id');
 
@@ -40,24 +54,26 @@ export const getPosts = asyncHandler(async (req, res, next) => {
       );
     }
 
+    if (blockedUsers.includes(user._id.toString())) {
+      return res.status(StatusCodes.OK).json({
+        page: 1,
+        counts: 0,
+        numberOfPages: 0,
+        hasMore: false,
+        posts: [],
+      });
+    }
+
     queryObj.author = user._id;
   }
 
-  if (category) {
-    queryObj.category = category;
-  }
+  if (category) queryObj.category = category;
 
-  if (featured) {
-    queryObj.isFeatured = featured === 'true' ? true : false;
-  }
+  if (featured) queryObj.isFeatured = featured === 'true' ? true : false;
 
-  if (search) {
-    queryObj.title = { $regex: search, $options: 'i' };
-  }
+  if (search) queryObj.title = { $regex: search, $options: 'i' };
 
-  if (tag) {
-    queryObj.tags = { $in: [tag] };
-  }
+  if (tag) queryObj.tags = { $in: [tag] };
 
   if (numericFilter) {
     const operatorMap = {

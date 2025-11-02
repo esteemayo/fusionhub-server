@@ -51,7 +51,7 @@ export const toggleBlockUser = asyncHandler(async (req, res, next) => {
   }
 
   if (targetUser.role === 'admin') {
-    return next(new ForbiddenError('You cannot blockan admin account'));
+    return next(new ForbiddenError('You cannot block an admin account'));
   }
 
   const isAlreadyBlocked =

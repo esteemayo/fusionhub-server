@@ -100,7 +100,7 @@ router.patch(
 
 router
   .route('/')
-  .get(postController.getPosts)
+  .get(authMiddleware.optionalAuth, postController.getPosts)
   .post(authMiddleware.protect, postController.createPost);
 
 router
