@@ -3,7 +3,6 @@
 import { StatusCodes } from 'http-status-codes';
 import slugify from 'slugify';
 import asyncHandler from 'express-async-handler';
-import mongoose from 'mongoose';
 
 import Post from '../models/post.model.js';
 import User from '../models/user.model.js';
@@ -12,11 +11,9 @@ import Comment from '../models/comment.model.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
-import * as factory from './handler.factory.controller.js';
 import { APIFeatures } from '../utils/api.features.util.js';
-import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
-
-const { Types } = mongoose;
+import * as factory from './handler.factory.controller.js';
+import { getMutualBlockedUsers } from '../utils/get.mutual.blocked.users.util.js';
 
 export const getPosts = asyncHandler(async (req, res, next) => {
   const queryObj = {};
@@ -33,14 +30,10 @@ export const getPosts = asyncHandler(async (req, res, next) => {
     tag,
   } = req.query;
 
-  const { blockedUsers } = await getBlockedUsers(req);
+  const { blockedUsers } = await getMutualBlockedUsers(req);
 
-  const blockedObjectIds = blockedUsers.map((id) =>
-    Types.ObjectId.createFromHexString(id),
-  );
-
-  if (!author && blockedObjectIds.length > 0) {
-    queryObj.author = { $nin: blockedObjectIds };
+  if (blockedUsers.length > 0) {
+    queryObj.author = { ...(queryObj.author || {}), $nin: blockedUsers };
   }
 
   if (author) {

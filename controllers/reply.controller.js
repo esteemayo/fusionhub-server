@@ -12,14 +12,14 @@ import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import { buildReplyTree } from '../utils/build.reply.tree.util.js';
 import { getMutedData } from '../utils/get.muted.data.util.js';
-import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
+import { getMutualBlockedUsers } from '../utils/get.mutual.blocked.users.util.js';
 
 import * as factory from './handler.factory.controller.js';
 
 export const getRepliesByComment = asyncHandler(async (req, res, next) => {
   const { commentId } = req.params;
 
-  const { blockedUsers } = await getBlockedUsers(req)
+  const { blockedUsers } = await getMutualBlockedUsers(req);
   const { mutedUsers, mutedReplies } = await getMutedData(req);
 
   const replies = await Reply.find({
@@ -28,6 +28,8 @@ export const getRepliesByComment = asyncHandler(async (req, res, next) => {
     author: { $nin: [...mutedUsers, ...blockedUsers] },
     isHidden: false,
   })
+    .setOptions({ user: { blockedUsers } })
+    .sort('-createdAt')
     .populate('comment', 'author')
     .populate('post', 'author')
     .populate('author', 'name username email image role fromGoogle')

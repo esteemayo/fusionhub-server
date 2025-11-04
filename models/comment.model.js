@@ -74,6 +74,17 @@ commentSchema.pre(/^find/, function (next) {
   next();
 });
 
+commentSchema.pre(/^find/, function (next) {
+  if (this._mongooseOptions && this._mongooseOptions.user) {
+    const blockedUsers = this._mongooseOptions.user.blockedUsers || [];
+    if (blockedUsers.length) {
+      this.where({ author: { $nin: blockedUsers } });
+    }
+  }
+
+  next();
+});
+
 const Comment =
   mongoose.models.Comment || mongoose.model('Comment', commentSchema);
 

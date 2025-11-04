@@ -79,6 +79,17 @@ replySchema.pre(/^find/, function (next) {
   next();
 });
 
+replySchema.pre(/^find/, function (next) {
+  if (this._mongooseOptions && this._mongooseOptions.user) {
+    const blockedUsers = this._mongooseOptions.user.blockedUsers || [];
+    if (blockedUsers.length) {
+      this.where({ author: { $nin: blockedUsers } });
+    }
+  }
+
+  next();
+});
+
 // replySchema.pre(/^find/, function (next) {
 //   this.populate({
 //     path: 'comment',

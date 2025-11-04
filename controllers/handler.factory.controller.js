@@ -5,13 +5,13 @@ import asyncHandler from 'express-async-handler';
 
 import { getMutedData } from '../utils/get.muted.data.util.js';
 import { APIFeatures } from '../utils/api.features.util.js';
-import { getBlockedUsers } from '../utils/get.blocked.users.util.js';
+import { getMutualBlockedUsers } from '../utils/get.mutual.blocked.users.util.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 
 export const getAll = (Model, popOptions) =>
   asyncHandler(async (req, res, next) => {
-    const { blockedUsers } = await getBlockedUsers(req);
+    const { blockedUsers } = await getMutualBlockedUsers(req);
     const { mutedUsers, mutedComments, mutedReplies } = await getMutedData(req);
 
     let filter = {};
@@ -42,7 +42,7 @@ export const getAll = (Model, popOptions) =>
 
     if (popOptions) query.populate(popOptions);
 
-    const docs = await query;
+    const docs = await query.setOptions({ user: { blockedUsers } });
 
     return res.status(StatusCodes.OK).json(docs);
   });

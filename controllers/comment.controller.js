@@ -11,6 +11,7 @@ import { NotFoundError } from '../errors/not.found.error.js';
 import { ForbiddenError } from '../errors/forbidden.error.js';
 
 import * as factory from './handler.factory.controller.js';
+import { getMutualBlockedUsers } from '../utils/get.mutual.blocked.users.util.js';
 
 export const getCommentsByUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
@@ -37,6 +38,34 @@ export const getCommentsByUser = asyncHandler(async (req, res, next) => {
     hasMore,
     comments,
   });
+});
+
+export const createComment = asyncHandler(async (req, res, next) => {
+  const postId = req.body.post || req.params.postId;
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
+    );
+  }
+
+  if (
+    blockedUsers.some((user) => user.toString() === post.author._id.toString())
+  ) {
+    return next(new ForbiddenError('You cannot interact with this user'));
+  }
+
+  if (!req.body.author) req.body.author = req.user.id;
+  if (!req.body.post) req.body.post = req.params.postId;
+
+  const comment = await Comment.create({ ...req.body });
+
+  if (comment) {
+    return res.status(StatusCodes.CREATED).json(comment);
+  }
 });
 
 export const updateComment = asyncHandler(async (req, res, next) => {
@@ -284,4 +313,4 @@ export const deleteComment = asyncHandler(async (req, res, next) => {
 
 export const getComments = factory.getAll(Comment, 'replies');
 export const getComment = factory.getOneById(Comment, 'replies');
-export const createComment = factory.createOne(Comment);
+// export const createComment = factory.createOne(Comment);
