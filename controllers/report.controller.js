@@ -23,12 +23,24 @@ export const getReport = asyncHandler(async (req, res, next) => {
 
   const report = await Report.findById(reportId);
 
+  if (!report) {
+    return next(
+      new NotFoundError(
+        `There is no report found with the given ID → ${reportId}`,
+      ),
+    );
+  }
+
   return res.status(StatusCodes.OK).json(report);
 });
 
 export const createReport = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
+  const { id: userId, role } = req.user;
   const { targetType, targetId } = req.body;
+
+  if (userId === targetId) {
+    return next(new BadRequestError('You cannot report yourself'));
+  }
 
   if (!['comment', 'reply'].includes(targetType)) {
     return next(new BadRequestError('Invalid target type'));

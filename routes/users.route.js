@@ -29,6 +29,7 @@ router.get('/blocked', authMiddleware.protect, blockController.getBlockedUsers);
 router.post(
   '/:id/block',
   authMiddleware.protect,
+  authMiddleware.restrictTo('admin'),
   blockController.toggleBlockUser,
 );
 

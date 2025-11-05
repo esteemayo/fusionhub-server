@@ -1,3 +1,5 @@
+/* eslint disable */
+
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import mongoose from 'mongoose';

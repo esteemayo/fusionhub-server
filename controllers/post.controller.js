@@ -626,12 +626,23 @@ export const likePost = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   const post = await Post.findById(postId);
 
   if (!post) {
     return next(
       new NotFoundError(`There is no post found with the given ID → ${postId}`),
     );
+  }
+
+  const isBlocked =
+    blockedUsers.some(
+      (user) => user.toString() === post.author._id.toString(),
+    ) || false;
+
+  if (isBlocked) {
+    return next(new ForbiddenError('You cannot interact with this user'));
   }
 
   const isLiked = post.likes.some((id) => String(id) === userId) || false;
@@ -670,12 +681,23 @@ export const dislikePost = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   const post = await Post.findById(postId);
 
   if (!post) {
     return next(
       new NotFoundError(`There is no post found with the given ID → ${postId}`),
     );
+  }
+
+  const isBlocked =
+    blockedUsers.some(
+      (user) => user.toString() === post.author._id.toString(),
+    ) || false;
+
+  if (isBlocked) {
+    return next(new ForbiddenError('You cannot interact with this user'));
   }
 
   const isLiked = post.likes.some((id) => String(id) === userId) || false;

@@ -76,10 +76,49 @@ export const getRepliesByUser = asyncHandler(async (req, res, next) => {
 
 export const createReply = asyncHandler(async (req, res, next) => {
   const { parentReplyId } = req.body;
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
+  const postId = req.body.post || req.params.postId;
+  const commentId = req.body.comment || req.params.commentId;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return next(
+      new NotFoundError(`There is no post found with the given ID → ${postId}`),
+    );
+  }
+  const isBlockedPostAuthor =
+    blockedUsers.some(
+      (user) => user.toString() === post.author._id.toString(),
+    ) || false;
+
+  if (isBlockedPostAuthor) {
+    return next(new ForbiddenError('You cannot interact with this user'));
+  }
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    return next(
+      new NotFoundError(
+        `There is no comment found with the given ID → ${commentId}`,
+      ),
+    );
+  }
+
+  const isBlockedCommentAuthor =
+    blockedUsers.some(
+      (user) => user.toString() === comment.author._id.toString(),
+    ) || false;
+
+  if (isBlockedCommentAuthor) {
+    return next(new ForbiddenError('You cannot interact with this user'));
+  }
 
   if (!req.body.post) req.body.post = req.params.postId;
   if (!req.body.author) req.body.author = req.user.id;
-  if (!req.body.comment) req.body.comment = req.params.comentId;
+  if (!req.body.comment) req.body.comment = req.params.commentId;
 
   const reply = await Reply.create({
     ...req.body,
@@ -136,8 +175,8 @@ export const updateReply = asyncHandler(async (req, res, next) => {
   }
 
   const isReplyAuthor = String(reply.author._id) === userId;
-  const isCommentAuthor = String(comment.author._id) === userId;
   const isPostAuthor = String(post.author._id) === userId;
+  const isCommentAuthor = String(comment.author._id) === userId;
 
   const updateAndRespond = async () => {
     const updatedReply = await Reply.findByIdAndUpdate(
@@ -194,6 +233,8 @@ export const likeReply = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: replyId } = req.params;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   const reply = await Reply.findById(replyId);
 
   if (!reply) {
@@ -202,6 +243,15 @@ export const likeReply = asyncHandler(async (req, res, next) => {
         `There is no reply found with the given ID → ${replyId}`,
       ),
     );
+  }
+
+  const isBlocked =
+    blockedUsers.some(
+      (user) => user.toString() === reply.author._id.toString(),
+    ) || false;
+
+  if (isBlocked) {
+    return next(new ForbiddenError('You cannot interact with this user'));
   }
 
   const hasLiked = reply.likes.some((like) => String(like) === userId) || false;
@@ -241,6 +291,8 @@ export const dislikeReply = asyncHandler(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: replyId } = req.params;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   const reply = await Reply.findById(replyId);
 
   if (!reply) {
@@ -249,6 +301,15 @@ export const dislikeReply = asyncHandler(async (req, res, next) => {
         `There is no reply found with the given ID → ${replyId}`,
       ),
     );
+  }
+
+  const isBlocked =
+    blockedUsers.some(
+      (user) => user.toString() === reply.author._id.toString(),
+    ) || false;
+
+  if (isBlocked) {
+    return next(new ForbiddenError('You cannot interact with this user'));
   }
 
   const hasLiked = reply.likes.includes(userId) || false;
@@ -318,8 +379,8 @@ export const deleteReply = asyncHandler(async (req, res, next) => {
   }
 
   const isReplyAuthor = String(reply.author._id) === userId;
-  const isCommentAuthor = String(comment.author._id) === userId;
   const isPostAuthor = String(post.author._id) === userId;
+  const isCommentAuthor = String(comment.author._id) === userId;
 
   if (role === 'admin') {
     const replyAuthor = reply.author;

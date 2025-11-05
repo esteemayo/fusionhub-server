@@ -17,7 +17,11 @@ router.get(
 
 router.get('/:id', reportController.getReport);
 
-router.post('/', reportController.createReport);
+router.post(
+  '/',
+  authMiddleware.restrictTo('admin'),
+  reportController.createReport,
+);
 
 router.patch(
   '/admin/:id/review',

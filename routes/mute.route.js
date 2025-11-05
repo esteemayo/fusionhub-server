@@ -12,8 +12,12 @@ router.use(authMiddleware.protect);
 router
   .route('/')
   .get(muteController.getMutedEntities)
-  .post(muteController.muteTarget);
+  .post(authMiddleware.restrictTo('admin'), muteController.muteTarget);
 
-router.post('/unmute', muteController.unmuteTarget);
+router.post(
+  '/unmute',
+  authMiddleware.restrictTo('admin'),
+  muteController.unmuteTarget,
+);
 
 export default router;

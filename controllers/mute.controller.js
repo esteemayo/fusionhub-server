@@ -6,6 +6,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/user.model.js';
 import { validateMuteTarget } from '../utils/validate.mute.target.util.js';
 
+import { ForbiddenError } from '../errors/forbidden.error.js';
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequestError } from '../errors/bad.request.error.js';
 
@@ -79,17 +80,30 @@ export const getMutedEntities = asyncHandler(async (req, res, next) => {
 });
 
 export const muteTarget = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
+  const { id: userId, role } = req.user;
   const { targetId, targetType, reason } = req.body;
 
   const normalizedType = await validateMuteTarget(targetId, targetType);
 
+  if (userId === targetId) {
+    return next(new BadRequestError('You cannot mute yourself'));
+  }
+
   const user = await User.findById(userId);
+  const targetUser = await User.findById(targetId).select('_id role');
 
   if (!user) {
     return next(
       new NotFoundError(`There is no user found with the given ID → ${userId}`),
     );
+  }
+
+  if (!targetUser) {
+    return next(new NotFoundError('Target user does not exist'));
+  }
+
+  if (targetUser.role === 'admin') {
+    return next(new ForbiddenError('You cannot mute an admin account'));
   }
 
   const muteFieldMap = {

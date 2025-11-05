@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/user.model.js';
+import { cleanUpBlockedRelationship } from '../utils/clean.up.blocked.relationship.util.js';
 
 import { ForbiddenError } from '../errors/forbidden.error.js';
 import { NotFoundError } from '../errors/not.found.error.js';
@@ -30,8 +31,8 @@ export const getBlockedUsers = asyncHandler(async (req, res, next) => {
 });
 
 export const toggleBlockUser = asyncHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
   const { id: targetId } = req.params;
+  const { id: userId, role } = req.user;
 
   if (!req.body.targetId) req.body.targetId = targetId;
 
@@ -78,6 +79,7 @@ export const toggleBlockUser = asyncHandler(async (req, res, next) => {
   });
 
   await user.save({ validateBeforeSave: false });
+  await cleanUpBlockedRelationship(user._id, targetUser._id);
 
   return res.status(StatusCodes.OK).json({
     message: 'User blocked successfully',
