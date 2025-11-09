@@ -31,8 +31,8 @@ export const getBlockedUsers = asyncHandler(async (req, res, next) => {
 });
 
 export const toggleBlockUser = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.user;
   const { id: targetId } = req.params;
-  const { id: userId, role } = req.user;
 
   if (!req.body.targetId) req.body.targetId = targetId;
 

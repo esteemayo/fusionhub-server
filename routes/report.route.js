@@ -19,7 +19,7 @@ router.get('/:id', reportController.getReport);
 
 router.post(
   '/',
-  authMiddleware.restrictTo('admin'),
+  authMiddleware.restrictTo('user'),
   reportController.createReport,
 );
 
