@@ -294,12 +294,18 @@ export const getPostsLikedByUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
   let { page, limit } = req.query;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   page = +page || 1;
   limit = +limit || 6;
 
   const skip = (page - 1) * limit;
 
-  const counts = await Post.countDocuments({ likes: { $in: [userId] } });
+  const counts = await Post.countDocuments({
+    likes: { $in: [userId] },
+    author: { $nin: blockedUsers },
+  });
+
   const hasMore = page * limit < counts;
 
   const numberOfPages = Math.ceil(counts / limit);
@@ -325,12 +331,18 @@ export const getPostsDislikedByUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
   let { page, limit } = req.query;
 
+  const { blockedUsers } = await getMutualBlockedUsers(req);
+
   page = +page || 1;
   limit = +limit || 6;
 
   const skip = (page - 1) * limit;
 
-  const counts = await Post.countDocuments({ dislikes: { $in: [userId] } });
+  const counts = await Post.countDocuments({
+    dislikes: { $in: [userId] },
+    author: { $nin: blockedUsers },
+  });
+
   const hasMore = page * limit < counts;
 
   const numberOfPages = Math.ceil(counts / limit);

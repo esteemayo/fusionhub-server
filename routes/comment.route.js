@@ -14,30 +14,45 @@ router.use('/:commentId/replies', replyCommentRoute);
 router.get(
   '/:userId/user',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   commentController.getCommentsByUser,
 );
 
 router.patch(
   '/:id/like',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   commentController.likeComment,
 );
 
 router.patch(
   '/:id/dislike',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   commentController.dislikeComment,
 );
 
 router
   .route('/')
   .get(authMiddleware.optionalAuth, commentController.getComments)
-  .post(authMiddleware.protect, commentController.createComment);
+  .post(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    commentController.createComment,
+  );
 
 router
   .route('/:id')
   .get(commentController.getComment)
-  .patch(authMiddleware.protect, commentController.updateComment)
-  .delete(authMiddleware.protect, commentController.deleteComment);
+  .patch(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    commentController.updateComment,
+  )
+  .delete(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    commentController.deleteComment,
+  );
 
 export default router;

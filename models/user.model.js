@@ -115,6 +115,14 @@ const userSchema = new Schema(
     mutedComments: [muteEntrySchema],
     mutedReplies: [muteEntrySchema],
     blockedUsers: [blockEntrySchema],
+    isSoftBanned: {
+      type: Boolean,
+      default: false,
+    },
+    softBanExpires: {
+      type: Date,
+      default: null
+    },
     fromGoogle: {
       type: Boolean,
       default: false,

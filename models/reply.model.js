@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import mongoose from 'mongoose';
 
 const { Types, Schema } = mongoose;

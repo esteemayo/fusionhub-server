@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import slugify from 'slugify';
 import mongoose from 'mongoose';
 
@@ -236,10 +238,13 @@ postSchema.statics.getRandomPosts = async function () {
 };
 
 postSchema.statics.getTopPost = async function () {
+  const startDate = new Date();
+  startDate.setFullYear(startDate.getFullYear - 10);
+
   const posts = await this.aggregate([
     {
       $match: {
-        createdAt: { $gte: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000) },
+        createdAt: { $gte: startDate },
         views: { $gte: 100 },
       },
     },

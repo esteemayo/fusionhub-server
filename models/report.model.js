@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import mongoose from 'mongoose';
 
 const { Types, Schema } = mongoose;
@@ -20,8 +22,8 @@ const reportSchema = new Schema(
     targetType: {
       type: String,
       enum: {
-        values: ['comment', 'reply'],
-        message: 'Target type must be either "comment" or "reply"',
+        values: ['Comment', 'Reply', 'User'],
+        message: 'Target type must be either "Comment", "Reply", or "User"',
       },
       required: [true, 'A report must have a target type'],
     },

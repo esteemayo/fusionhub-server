@@ -47,6 +47,15 @@ export const protect = asyncHandler(async (req, res, next) => {
     );
   }
 
+  if (currentUser.isSoftBanned) {
+    if (currentUser.softBanExpires && currentUser.softBanExpires < Date.now()) {
+      currentUser.isSoftBanned = false;
+      currentUser.softBanExpires = null;
+
+      await currentUser.save({ timestamps: false });
+    }
+  }
+
   req.user = currentUser;
   next();
 });
@@ -68,6 +77,17 @@ export const optionalAuth = asyncHandler(async (req, res, next) => {
 
     if (currentUser && !currentUser.changedPasswordAfter(decoded.iat)) {
       req.user = currentUser;
+    } else if (currentUser.isSoftBanned) {
+      if (
+        currentUser.softBanExpires &&
+        currentUser.softBanExpires < Date.now()
+      ) {
+        currentUser.isSoftBanned = false;
+        currentUser.softBanExpires = null;
+
+        await currentUser.save({ timestamps: false });
+        req.user = currentUser;
+      }
     } else {
       req.user = null;
     }
@@ -123,3 +143,17 @@ export const checkBlock = asyncHandler(async (req, res, next) => {
 
   next();
 });
+
+export const restrictSoftBanned = (req, res, next) => {
+  const { isSoftBanned } = req.user;
+
+  if (isSoftBanned) {
+    return next(
+      new ForbiddenError(
+        'Your account is temporarily restricted due to a policy violation',
+      ),
+    );
+  }
+
+  next();
+};

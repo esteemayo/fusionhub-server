@@ -40,30 +40,35 @@ router.get('/:id/saved-count', postController.savedPostsCount);
 router.get(
   '/:userId/user',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.getPostsByUser,
 );
 
 router.get(
   '/user/:userId/liked-posts',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.getPostsLikedByUser,
 );
 
 router.get(
   '/user/:userId/disliked-posts',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.getPostsDislikedByUser,
 );
 
 router.get(
   '/liked-posts',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.getMyLikedPosts,
 );
 
 router.get(
   '/disliked-posts',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.getMyDislikedPosts,
 );
 
@@ -90,23 +95,41 @@ router.patch(
 
 router.patch('/:id/views', postController.updateViews);
 
-router.patch('/:id/like', authMiddleware.protect, postController.likePost);
+router.patch(
+  '/:id/like',
+  authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
+  postController.likePost,
+);
 
 router.patch(
   '/:id/dislike',
   authMiddleware.protect,
+  authMiddleware.restrictSoftBanned,
   postController.dislikePost,
 );
 
 router
   .route('/')
   .get(authMiddleware.optionalAuth, postController.getPosts)
-  .post(authMiddleware.protect, postController.createPost);
+  .post(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    postController.createPost,
+  );
 
 router
   .route('/:id')
   .get(increaseViews, postController.getPostById)
-  .patch(authMiddleware.protect, postController.updatePost)
-  .delete(authMiddleware.protect, postController.deletePost);
+  .patch(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    postController.updatePost,
+  )
+  .delete(
+    authMiddleware.protect,
+    authMiddleware.restrictSoftBanned,
+    postController.deletePost,
+  );
 
 export default router;

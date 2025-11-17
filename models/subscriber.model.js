@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import crypto from 'crypto';
 import mongoose from 'mongoose';
 

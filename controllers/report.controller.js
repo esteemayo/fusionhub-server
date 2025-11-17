@@ -1,9 +1,12 @@
+/* eslint-disable */
+
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 
 import Report from '../models/report.model.js';
-import Reply from '../models/reply.model.js';
+import User from '../models/user.model.js';
 import Comment from '../models/comment.model.js';
+import Reply from '../models/reply.model.js';
 
 import { NotFoundError } from '../errors/not.found.error.js';
 import { BadRequestError } from '../errors/bad.request.error.js';
@@ -38,15 +41,19 @@ export const createReport = asyncHandler(async (req, res, next) => {
   const { id: userId, role } = req.user;
   const { targetType, targetId } = req.body;
 
-  if (userId === targetId) {
+  if (targetType === 'User' && userId === targetId) {
     return next(new BadRequestError('You cannot report yourself'));
   }
 
-  if (!['comment', 'reply'].includes(targetType)) {
+  if (!['Comment', 'Reply', 'User'].includes(targetType)) {
     return next(new BadRequestError('Invalid target type'));
   }
 
-  const targetModel = targetType === 'comment' ? Comment : Reply;
+  let targetModel;
+
+  if (targetType === 'Reply') targetModel = Reply;
+  if (targetType === 'User') targetModel = User;
+  if (targetType === 'Comment') targetModel = Comment;
 
   const targetExists = await targetModel.findById(targetId);
 
@@ -66,9 +73,7 @@ export const createReport = asyncHandler(async (req, res, next) => {
 
   if (!req.body.reporter) req.body.reporter = userId;
 
-  const report = await Report.create({
-    ...req.body,
-  });
+  const report = await Report.create({ ...req.body });
 
   return res.status(StatusCodes.CREATED).json(report);
 });
@@ -93,7 +98,11 @@ export const updateReport = asyncHandler(async (req, res, next) => {
   report.adminNote = adminNote || '';
 
   if (report.status === 'action_taken') {
-    const targetModel = report.targetType === 'comment' ? Comment : Reply;
+    let targetModel;
+
+    if (targetType === 'Reply') targetModel = Reply;
+    if (targetType === 'User') targetModel = User;
+    if (targetType === 'Comment') targetModel = Comment;
 
     const target = await targetModel.findById(report.targetId);
 
@@ -105,8 +114,17 @@ export const updateReport = asyncHandler(async (req, res, next) => {
       );
     }
 
-    target.isHidden = true;
-    await target.save({ timestamps: false });
+    if (report.targetType === 'Comment' || report.targetType === 'Reply') {
+      target.isHidden = true;
+      await target.save({ timestamps: false });
+    }
+
+    if (report.targetType === 'User') {
+      target.isSoftBanned = true;
+      target.softBanExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+      await target.save({ timestamps: false });
+    }
   }
 
   await report.save();
